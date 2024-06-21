@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import ChecksListTable from "@/components/ChecksListTable";
 import Loader from "@/components/Loader";
-import axiosInstance from "@/lib/axios-instance";
+import axios from "axios";
 
 const App = () => {
   const [fetching, setFetching] = useState(true);
@@ -15,7 +15,7 @@ const App = () => {
   const fetchChecks = async () => {
     try {
       setFetching(true);
-      const response = await axiosInstance.get("/pingdom/checks");
+      const response = await axios.get("/api/pingdom/checks");
       setChecks(
         response.data?.checks?.map((check: any) => ({
           id: check.id,
