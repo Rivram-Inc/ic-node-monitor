@@ -17,14 +17,16 @@ app.use('/pingdom', async (req, res) => {
   const { method, url, headers, body } = req;
   const targetUrl = `${PINGDOM_API_URL}${url}`;
 
+  console.log('Test');
+
+  console.log('targetUrl', targetUrl);
   try {
     const response = await axios({
       method,
       url: targetUrl,
       headers: {
         'Authorization': `Bearer ${PINGDOM_API_KEY}`,
-        'Content-Type': 'application/json',
-        ...headers,
+        'Content-Type': 'application/json'
       },
       data: body,
     });
@@ -34,6 +36,7 @@ app.use('/pingdom', async (req, res) => {
     if (error.response) {
       res.status(error.response.status).send(error.response.data);
     } else {
+        console.log(error);
       res.status(500).send({ error: 'Internal Server Error' });
     }
   }
