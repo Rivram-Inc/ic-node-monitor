@@ -42,15 +42,17 @@ export const columns: ColumnDef<LogsTableDataRow>[] = [
   {
     id: "up_symbol",
     header: ({ table }) => <div></div>,
-    cell: ({ row }) => (
-      <div className="flex justify-center items-center">
-        {row.getValue("up") ? (
-          <CircleArrowUp className="h-4 w-4 text-green-500 scale-150" />
-        ) : (
-          <CircleArrowDown className="h-4 w-4 text-red-500 scale-150" />
-        )}
-      </div>
-    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex justify-center items-center">
+          {row.original.up ? (
+            <CircleArrowUp className="h-4 w-4 text-green-500 scale-150" />
+          ) : (
+            <CircleArrowDown className="h-4 w-4 text-red-500 scale-150" />
+          )}
+        </div>
+      );
+    },
     enableSorting: false,
     enableHiding: false,
   },
@@ -69,9 +71,15 @@ export const columns: ColumnDef<LogsTableDataRow>[] = [
   {
     accessorKey: "response_time",
     header: "Response time",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("response_time")}</div>
-    ),
+    cell: ({ row }) => {
+      const responseTime: number | string = row.getValue("response_time");
+
+      if (typeof responseTime === "string") {
+        return <div className="capitalize">{responseTime}</div>;
+      } else {
+        return <div>{responseTime} ms</div>;
+      }
+    },
   },
   {
     accessorKey: "location",

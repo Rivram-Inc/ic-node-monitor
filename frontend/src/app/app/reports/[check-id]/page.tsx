@@ -57,6 +57,7 @@ const CheckReport = () => {
         uptime: summary.uptime_percent,
         downtime: "an hour",
       };
+
       setCheckDetails(data);
       setFetching(false);
     } catch (e) {

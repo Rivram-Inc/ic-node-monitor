@@ -101,6 +101,7 @@ export async function GET(
     const checkDetail = {
       ...result,
       time_relative: getRelativeTime(result.time),
+      responsetime: result.responsetime || result.statusdesclong,
     };
 
     if (!probe) {
