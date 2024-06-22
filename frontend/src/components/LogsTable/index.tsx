@@ -24,7 +24,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useRouter } from "next/navigation";
 
 export type LogsTableDataRow = {
   id: string;
@@ -81,7 +80,6 @@ export const columns: ColumnDef<LogsTableDataRow>[] = [
 ];
 
 const LogsTable = ({ logs }: LogsTableProps) => {
-  const router = useRouter();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -137,8 +135,6 @@ const LogsTable = ({ logs }: LogsTableProps) => {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="cursor-pointer"
-                  onClick={() => router.push(`/app/reports/${row.original.id}`)}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
