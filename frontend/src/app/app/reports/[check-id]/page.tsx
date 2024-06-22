@@ -1,12 +1,12 @@
 "use client";
 import React, { useEffect } from "react";
 import { useParams } from "next/navigation";
-import { Loader } from "lucide-react";
 import axios from "axios";
 import KeyValueCard from "@/components/Cards/KeyValueCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import LogsTable from "@/components/LogsTable";
 import moment from "moment";
+import Loader from "@/components/Loader";
 
 const CheckReport = () => {
   const params = useParams();
@@ -70,7 +70,7 @@ const CheckReport = () => {
   if (fetching) {
     return (
       <div className="flex w-full items-center justify-center">
-        <Loader />;
+        <Loader />
       </div>
     );
   }
