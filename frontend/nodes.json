@@ -5220,7 +5220,7 @@
     "subnet_id": null
   },
   {
-    "alertname": "",
+    "alertname": "IC_Replica_Behind",
     "dc_id": "sg3",
     "dc_name": "Singapore 3",
     "ip_address": "2401:3f00:1000:23:6801:61ff:fef6:6f16",
@@ -5231,7 +5231,7 @@
     "node_type": "REPLICA",
     "owner": "Racks Central",
     "region": "Asia,SG,Singapore",
-    "status": "UP",
+    "status": "DEGRADED",
     "subnet_id": "lhg73-sax6z-2zank-6oer2-575lz-zgbxx-ptudx-5korm-fy7we-kh4hl-pqe"
   },
   {

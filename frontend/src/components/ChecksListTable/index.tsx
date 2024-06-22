@@ -21,10 +21,8 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -62,30 +60,13 @@ type CheckListTableProps = {
 
 export const columns: ColumnDef<UptimeCheckTableDataRow>[] = [
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
+    accessorKey: "id",
+    header: "Node ID",
+    cell: ({ row }) => <div className="capitalize">{row.getValue("id")}</div>,
   },
   {
     accessorKey: "site_name",
-    header: "Site Name",
+    header: "Node Provider",
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("site_name")}</div>
     ),
@@ -119,33 +100,7 @@ export const columns: ColumnDef<UptimeCheckTableDataRow>[] = [
     header: () => <div className="text-left">Response time / Outages</div>,
     cell: ({ row }) => {
       return (
-        <div className="min-w-16 flex justify-center items-center">N/A</div>
-      );
-    },
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <ChevronDownSquare className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Duplicate</DropdownMenuItem>
-            <DropdownMenuItem>Pause</DropdownMenuItem>
-            <DropdownMenuItem>Hold to delete</DropdownMenuItem>
-            <DropdownMenuItem>View reports</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="min-w-16 flex justify-start items-center">N/A</div>
       );
     },
   },
@@ -235,10 +190,6 @@ const ChecksListTable = ({ checks }: CheckListTableProps) => {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
         <div className="space-x-2">
           <Button
             variant="outline"

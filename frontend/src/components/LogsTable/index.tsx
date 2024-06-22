@@ -13,25 +13,9 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import {
-  ChevronDown,
-  MoreHorizontal,
-  ChevronDownSquare,
-  Tags,
-} from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -42,116 +26,61 @@ import {
 } from "@/components/ui/table";
 import { useRouter } from "next/navigation";
 
-export enum UptimeType {
-  PING = "PING",
-}
-
-export type UptimeCheckTableDataRow = {
+export type LogsTableDataRow = {
   id: string;
-  site_name: string;
-  tags: string[];
-  type: UptimeType;
-  uptime: number;
-  up_since: number;
-  respnose_time: number;
+  up: boolean;
+  time: string;
+  time_relative: number;
+  response_time: number;
+  location: string;
 };
 
-type CheckListTableProps = {
-  checks: UptimeCheckTableDataRow[];
+type LogsTableProps = {
+  logs: LogsTableDataRow[];
 };
 
-export const columns: ColumnDef<UptimeCheckTableDataRow>[] = [
+export const columns: ColumnDef<LogsTableDataRow>[] = [
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
+    id: "up_symbol",
+    header: ({ table }) => <div></div>,
+    cell: ({ row }) =>
+      row.getValue("up") ? (
+        <ChevronDown className="h-4 w-4 text-green-500" />
+      ) : (
+        <ChevronDown className="h-4 w-4 text-red-500" />
+      ),
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: "site_name",
-    header: "Site Name",
+    accessorKey: "time",
+    header: "Time",
+    cell: ({ row }) => <div className="capitalize">{row.getValue("time")}</div>,
+  },
+  {
+    accessorKey: "time_relative",
+    header: "Time relative",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("site_name")}</div>
+      <div className="capitalize">{row.getValue("time_relative")}</div>
     ),
   },
   {
-    accessorKey: "type",
-    header: "Type",
-    cell: ({ row }) => {
-      const type: UptimeType = row.getValue("type") || UptimeType.PING;
-      return <div className="capitalize">{type}</div>;
-    },
-  },
-  {
-    accessorKey: "uptime",
-    header: () => <div className="text-left">Uptime</div>,
-    cell: ({ row }) => {
-      const uptime: number = row.getValue("uptime") || 0;
-      const uptimeString: string = `${uptime.toFixed(2)}%`;
-      return <div className="capitalize">{uptimeString}</div>;
-    },
-  },
-  {
-    accessorKey: "up_since",
-    header: () => <div className="text-left">Up since</div>,
-    cell: ({ row }) => {
-      return <div className="capitalize">∞</div>;
-    },
-  },
-  {
     accessorKey: "response_time",
-    header: () => <div className="text-left">Response time / Outages</div>,
-    cell: ({ row }) => {
-      return (
-        <div className="min-w-16 flex justify-center items-center">N/A</div>
-      );
-    },
+    header: "Response time",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("response_time")}</div>
+    ),
   },
   {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <ChevronDownSquare className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Duplicate</DropdownMenuItem>
-            <DropdownMenuItem>Pause</DropdownMenuItem>
-            <DropdownMenuItem>Hold to delete</DropdownMenuItem>
-            <DropdownMenuItem>View reports</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
+    accessorKey: "location",
+    header: "Location",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("location")}</div>
+    ),
   },
 ];
 
-const ChecksListTable = ({ checks }: CheckListTableProps) => {
+const LogsTable = ({ logs }: LogsTableProps) => {
   const router = useRouter();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -162,7 +91,7 @@ const ChecksListTable = ({ checks }: CheckListTableProps) => {
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
-    data: checks,
+    data: logs,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -235,10 +164,6 @@ const ChecksListTable = ({ checks }: CheckListTableProps) => {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
         <div className="space-x-2">
           <Button
             variant="outline"
@@ -262,4 +187,4 @@ const ChecksListTable = ({ checks }: CheckListTableProps) => {
   );
 };
 
-export default ChecksListTable;
+export default LogsTable;

@@ -72,7 +72,7 @@ export async function GET(
             .filter(node => node.dc_id && node.dc_name)  // Filter out nodes without dc_id or dc_name
             .map(node => JSON.stringify({ id: node.dc_id, name: node.dc_name }))
         )
-      ).map(str => JSON.parse(str));
+      ).map((str: string) => JSON.parse(str));
 
     
     return NextResponse.json({count: selectedNodes.length, selectedNodes}, {
