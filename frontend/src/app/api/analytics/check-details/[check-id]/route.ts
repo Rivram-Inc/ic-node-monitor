@@ -96,7 +96,7 @@ export async function GET(
 
   // fill probe details -> location
   for (const result of checkResults) {
-    const probe = probes.find((probe) => probe.id === result.probeid);
+    let probe = probes.find((probe) => probe.id === result.probeid);
 
     const checkDetail = {
       ...result,
@@ -106,11 +106,9 @@ export async function GET(
     if (!probe) {
       // update probes list
       await updateProbesList();
-      const probe = probes.find((probe) => probe.id === result.probeid);
-
-      checkDetail.probe = probe;
+      probe = probes.find((probe) => probe.id === result.probeid);
     }
-    populatedResultLogs.push(checkDetail);
+    populatedResultLogs.push({ ...checkDetail, probe });
   }
 
   return NextResponse.json(
