@@ -13,7 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown } from "lucide-react";
+import { CircleArrowDown, CircleArrowUp } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -42,12 +42,15 @@ export const columns: ColumnDef<LogsTableDataRow>[] = [
   {
     id: "up_symbol",
     header: ({ table }) => <div></div>,
-    cell: ({ row }) =>
-      row.getValue("up") ? (
-        <ChevronDown className="h-4 w-4 text-green-500" />
-      ) : (
-        <ChevronDown className="h-4 w-4 text-red-500" />
-      ),
+    cell: ({ row }) => (
+      <div className="flex justify-center items-center">
+        {row.getValue("up") ? (
+          <CircleArrowUp className="h-4 w-4 text-green-500 scale-150" />
+        ) : (
+          <CircleArrowDown className="h-4 w-4 text-red-500 scale-150" />
+        )}
+      </div>
+    ),
     enableSorting: false,
     enableHiding: false,
   },

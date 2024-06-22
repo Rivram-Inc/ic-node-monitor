@@ -6,6 +6,7 @@ import axios from "axios";
 import KeyValueCard from "@/components/Cards/KeyValueCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import LogsTable from "@/components/LogsTable";
+import moment from "moment";
 
 const CheckReport = () => {
   const params = useParams();
@@ -17,87 +18,43 @@ const CheckReport = () => {
     fetchCheckDetails();
   }, []);
 
+  const getSummaryAverage = async () => {
+    // Fetch summary average
+    try {
+      const fromTimestamp = moment().subtract(1, "months").unix();
+
+      const response = await axios.get(
+        `/api/analytics/summary.average/${checkID}?includeuptime=true&from=${fromTimestamp}`
+      );
+
+      const summary = response.data.summary.status;
+
+      const uptime_percent = (
+        (summary.totalup / (summary.totaldown + summary.totalup)) *
+        100
+      ).toFixed(2);
+
+      return {
+        uptime_percent,
+      };
+    } catch (e) {
+      console.error(e);
+    }
+
+    return {};
+  };
+
   const fetchCheckDetails = async () => {
     // Fetch check details by ID
     try {
-      const response = await axios.get(`/api/analytics/checks/${checkID}`);
+      const response = await axios.get(
+        `/api/analytics/check-details/${checkID}`
+      );
+      const summary = await getSummaryAverage();
       const data = {
-        name: response.data.check.name,
-        uptime_changes: [
-          {
-            id: "1",
-            uptime: 100,
-            from: "2021-09-18T00:00:00Z",
-            to: "2021-09-18T23:59:59Z",
-            duration: 86400,
-          },
-          {
-            id: "2",
-            uptime: 100,
-            from: "2021-09-19T00:00:00Z",
-            to: "2021-09-19T23:59:59Z",
-            duration: 86400,
-          },
-        ],
-        test_logs: [
-          {
-            id: 1,
-            timestamp: "2021-09-18T00:00:00Z",
-            time_relative: 0,
-            status: "up",
-            response_time: 100,
-            location: "us-west-1",
-          },
-          {
-            id: 2,
-            timestamp: "2021-09-18T01:00:00Z",
-            time_relative: 60,
-            status: "down",
-            response_time: 200,
-            location: "us-east-1",
-          },
-          {
-            id: 3,
-            timestamp: "2021-09-18T02:00:00Z",
-            time_relative: 120,
-            status: "up",
-            response_time: 150,
-            location: "eu-west-1",
-          },
-          {
-            id: 4,
-            timestamp: "2021-09-18T03:00:00Z",
-            time_relative: 180,
-            status: "up",
-            response_time: 120,
-            location: "ap-south-1",
-          },
-          {
-            id: 5,
-            timestamp: "2021-09-18T04:00:00Z",
-            time_relative: 240,
-            status: "down",
-            response_time: 300,
-            location: "us-west-2",
-          },
-          {
-            id: 6,
-            timestamp: "2021-09-18T05:00:00Z",
-            time_relative: 300,
-            status: "up",
-            response_time: 90,
-            location: "us-west-1",
-          },
-          {
-            id: 7,
-            timestamp: "2021-09-18T06:00:00Z",
-            time_relative: 360,
-            status: "down",
-            response_time: 250,
-            location: "eu-central-1",
-          },
-        ],
-        uptime: 94.3,
+        name: response.data.check_details.name,
+        result_logs: response.data.check_details.result_logs,
+        uptime: summary.uptime_percent,
         downtime: "an hour",
       };
       setCheckDetails(data);
@@ -135,7 +92,6 @@ const CheckReport = () => {
           />
         </div>
       </div>
-
       <hr className="text-slate-400 w-full my-8" />
       <div className="flex w-full flex-col h-full">
         <Tabs defaultValue="test_result_log" className="w-full">
@@ -156,13 +112,15 @@ const CheckReport = () => {
           <TabsContent value="test_result_log">
             <LogsTable
               logs={
-                checkDetails?.test_logs?.map((log) => ({
-                  id: log.id,
-                  time: log.timestamp,
+                checkDetails?.result_logs?.map((log) => ({
+                  probeid: log.probeid,
+                  time: log.time,
                   up: log.status === "up",
                   time_relative: log.time_relative,
-                  response_time: log.response_time,
-                  location: log.location,
+                  response_time: log.responsetime,
+                  location: log.probe
+                    ? `${log.probe.city}, ${log.probe.country}`
+                    : "",
                 })) || []
               }
             />

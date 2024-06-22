@@ -7,9 +7,10 @@ const PINGDOM_API_KEY =
 const PINGDOM_API_URL = "https://api.pingdom.com/api/3.1";
 
 async function handleRequest(req: NextRequest, slug: string[]) {
-  const { method, body } = req;
+  const { method, body, nextUrl } = req;
   const endpoint = slug.join("/");
-  const targetUrl = `${PINGDOM_API_URL}/${endpoint}`;
+  const queryString = nextUrl.search; // Extract query string from the request URL
+  const targetUrl = `${PINGDOM_API_URL}/${endpoint}${queryString}`;
 
   try {
     const response = await axios({
