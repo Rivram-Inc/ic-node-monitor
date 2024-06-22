@@ -6,9 +6,10 @@ const PINGDOM_API_KEY =
   "7S-LOihA3ooDAjkU0HUVk84yPiDQTnYDAiqAAE1EFz0mTZ25oq8CVXOZtiVeQvDMQZ4L8W8";
 const PINGDOM_API_URL = "https://api.pingdom.com/api/3.1";
 
-async function handleRequest(req: NextRequest, slug: string) {
+async function handleRequest(req: NextRequest, slug: string[]) {
   const { method, body } = req;
-  const targetUrl = `${PINGDOM_API_URL}/${slug}`;
+  const endpoint = slug.join("/");
+  const targetUrl = `${PINGDOM_API_URL}/${endpoint}`;
 
   try {
     const response = await axios({
@@ -41,49 +42,28 @@ async function handleRequest(req: NextRequest, slug: string) {
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: { slug: string[] } }
 ) {
   return handleRequest(req, params.slug);
 }
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: { slug: string[] } }
 ) {
   return handleRequest(req, params.slug);
 }
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: { slug: string[] } }
 ) {
   return handleRequest(req, params.slug);
 }
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: { slug: string[] } }
 ) {
   return handleRequest(req, params.slug);
 }
-
-// async function handler(req: NextApiRequest, slug: string) {
-//   switch (req.method) {
-//     case "GET":
-//       return GET(req, slug);
-//     case "POST":
-//       return POST(req, slug);
-//     case "PUT":
-//       return PUT(req, slug);
-//     case "PATCH":
-//       return PATCH(req, slug);
-//     default: {
-//       Nextslugponse.json(
-//         { error: "Method Not Allowed" },
-//         {
-//           status: 405,
-//         }
-//       );
-//     }
-//   }
-// }

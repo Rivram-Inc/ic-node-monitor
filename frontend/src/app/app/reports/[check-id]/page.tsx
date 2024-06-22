@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "next/navigation";
 import { Loader } from "lucide-react";
+import axios from "axios";
 
 const CheckReport = () => {
   const params = useParams();
@@ -16,8 +17,8 @@ const CheckReport = () => {
   const fetchCheckDetails = async () => {
     // Fetch check details by ID
     try {
-      // const response = await fetch(`/api/checks/${checkID}`);
-      // const data = await response.json();
+      const response = await axios.get(`/api/analytics/checks/${checkID}`);
+      console.log("RESP: ", response);
       const data = {
         uptime_changes: [
           {

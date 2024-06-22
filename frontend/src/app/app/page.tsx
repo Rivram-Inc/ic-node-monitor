@@ -15,7 +15,7 @@ const App = () => {
   const fetchChecks = async () => {
     try {
       setFetching(true);
-      const response = await axios.get("/api/pingdom/checks");
+      const response = await axios.get("/api/analytics/checks");
       setChecks(
         response.data?.checks?.map((check: any) => ({
           id: check.id,
