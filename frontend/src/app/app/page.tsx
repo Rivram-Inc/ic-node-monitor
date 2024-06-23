@@ -4,6 +4,7 @@ import ChecksListTable from "@/components/ChecksListTable";
 import Loader from "@/components/Loader";
 import axios from "axios";
 import moment from "moment";
+import NodesByNP from "../../../nodes_by_np.json";
 
 const App = () => {
   const [fetching, setFetching] = useState(true);
@@ -27,11 +28,10 @@ const App = () => {
           uptime: check.uptime || 100,
           up_since: check.upsince,
           response_time: check.lastresponsetime,
+          hostname: check.hostname,
         })) || [];
 
-      setChecks(checks);
-      setFetching(false);
-      fetchUptimes(checks);
+      await fetchUptimes(checks);
     } catch (error) {
       console.error(error);
     } finally {
@@ -51,13 +51,37 @@ const App = () => {
           };
         })
       );
-      setChecks(checksWithUptime);
-      setFetchingUptimes(false);
+
+      const populatedChecks = populateChecksWithNodeDetails(checksWithUptime);
+      setChecks(populatedChecks);
     } catch (e) {
       console.error(e);
     } finally {
       setFetchingUptimes(false);
     }
+  };
+
+  const populateChecksWithNodeDetails = (checks) => {
+    const populatedChecksData = checks.map((check: any) => {
+      const node = NodesByNP.find((node) => node.ip_address === check.hostname);
+      const valuesToPopulate = {
+        node_id: "N/A",
+        node_provider_name: check.site_name,
+        region: "N/A",
+      };
+      if (node) {
+        valuesToPopulate.node_id = node.node_id;
+        valuesToPopulate.node_provider_name = node.node_provider_name;
+        valuesToPopulate.region = node.region;
+      }
+
+      return {
+        ...check,
+        ...valuesToPopulate,
+      };
+    });
+
+    return populatedChecksData;
   };
 
   const fetchUptimeByCheckID = async (checkID: number) => {

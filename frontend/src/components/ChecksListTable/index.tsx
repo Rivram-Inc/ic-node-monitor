@@ -37,6 +37,9 @@ export type UptimeCheckTableDataRow = {
   uptime: number;
   up_since: number;
   respnose_time: number;
+  node_id?: number;
+  node_provider_name?: string;
+  region?: string;
 };
 
 type CheckListTableProps = {
@@ -46,15 +49,21 @@ type CheckListTableProps = {
 
 export const columns: ColumnDef<UptimeCheckTableDataRow>[] = [
   {
-    accessorKey: "id",
+    accessorKey: "node_id",
     header: "Node ID",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("id")}</div>,
+    cell: ({ row }) => (
+      <div className="capitalize" style={{ fontSize: ".8rem" }}>
+        {row.getValue("node_id")}
+      </div>
+    ),
   },
   {
-    accessorKey: "site_name",
+    accessorKey: "node_provider_name",
     header: "Node Provider",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("site_name")}</div>
+      <div className="capitalize" style={{ fontSize: ".8rem" }}>
+        {row.getValue("node_provider_name")}
+      </div>
     ),
   },
   {
@@ -62,7 +71,11 @@ export const columns: ColumnDef<UptimeCheckTableDataRow>[] = [
     header: "Type",
     cell: ({ row }) => {
       const type: UptimeType = row.getValue("type") || UptimeType.PING;
-      return <div className="capitalize">{type}</div>;
+      return (
+        <div className="capitalize" style={{ fontSize: ".8rem" }}>
+          {type}
+        </div>
+      );
     },
   },
   {
@@ -72,24 +85,46 @@ export const columns: ColumnDef<UptimeCheckTableDataRow>[] = [
       const uptime: number | string = row.getValue("uptime") || 0;
       const uptimeString: string =
         uptime === "N/A" ? "N/A" : `${Number(uptime).toFixed(2)} %`;
-      return <div className="capitalize">{uptimeString}</div>;
+      return (
+        <div className="capitalize" style={{ fontSize: ".8rem" }}>
+          {uptimeString}
+        </div>
+      );
     },
   },
-  {
-    accessorKey: "up_since",
-    header: () => <div className="text-left">Up since</div>,
-    cell: ({ row }) => {
-      return <div className="capitalize">∞</div>;
-    },
-  },
+  // {
+  //   accessorKey: "up_since",
+  //   header: () => <div className="text-left">Up since</div>,
+  //   cell: ({ row }) => {
+  //     return (
+  //       <div className="capitalize" style={{ fontSize: ".8rem" }}>
+  //         ∞
+  //       </div>
+  //     );
+  //   },
+  // },
   {
     accessorKey: "response_time",
     header: () => <div className="text-left">Response time / Outages</div>,
     cell: ({ row }) => {
       return (
-        <div className="min-w-16 flex justify-start items-center">N/A</div>
+        <div
+          className="min-w-16 flex justify-start items-center"
+          style={{ fontSize: ".8rem" }}
+        >
+          N/A
+        </div>
       );
     },
+  },
+  {
+    accessorKey: "region",
+    header: "Region",
+    cell: ({ row }) => (
+      <div className="capitalize" style={{ fontSize: ".8rem" }}>
+        {row.getValue("region")}
+      </div>
+    ),
   },
 ];
 
@@ -102,6 +137,7 @@ const ChecksListTable = ({ checks, fetchingUptimes }: CheckListTableProps) => {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+  const [currentPage, setCurrentPage] = React.useState(0);
 
   const table = useReactTable({
     data: checks,
@@ -119,6 +155,10 @@ const ChecksListTable = ({ checks, fetchingUptimes }: CheckListTableProps) => {
       columnFilters,
       columnVisibility,
       rowSelection,
+      pagination: {
+        pageIndex: currentPage,
+        pageSize: 20,
+      },
     },
   });
 
@@ -181,7 +221,10 @@ const ChecksListTable = ({ checks, fetchingUptimes }: CheckListTableProps) => {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
+            onClick={() => {
+              setCurrentPage((prev) => prev - 1);
+              table.previousPage();
+            }}
             disabled={!table.getCanPreviousPage()}
           >
             Previous
@@ -189,7 +232,10 @@ const ChecksListTable = ({ checks, fetchingUptimes }: CheckListTableProps) => {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
+            onClick={() => {
+              setCurrentPage((prev) => prev + 1);
+              table.nextPage();
+            }}
             disabled={!table.getCanNextPage()}
           >
             Next
