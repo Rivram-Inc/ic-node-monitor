@@ -87,7 +87,7 @@ const App = () => {
   const fetchUptimeByCheckID = async (checkID: number) => {
     // Fetch summary average
     try {
-      const fromTimestamp = moment().subtract(1, "months").unix();
+      const fromTimestamp = moment().subtract(7, "days").unix();
 
       const response = await axios.get(
         `/api/analytics/summary.average/${checkID}?includeuptime=true&from=${fromTimestamp}`

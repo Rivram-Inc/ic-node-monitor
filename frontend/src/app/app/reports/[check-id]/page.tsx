@@ -18,9 +18,13 @@ const CheckReport = () => {
   const [averageResponseData, setAverageResponseData] = React.useState<any>([]);
 
   useEffect(() => {
+    fetchDetails();
+  }, []);
+
+  const fetchDetails = async () => {
     fetchCheckDetails();
     fetchChecksResponseTime();
-  }, []);
+  };
 
   const fetchChecksResponseTime = async () => {
     // Fetch check response time
@@ -47,10 +51,20 @@ const CheckReport = () => {
     }
   };
 
-  const getSummaryAverage = async () => {
+  const getSummaryAverage = async ({
+    differenceDays,
+    createdAt,
+  }: {
+    differenceDays: number;
+    createdAt?: number;
+  }) => {
     // Fetch summary average
     try {
-      const fromTimestamp = moment().subtract(1, "months").unix();
+      let fromTimestamp = moment().subtract(7, "days").unix();
+
+      if (differenceDays < 7) {
+        fromTimestamp = createdAt;
+      }
 
       const response = await axios.get(
         `/api/analytics/summary.average/${checkID}?includeuptime=true&from=${fromTimestamp}`
@@ -58,13 +72,18 @@ const CheckReport = () => {
 
       const summary = response.data.summary.status;
 
-      const uptime_percent = (
-        (summary.totalup / (summary.totaldown + summary.totalup)) *
-        100
-      ).toFixed(2);
+      const totalChecks = summary.totaldown + summary.totalup;
+      const downtimePercent: number = parseFloat(
+        ((summary.totaldown / totalChecks) * 100).toFixed(2)
+      );
+
+      const uptimePercent: number = parseFloat(
+        ((summary.totalup / totalChecks) * 100).toFixed(2)
+      );
 
       return {
-        uptime_percent,
+        uptime_percent: uptimePercent,
+        downtime_percent: downtimePercent,
       };
     } catch (e) {
       console.error(e);
@@ -79,12 +98,23 @@ const CheckReport = () => {
       const response = await axios.get(
         `/api/analytics/check-details/${checkID}`
       );
-      const summary = await getSummaryAverage();
+      const checkCreatedAt = moment.unix(response.data.check_details.created);
+      const differenceDays = moment().diff(checkCreatedAt, "days");
+
+      const summary = await getSummaryAverage({
+        differenceDays,
+        createdAt: differenceDays < 7 ? checkCreatedAt.unix() : null,
+      });
+      const downtimePercent = summary.downtime_percent;
+
+      const totalHoursInWeek = 24 * (differenceDays < 7 ? differenceDays : 7);
+      const downtimeInHours = (downtimePercent / 100) * totalHoursInWeek;
+
       const data = {
         name: response.data.check_details.name,
         result_logs: response.data.check_details.result_logs,
         uptime: summary.uptime_percent,
-        downtime: "an hour",
+        downtime: moment.duration(downtimeInHours * 60 * 60 * 1000).humanize(),
       };
 
       setCheckDetails(data);
@@ -114,8 +144,12 @@ const CheckReport = () => {
         <div className="w-1/4 h-80 flex flex-col rounded-sm gap-4">
           <KeyValueCard
             title="DOWNTIME"
-            value={checkDetails?.downtime || ""}
-            subtext="(1 outages)"
+            value={
+              checkDetails?.downtime === "a few seconds"
+                ? "None"
+                : checkDetails?.downtime || ""
+            }
+            subtext=""
           />
           <KeyValueCard
             title="UPTIME"
