@@ -3,10 +3,12 @@ import React, { useEffect, useState } from "react";
 import ChecksListTable from "@/components/ChecksListTable";
 import Loader from "@/components/Loader";
 import axios from "axios";
+import moment from "moment";
 
 const App = () => {
   const [fetching, setFetching] = useState(true);
   const [checks, setChecks] = useState([]);
+  const [fetchingUptimes, setFetchingUptimes] = useState(false);
 
   useEffect(() => {
     fetchChecks();
@@ -16,7 +18,7 @@ const App = () => {
     try {
       setFetching(true);
       const response = await axios.get("/api/analytics/checks");
-      setChecks(
+      const checks =
         response.data?.checks?.map((check: any) => ({
           id: check.id,
           site_name: check.name,
@@ -25,13 +27,59 @@ const App = () => {
           uptime: check.uptime || 100,
           up_since: check.upsince,
           response_time: check.lastresponsetime,
-        })) || []
-      );
+        })) || [];
+
+      setChecks(checks);
       setFetching(false);
+      fetchUptimes(checks);
     } catch (error) {
       console.error(error);
     } finally {
       setFetching(false);
+    }
+  };
+
+  const fetchUptimes = async (checks) => {
+    try {
+      setFetchingUptimes(true);
+      const checksWithUptime = await Promise.all(
+        checks.map(async (check: any) => {
+          const uptime = await fetchUptimeByCheckID(check.id);
+          return {
+            ...check,
+            uptime,
+          };
+        })
+      );
+      setChecks(checksWithUptime);
+      setFetchingUptimes(false);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setFetchingUptimes(false);
+    }
+  };
+
+  const fetchUptimeByCheckID = async (checkID: number) => {
+    // Fetch summary average
+    try {
+      const fromTimestamp = moment().subtract(1, "months").unix();
+
+      const response = await axios.get(
+        `/api/analytics/summary.average/${checkID}?includeuptime=true&from=${fromTimestamp}`
+      );
+
+      const summary = response.data.summary.status;
+
+      const uptime_percent = (
+        (summary.totalup / (summary.totaldown + summary.totalup)) *
+        100
+      ).toFixed(2);
+
+      return uptime_percent;
+    } catch (e) {
+      console.error(e);
+      return "N/A";
     }
   };
 
@@ -45,7 +93,7 @@ const App = () => {
 
   return (
     <div className="flex w-full">
-      <ChecksListTable checks={checks} />
+      <ChecksListTable checks={checks} fetchingUptimes={fetchingUptimes} />
     </div>
   );
 };

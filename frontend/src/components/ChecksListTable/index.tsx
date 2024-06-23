@@ -13,23 +13,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import {
-  ChevronDown,
-  MoreHorizontal,
-  ChevronDownSquare,
-  Tags,
-} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -56,6 +41,7 @@ export type UptimeCheckTableDataRow = {
 
 type CheckListTableProps = {
   checks: UptimeCheckTableDataRow[];
+  fetchingUptimes: boolean;
 };
 
 export const columns: ColumnDef<UptimeCheckTableDataRow>[] = [
@@ -83,8 +69,9 @@ export const columns: ColumnDef<UptimeCheckTableDataRow>[] = [
     accessorKey: "uptime",
     header: () => <div className="text-left">Uptime</div>,
     cell: ({ row }) => {
-      const uptime: number = row.getValue("uptime") || 0;
-      const uptimeString: string = `${uptime.toFixed(2)}%`;
+      const uptime: number | string = row.getValue("uptime") || 0;
+      const uptimeString: string =
+        uptime === "N/A" ? "N/A" : `${Number(uptime).toFixed(2)} %`;
       return <div className="capitalize">{uptimeString}</div>;
     },
   },
@@ -106,7 +93,7 @@ export const columns: ColumnDef<UptimeCheckTableDataRow>[] = [
   },
 ];
 
-const ChecksListTable = ({ checks }: CheckListTableProps) => {
+const ChecksListTable = ({ checks, fetchingUptimes }: CheckListTableProps) => {
   const router = useRouter();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
