@@ -86,7 +86,7 @@ const App = () => {
   if (fetching) {
     return (
       <div className="flex w-full items-center justify-center">
-        <Loader />;
+        <Loader />
       </div>
     );
   }

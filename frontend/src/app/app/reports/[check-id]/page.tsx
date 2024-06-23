@@ -7,16 +7,45 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import LogsTable from "@/components/LogsTable";
 import moment from "moment";
 import Loader from "@/components/Loader";
+import CheckResponseLineChart from "@/components/Charts/CheckResponseTimeLineChart";
 
 const CheckReport = () => {
   const params = useParams();
   const checkID = params["check-id"];
   const [checkDetails, setCheckDetails] = React.useState<any>(null);
   const [fetching, setFetching] = React.useState(true);
+  const [fetchingResponseTime, setFetchingResponseTime] = React.useState(true);
+  const [averageResponseData, setAverageResponseData] = React.useState<any>([]);
 
   useEffect(() => {
     fetchCheckDetails();
+    fetchChecksResponseTime();
   }, []);
+
+  const fetchChecksResponseTime = async () => {
+    // Fetch check response time
+    try {
+      setFetchingResponseTime(true);
+      const sevenDaysAgo = moment().subtract(7, "days").unix();
+
+      const response = await axios.get(
+        `/api/analytics/summary.performance/${checkID}?includeuptime=true&from=${sevenDaysAgo}`
+      );
+      const data = response.data.summary.hours;
+
+      const chartData = data.map((hour: any) => {
+        return {
+          label: moment.unix(hour.starttime).format("MMM Do"),
+          responseTime: hour.avgresponse,
+        };
+      });
+      setAverageResponseData(chartData);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setFetchingResponseTime(false);
+    }
+  };
 
   const getSummaryAverage = async () => {
     // Fetch summary average
@@ -79,7 +108,9 @@ const CheckReport = () => {
   return (
     <div className="flex flex-col w-full p-4">
       <div className="flex w-full justify-start items-center gap-8">
-        <div className="w-3/4 h-80 flex bg-slate-100 rounded-sm"></div>
+        <div className="w-3/4 h-80 flex bg-slate-100 rounded-sm">
+          <CheckResponseLineChart dataValues={averageResponseData} />
+        </div>
         <div className="w-1/4 h-80 flex flex-col rounded-sm gap-4">
           <KeyValueCard
             title="DOWNTIME"
