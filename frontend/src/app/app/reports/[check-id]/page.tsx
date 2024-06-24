@@ -8,6 +8,15 @@ import LogsTable from "@/components/LogsTable";
 import moment from "moment";
 import Loader from "@/components/Loader";
 import CheckResponseLineChart from "@/components/Charts/CheckResponseTimeLineChart";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import CheckPingsWorldMap from "@/components/CheckPingsWorldMap";
+import NodesByNP from "../../../../../nodes_by_np.json";
 
 const CheckReport = () => {
   const params = useParams();
@@ -16,6 +25,7 @@ const CheckReport = () => {
   const [fetching, setFetching] = React.useState(true);
   const [fetchingResponseTime, setFetchingResponseTime] = React.useState(true);
   const [averageResponseData, setAverageResponseData] = React.useState<any>([]);
+  const [selectedDuration, setSelectedDuration] = React.useState("last_7_days");
 
   useEffect(() => {
     fetchDetails();
@@ -109,9 +119,17 @@ const CheckReport = () => {
 
       const totalHoursInWeek = 24 * (differenceDays < 7 ? differenceDays : 7);
       const downtimeInHours = (downtimePercent / 100) * totalHoursInWeek;
+      const hostname = response.data.check_details.hostname;
+
+      const found = NodesByNP.find((node: any) => {
+        return node.ip_address === hostname;
+      });
 
       const data = {
         name: response.data.check_details.name,
+        hostname,
+        dcname: found ? found.dc_name : "",
+        region: found ? found.region : "",
         result_logs: response.data.check_details.result_logs,
         uptime: summary.uptime_percent,
         downtime: moment.duration(downtimeInHours * 60 * 60 * 1000).humanize(),
@@ -137,6 +155,22 @@ const CheckReport = () => {
 
   return (
     <div className="flex flex-col w-full p-4">
+      <div className="flex w-full justify-start items-center gap-8 pb-8">
+        <CheckPingsWorldMap
+          checkID={checkID as string}
+          checkDetails={checkDetails}
+        />
+      </div>
+      <div className="flex w-full justify-start items-center gap-8 pb-8">
+        <Select value={selectedDuration}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Duration" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="last_7_days">Last 7 days</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
       <div className="flex w-full justify-start items-center gap-8">
         <div className="w-3/4 h-80 flex bg-slate-100 rounded-sm">
           <CheckResponseLineChart dataValues={averageResponseData} />

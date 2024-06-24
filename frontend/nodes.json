@@ -1110,7 +1110,7 @@
     "subnet_id": "bkfrj-6k62g-dycql-7h53p-atvkj-zg4to-gaogh-netha-ptybj-ntsgw-rqe"
   },
   {
-    "alertname": "",
+    "alertname": "IC_Orchestrator_VersionBehind",
     "dc_id": "lj1",
     "dc_name": "Ljubljana",
     "ip_address": "2a02:800:2:2003:6801:3bff:feed:807c",
@@ -1121,8 +1121,8 @@
     "node_type": "REPLICA",
     "owner": "Posita.si",
     "region": "Europe,SI,Ljubljana",
-    "status": "DOWN",
-    "subnet_id": "qxesv-zoxpm-vc64m-zxguk-5sj74-35vrb-tbgwg-pcird-5gr26-62oxl-cae"
+    "status": "DEGRADED",
+    "subnet_id": null
   },
   {
     "alertname": "",
@@ -1183,21 +1183,6 @@
     "region": "Europe,CH,Zurich",
     "status": "UP",
     "subnet_id": "gmq5v-hbozq-uui6y-o55wc-ihop3-562wb-3qspg-nnijg-npqp5-he3cj-3ae"
-  },
-  {
-    "alertname": "",
-    "dc_id": "zh5",
-    "dc_name": "Zurich 5",
-    "ip_address": "2a01:2a8:a13d:1:6801:edff:fedc:cbed",
-    "node_id": "45qqe-jgvzl-25nzu-lfxns-y66ty-owjmz-ncis5-5jwhx-22j57-ldetp-bae",
-    "node_operator_id": "4ohfd-bdyeu-5djlz-rf3lc-bqca2-h22rg-t5ipt-cjhl2-r5dbf-tk3fv-hae",
-    "node_provider_id": "6r5lw-l7db7-uwixn-iw5en-yy55y-ilbtq-e6gcv-g22r2-j3g6q-y37jk-jqe",
-    "node_provider_name": "Sygnum Bank",
-    "node_type": "REPLICA",
-    "owner": "Green.ch",
-    "region": "Europe,CH,Zurich",
-    "status": "DOWN",
-    "subnet_id": null
   },
   {
     "alertname": "",
@@ -1571,7 +1556,7 @@
     "node_type": "REPLICA",
     "owner": "Equinix",
     "region": "Asia,JP,Tokyo",
-    "status": "UP",
+    "status": "DOWN",
     "subnet_id": "snjp4-xlbw4-mnbog-ddwy6-6ckfd-2w5a2-eipqo-7l436-pxqkh-l6fuv-vae"
   },
   {
@@ -2441,8 +2426,8 @@
     "node_type": "REPLICA",
     "owner": "Cyxtera",
     "region": "North America,CA,Ontario",
-    "status": "UNASSIGNED",
-    "subnet_id": null
+    "status": "UP",
+    "subnet_id": "qxesv-zoxpm-vc64m-zxguk-5sj74-35vrb-tbgwg-pcird-5gr26-62oxl-cae"
   },
   {
     "alertname": "",
@@ -2591,8 +2576,8 @@
     "node_type": "REPLICA",
     "owner": "Navegalo",
     "region": "North America,CR,San Jose",
-    "status": "UNASSIGNED",
-    "subnet_id": null
+    "status": "UP",
+    "subnet_id": "w4rem-dv5e3-widiz-wbpea-kbttk-mnzfm-tzrc7-svcj3-kbxyb-zamch-hqe"
   },
   {
     "alertname": "",
@@ -2921,8 +2906,8 @@
     "node_type": "REPLICA",
     "owner": "Gasan",
     "region": "Asia,KR,Seoul",
-    "status": "UP",
-    "subnet_id": "opn46-zyspe-hhmyp-4zu6u-7sbrh-dok77-m7dch-im62f-vyimr-a3n2c-4ae"
+    "status": "UNASSIGNED",
+    "subnet_id": null
   },
   {
     "alertname": "",
@@ -2946,6 +2931,21 @@
     "ip_address": "2602:ffe4:801:18:6801:fcff:fe77:90da",
     "node_id": "6oooh-jum6y-focwn-kx5ba-omunf-jksiz-25lqk-xvcvb-7afff-3ceei-nqe",
     "node_operator_id": "a5glg-n6ul6-rkuc7-idthk-fb2fe-d5m75-4g4l7-22yko-h27pr-q3a7k-lae",
+    "node_provider_id": "sixix-2nyqd-t2k2v-vlsyz-dssko-ls4hl-hyij4-y7mdp-ja6cj-nsmpf-yae",
+    "node_provider_name": "Starbase",
+    "node_type": "REPLICA",
+    "owner": "Equinix",
+    "region": "Asia,JP,Tokyo",
+    "status": "UNASSIGNED",
+    "subnet_id": null
+  },
+  {
+    "alertname": "",
+    "dc_id": "ty2",
+    "dc_name": "Tokyo 2",
+    "ip_address": "2602:ffe4:801:17:6801:94ff:febd:5abe",
+    "node_id": "6prwl-m5hqg-fzv2r-bnt44-hddso-y6cq3-w2ewq-t7auv-jga2o-gpsxf-4ae",
+    "node_operator_id": "dpt4y-mkhk4-7gchc-yx2by-hzfe6-czv2t-xebyb-as4q3-gkspj-ivvsv-hae",
     "node_provider_id": "sixix-2nyqd-t2k2v-vlsyz-dssko-ls4hl-hyij4-y7mdp-ja6cj-nsmpf-yae",
     "node_provider_name": "Starbase",
     "node_type": "REPLICA",
@@ -3146,21 +3146,6 @@
     "node_type": "REPLICA",
     "owner": "Digital Realty",
     "region": "North America,US,Florida",
-    "status": "UNASSIGNED",
-    "subnet_id": null
-  },
-  {
-    "alertname": "",
-    "dc_id": "ty2",
-    "dc_name": "Tokyo 2",
-    "ip_address": "2602:ffe4:801:17:6801:ff:feec:bd51",
-    "node_id": "73qwv-zyona-3hbhd-a4sze-s54uv-hgfey-ulzb3-u5cgr-vgs6h-d6xua-vae",
-    "node_operator_id": "dpt4y-mkhk4-7gchc-yx2by-hzfe6-czv2t-xebyb-as4q3-gkspj-ivvsv-hae",
-    "node_provider_id": "sixix-2nyqd-t2k2v-vlsyz-dssko-ls4hl-hyij4-y7mdp-ja6cj-nsmpf-yae",
-    "node_provider_name": "Starbase",
-    "node_type": "REPLICA",
-    "owner": "Equinix",
-    "region": "Asia,JP,Tokyo",
     "status": "UNASSIGNED",
     "subnet_id": null
   },
@@ -3661,6 +3646,21 @@
   },
   {
     "alertname": "",
+    "dc_id": "ty1",
+    "dc_name": "Tokyo",
+    "ip_address": "2602:ffe4:801:16:6801:2dff:fef7:4302",
+    "node_id": "7s6kl-ygytv-rqall-6j2ub-hb6ig-bv3wl-gn5rr-ddnmx-okxap-z6ctq-iae",
+    "node_operator_id": "cqjev-4qb7l-xv373-jfmhi-73n3a-cxhst-p6okb-vywwc-a4zbi-6sf3u-bae",
+    "node_provider_id": "sixix-2nyqd-t2k2v-vlsyz-dssko-ls4hl-hyij4-y7mdp-ja6cj-nsmpf-yae",
+    "node_provider_name": "Starbase",
+    "node_type": "REPLICA",
+    "owner": "Equinix",
+    "region": "Asia,JP,Tokyo",
+    "status": "UNASSIGNED",
+    "subnet_id": null
+  },
+  {
+    "alertname": "",
     "dc_id": "bc1",
     "dc_name": "Vancouver",
     "ip_address": "2001:438:8000:1d:6801:19ff:fefe:78f2",
@@ -4063,21 +4063,6 @@
     "region": "Europe,CH,Geneva",
     "status": "UP",
     "subnet_id": "mpubz-g52jc-grhjo-5oze5-qcj74-sex34-omprz-ivnsm-qvvhr-rfzpv-vae"
-  },
-  {
-    "alertname": "IC_PrometheusTargetMissing",
-    "dc_id": "br1",
-    "dc_name": "Brussels",
-    "ip_address": "2001:920:401a:1710:6801:94ff:fe18:6b54",
-    "node_id": "ag4ro-4ihpg-ozp6d-lbwac-5pksl-3wany-aaayw-ibvuw-uh7wj-lbav5-qae",
-    "node_operator_id": "mjeqs-wxqp7-tecvn-77uxe-eowch-4l4gy-6lc6f-ys6je-qnybm-5fxya-qqe",
-    "node_provider_id": "rbn2y-6vfsb-gv35j-4cyvy-pzbdu-e5aum-jzjg6-5b4n5-vuguf-ycubq-zae",
-    "node_provider_name": "Allusion",
-    "node_type": "API_BOUNDARY",
-    "owner": "Digital Realty",
-    "region": "Europe,BE,Brussels Capital",
-    "status": "DEGRADED",
-    "subnet_id": null
   },
   {
     "alertname": "",
@@ -4931,8 +4916,8 @@
     "node_type": "REPLICA",
     "owner": "Equinix",
     "region": "Europe,DE,Hesse",
-    "status": "UP",
-    "subnet_id": "qxesv-zoxpm-vc64m-zxguk-5sj74-35vrb-tbgwg-pcird-5gr26-62oxl-cae"
+    "status": "UNASSIGNED",
+    "subnet_id": null
   },
   {
     "alertname": "",
@@ -5116,21 +5101,6 @@
   },
   {
     "alertname": "",
-    "dc_id": "ty2",
-    "dc_name": "Tokyo 2",
-    "ip_address": "2602:ffe4:801:17:6801:94ff:febd:5abe",
-    "node_id": "btwcg-q4a2j-n4jmo-n62sp-2etxv-2bcyd-qmjfo-dc2nk-ancca-rblcp-3ae",
-    "node_operator_id": "dpt4y-mkhk4-7gchc-yx2by-hzfe6-czv2t-xebyb-as4q3-gkspj-ivvsv-hae",
-    "node_provider_id": "sixix-2nyqd-t2k2v-vlsyz-dssko-ls4hl-hyij4-y7mdp-ja6cj-nsmpf-yae",
-    "node_provider_name": "Starbase",
-    "node_type": "REPLICA",
-    "owner": "Equinix",
-    "region": "Asia,JP,Tokyo",
-    "status": "UNASSIGNED",
-    "subnet_id": null
-  },
-  {
-    "alertname": "",
     "dc_id": "st1",
     "dc_name": "Sterling",
     "ip_address": "2610:190:df01:5:6801:beff:fe16:fcd6",
@@ -5220,7 +5190,7 @@
     "subnet_id": null
   },
   {
-    "alertname": "IC_Replica_Behind",
+    "alertname": "",
     "dc_id": "sg3",
     "dc_name": "Singapore 3",
     "ip_address": "2401:3f00:1000:23:6801:61ff:fef6:6f16",
@@ -5231,7 +5201,7 @@
     "node_type": "REPLICA",
     "owner": "Racks Central",
     "region": "Asia,SG,Singapore",
-    "status": "DEGRADED",
+    "status": "UP",
     "subnet_id": "lhg73-sax6z-2zank-6oer2-575lz-zgbxx-ptudx-5korm-fy7we-kh4hl-pqe"
   },
   {
@@ -5490,7 +5460,7 @@
     "subnet_id": null
   },
   {
-    "alertname": "IC_Orchestrator_VersionBehind",
+    "alertname": "",
     "dc_id": "ty1",
     "dc_name": "Tokyo",
     "ip_address": "2602:ffe4:801:16:6801:a5ff:fe04:d1bb",
@@ -5501,7 +5471,7 @@
     "node_type": "REPLICA",
     "owner": "Equinix",
     "region": "Asia,JP,Tokyo",
-    "status": "DEGRADED",
+    "status": "DOWN",
     "subnet_id": null
   },
   {
@@ -6401,8 +6371,8 @@
     "node_type": "REPLICA",
     "owner": "Datasite",
     "region": "North America,US,Florida",
-    "status": "UP",
-    "subnet_id": "k44fs-gm4pv-afozh-rs7zw-cg32n-u7xov-xqyx3-2pw5q-eucnu-cosd4-uqe"
+    "status": "UNASSIGNED",
+    "subnet_id": null
   },
   {
     "alertname": "",
@@ -6795,7 +6765,7 @@
     "subnet_id": "bkfrj-6k62g-dycql-7h53p-atvkj-zg4to-gaogh-netha-ptybj-ntsgw-rqe"
   },
   {
-    "alertname": "",
+    "alertname": "IC_Orchestrator_VersionBehind",
     "dc_id": "lj1",
     "dc_name": "Ljubljana",
     "ip_address": "2a02:800:2:2003:6801:76ff:fe52:f391",
@@ -6806,8 +6776,8 @@
     "node_type": "REPLICA",
     "owner": "Posita.si",
     "region": "Europe,SI,Ljubljana",
-    "status": "DOWN",
-    "subnet_id": "w4rem-dv5e3-widiz-wbpea-kbttk-mnzfm-tzrc7-svcj3-kbxyb-zamch-hqe"
+    "status": "DEGRADED",
+    "subnet_id": null
   },
   {
     "alertname": "",
@@ -7331,8 +7301,8 @@
     "node_type": "REPLICA",
     "owner": "Navegalo",
     "region": "North America,PA,Panama City",
-    "status": "UNASSIGNED",
-    "subnet_id": null
+    "status": "UP",
+    "subnet_id": "opn46-zyspe-hhmyp-4zu6u-7sbrh-dok77-m7dch-im62f-vyimr-a3n2c-4ae"
   },
   {
     "alertname": "",
@@ -8580,7 +8550,7 @@
     "subnet_id": "jtdsg-3h6gi-hs7o5-z2soi-43w3z-soyl3-ajnp3-ekni5-sw553-5kw67-nqe"
   },
   {
-    "alertname": "",
+    "alertname": "IC_Replica_SlowerServerThanSubnetMedian",
     "dc_id": "ch3",
     "dc_name": "Chicago 3",
     "ip_address": "2607:ff70:3:2:6801:ccff:feb2:5ea0",
@@ -8591,7 +8561,7 @@
     "node_type": "REPLICA",
     "owner": "CyrusOne",
     "region": "North America,US,Illinois",
-    "status": "UP",
+    "status": "DEGRADED",
     "subnet_id": "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe"
   },
   {
@@ -9311,8 +9281,8 @@
     "node_type": "REPLICA",
     "owner": "Flexential",
     "region": "North America,US,Florida",
-    "status": "UP",
-    "subnet_id": "opn46-zyspe-hhmyp-4zu6u-7sbrh-dok77-m7dch-im62f-vyimr-a3n2c-4ae"
+    "status": "UNASSIGNED",
+    "subnet_id": null
   },
   {
     "alertname": "",
@@ -10316,8 +10286,8 @@
     "node_type": "REPLICA",
     "owner": "Teraco",
     "region": "Africa,ZA,Cape Town",
-    "status": "UNASSIGNED",
-    "subnet_id": null
+    "status": "UP",
+    "subnet_id": "w4rem-dv5e3-widiz-wbpea-kbttk-mnzfm-tzrc7-svcj3-kbxyb-zamch-hqe"
   },
   {
     "alertname": "",
@@ -13121,8 +13091,8 @@
     "node_type": "REPLICA",
     "owner": "Navegalo",
     "region": "North America,CR,San Jose",
-    "status": "UNASSIGNED",
-    "subnet_id": null
+    "status": "UP",
+    "subnet_id": "k44fs-gm4pv-afozh-rs7zw-cg32n-u7xov-xqyx3-2pw5q-eucnu-cosd4-uqe"
   },
   {
     "alertname": "",
@@ -13256,7 +13226,7 @@
     "node_type": "REPLICA",
     "owner": "Equinix",
     "region": "Asia,JP,Tokyo",
-    "status": "UP",
+    "status": "DOWN",
     "subnet_id": "pjljw-kztyl-46ud4-ofrj6-nzkhm-3n4nt-wi3jt-ypmav-ijqkt-gjf66-uae"
   },
   {
@@ -14816,8 +14786,8 @@
     "node_type": "REPLICA",
     "owner": "Equinix",
     "region": "Asia,JP,Tokyo",
-    "status": "UNASSIGNED",
-    "subnet_id": null
+    "status": "UP",
+    "subnet_id": "k44fs-gm4pv-afozh-rs7zw-cg32n-u7xov-xqyx3-2pw5q-eucnu-cosd4-uqe"
   },
   {
     "alertname": "",
@@ -14895,7 +14865,7 @@
     "subnet_id": "snjp4-xlbw4-mnbog-ddwy6-6ckfd-2w5a2-eipqo-7l436-pxqkh-l6fuv-vae"
   },
   {
-    "alertname": "IC_Networking_StateSyncLoop",
+    "alertname": "",
     "dc_id": "kr2",
     "dc_name": "Seoul 2",
     "ip_address": "2606:fb40:201:1001:6801:48ff:fe56:1ab2",
@@ -14906,8 +14876,8 @@
     "node_type": "REPLICA",
     "owner": "Gasan",
     "region": "Asia,KR,Seoul",
-    "status": "DEGRADED",
-    "subnet_id": "k44fs-gm4pv-afozh-rs7zw-cg32n-u7xov-xqyx3-2pw5q-eucnu-cosd4-uqe"
+    "status": "UNASSIGNED",
+    "subnet_id": null
   },
   {
     "alertname": "",
@@ -15496,21 +15466,6 @@
   },
   {
     "alertname": "",
-    "dc_id": "zh2",
-    "dc_name": "Zurich 2",
-    "ip_address": "2a00:fb01:400:200:6801:95ff:fed7:d475",
-    "node_id": "qv3lh-p5jdg-p763a-amnuo-agtkx-jcius-tbmqk-ueggo-stzya-ka5ry-zqe",
-    "node_operator_id": "sm6rh-sldoa-opp4o-d7ckn-y4r2g-eoqhv-nymok-teuto-4e5ep-yt6ky-bqe",
-    "node_provider_id": "bvcsg-3od6r-jnydw-eysln-aql7w-td5zn-ay5m6-sibd2-jzojt-anwag-mqe",
-    "node_provider_name": "DFINITY Operations SA",
-    "node_type": "REPLICA",
-    "owner": "Everyware",
-    "region": "Europe,CH,Zurich",
-    "status": "DOWN",
-    "subnet_id": null
-  },
-  {
-    "alertname": "",
     "dc_id": "sl1",
     "dc_name": "Seoul 1",
     "ip_address": "2001:ed0:a:101:6801:cdff:fea2:17fc",
@@ -15991,6 +15946,21 @@
   },
   {
     "alertname": "",
+    "dc_id": "ty1",
+    "dc_name": "Tokyo",
+    "ip_address": "2602:ffe4:801:16:6801:d2ff:fe66:defb",
+    "node_id": "rs26k-ldffa-z7lqu-rhjps-tumxa-arwvb-mdyye-mhevv-4dpjm-xo72t-mae",
+    "node_operator_id": "cqjev-4qb7l-xv373-jfmhi-73n3a-cxhst-p6okb-vywwc-a4zbi-6sf3u-bae",
+    "node_provider_id": "sixix-2nyqd-t2k2v-vlsyz-dssko-ls4hl-hyij4-y7mdp-ja6cj-nsmpf-yae",
+    "node_provider_name": "Starbase",
+    "node_type": "REPLICA",
+    "owner": "Equinix",
+    "region": "Asia,JP,Tokyo",
+    "status": "UNASSIGNED",
+    "subnet_id": null
+  },
+  {
+    "alertname": "",
     "dc_id": "sj2",
     "dc_name": "San Jose",
     "ip_address": "2001:438:fffd:4a:6801:9ff:fe7d:3d99",
@@ -16241,8 +16211,8 @@
     "node_type": "REPLICA",
     "owner": "Posita.si",
     "region": "Europe,SI,Ljubljana",
-    "status": "UNASSIGNED",
-    "subnet_id": null
+    "status": "UP",
+    "subnet_id": "qxesv-zoxpm-vc64m-zxguk-5sj74-35vrb-tbgwg-pcird-5gr26-62oxl-cae"
   },
   {
     "alertname": "",
@@ -16271,21 +16241,6 @@
     "node_type": "REPLICA",
     "owner": "Green.ch",
     "region": "Europe,CH,Zurich",
-    "status": "UNASSIGNED",
-    "subnet_id": null
-  },
-  {
-    "alertname": "",
-    "dc_id": "ty1",
-    "dc_name": "Tokyo",
-    "ip_address": "2602:ffe4:801:16:6801:2dff:fef7:4302",
-    "node_id": "sbx3g-qhihi-l2t5h-qzg7f-n5yzm-vsd5p-ybfbq-3mygi-456km-5sbtx-sqe",
-    "node_operator_id": "cqjev-4qb7l-xv373-jfmhi-73n3a-cxhst-p6okb-vywwc-a4zbi-6sf3u-bae",
-    "node_provider_id": "sixix-2nyqd-t2k2v-vlsyz-dssko-ls4hl-hyij4-y7mdp-ja6cj-nsmpf-yae",
-    "node_provider_name": "Starbase",
-    "node_type": "REPLICA",
-    "owner": "Equinix",
-    "region": "Asia,JP,Tokyo",
     "status": "UNASSIGNED",
     "subnet_id": null
   },
@@ -16616,8 +16571,8 @@
     "node_type": "REPLICA",
     "owner": "Equinix",
     "region": "Asia,JP,Tokyo",
-    "status": "UP",
-    "subnet_id": "w4rem-dv5e3-widiz-wbpea-kbttk-mnzfm-tzrc7-svcj3-kbxyb-zamch-hqe"
+    "status": "UNASSIGNED",
+    "subnet_id": null
   },
   {
     "alertname": "",
@@ -17461,6 +17416,21 @@
   },
   {
     "alertname": "",
+    "dc_id": "br1",
+    "dc_name": "Brussels",
+    "ip_address": "2001:920:401a:1710:6801:94ff:fe18:6b54",
+    "node_id": "ubipk-gibrt-gr23n-u4mrg-iwgaa-4jz42-y6gt6-3htxw-3mq2m-dwhv2-pqe",
+    "node_operator_id": "mjeqs-wxqp7-tecvn-77uxe-eowch-4l4gy-6lc6f-ys6je-qnybm-5fxya-qqe",
+    "node_provider_id": "rbn2y-6vfsb-gv35j-4cyvy-pzbdu-e5aum-jzjg6-5b4n5-vuguf-ycubq-zae",
+    "node_provider_name": "Allusion",
+    "node_type": "REPLICA",
+    "owner": "Digital Realty",
+    "region": "Europe,BE,Brussels Capital",
+    "status": "UNASSIGNED",
+    "subnet_id": null
+  },
+  {
+    "alertname": "",
     "dc_id": "zh4",
     "dc_name": "Zurich 4",
     "ip_address": "2a02:41b:300e:0:6801:ccff:fe10:5c3e",
@@ -17501,8 +17471,8 @@
     "node_type": "REPLICA",
     "owner": "KT",
     "region": "Asia,KR,Seoul",
-    "status": "UNASSIGNED",
-    "subnet_id": null
+    "status": "UP",
+    "subnet_id": "opn46-zyspe-hhmyp-4zu6u-7sbrh-dok77-m7dch-im62f-vyimr-a3n2c-4ae"
   },
   {
     "alertname": "",
@@ -17578,21 +17548,6 @@
     "region": "Asia,HK,HongKong",
     "status": "UP",
     "subnet_id": "lhg73-sax6z-2zank-6oer2-575lz-zgbxx-ptudx-5korm-fy7we-kh4hl-pqe"
-  },
-  {
-    "alertname": "",
-    "dc_id": "zh4",
-    "dc_name": "Zurich 4",
-    "ip_address": "2a02:41b:300e:0:6801:9ff:febd:8b4b",
-    "node_id": "ujv74-l3ksb-6sbwv-kagne-xhhlw-isomc-nvrdm-rxk54-bx4wx-2cjjo-pae",
-    "node_operator_id": "paxme-ikvh3-v6cve-in3jx-z6xf2-x67nq-4yqf5-ufdag-c7os3-byb4f-cae",
-    "node_provider_id": "ucjqj-jmbj3-rs4aq-ekzpw-ltjs3-zrcma-t6r3t-m5wxc-j5yrj-unwoj-mae",
-    "node_provider_name": "Tomahawk.vc",
-    "node_type": "REPLICA",
-    "owner": "Nine.Ch",
-    "region": "Europe,CH,Zurich",
-    "status": "DOWN",
-    "subnet_id": null
   },
   {
     "alertname": "",
@@ -18043,21 +17998,6 @@
     "region": "North America,US,Pennsylvania",
     "status": "UP",
     "subnet_id": "3hhby-wmtmw-umt4t-7ieyg-bbiig-xiylg-sblrt-voxgt-bqckd-a75bf-rqe"
-  },
-  {
-    "alertname": "",
-    "dc_id": "zh5",
-    "dc_name": "Zurich 5",
-    "ip_address": "2a01:2a8:a13d:1:6801:e5ff:fe24:d363",
-    "node_id": "valjq-vclk3-o2vx7-lw44b-d2ucn-r4c5t-pmffr-jczhu-yqshm-suhrr-hqe",
-    "node_operator_id": "4ohfd-bdyeu-5djlz-rf3lc-bqca2-h22rg-t5ipt-cjhl2-r5dbf-tk3fv-hae",
-    "node_provider_id": "6r5lw-l7db7-uwixn-iw5en-yy55y-ilbtq-e6gcv-g22r2-j3g6q-y37jk-jqe",
-    "node_provider_name": "Sygnum Bank",
-    "node_type": "REPLICA",
-    "owner": "Green.ch",
-    "region": "Europe,CH,Zurich",
-    "status": "DOWN",
-    "subnet_id": null
   },
   {
     "alertname": "",
@@ -18581,7 +18521,7 @@
     "node_type": "REPLICA",
     "owner": "Equinix",
     "region": "Asia,JP,Tokyo",
-    "status": "UP",
+    "status": "DOWN",
     "subnet_id": "brlsh-zidhj-3yy3e-6vqbz-7xnih-xeq2l-as5oc-g32c4-i5pdn-2wwof-oae"
   },
   {
@@ -19018,21 +18958,6 @@
     "region": "Asia,SG,Singapore",
     "status": "UP",
     "subnet_id": "pae4o-o6dxf-xki7q-ezclx-znyd6-fnk6w-vkv5z-5lfwh-xym2i-otrrw-fqe"
-  },
-  {
-    "alertname": "",
-    "dc_id": "ty1",
-    "dc_name": "Tokyo",
-    "ip_address": "2602:ffe4:801:16:6801:d2ff:fe66:defb",
-    "node_id": "wjpte-i243f-24khq-jlpus-g44rw-thqn6-p2t5t-mdwn2-ebvh2-jsrgb-oae",
-    "node_operator_id": "cqjev-4qb7l-xv373-jfmhi-73n3a-cxhst-p6okb-vywwc-a4zbi-6sf3u-bae",
-    "node_provider_id": "sixix-2nyqd-t2k2v-vlsyz-dssko-ls4hl-hyij4-y7mdp-ja6cj-nsmpf-yae",
-    "node_provider_name": "Starbase",
-    "node_type": "REPLICA",
-    "owner": "Equinix",
-    "region": "Asia,JP,Tokyo",
-    "status": "UNASSIGNED",
-    "subnet_id": null
   },
   {
     "alertname": "",
@@ -20113,6 +20038,21 @@
     "region": "Europe,BE,Brussels Capital",
     "status": "UP",
     "subnet_id": "bkfrj-6k62g-dycql-7h53p-atvkj-zg4to-gaogh-netha-ptybj-ntsgw-rqe"
+  },
+  {
+    "alertname": "",
+    "dc_id": "ty2",
+    "dc_name": "Tokyo 2",
+    "ip_address": "2602:ffe4:801:17:6801:ff:feec:bd51",
+    "node_id": "xzsfe-hynle-c5itt-xmho2-rg4ww-muhcu-ug5t5-ia6c5-yyeuf-zolpi-qqe",
+    "node_operator_id": "dpt4y-mkhk4-7gchc-yx2by-hzfe6-czv2t-xebyb-as4q3-gkspj-ivvsv-hae",
+    "node_provider_id": "sixix-2nyqd-t2k2v-vlsyz-dssko-ls4hl-hyij4-y7mdp-ja6cj-nsmpf-yae",
+    "node_provider_name": "Starbase",
+    "node_type": "REPLICA",
+    "owner": "Equinix",
+    "region": "Asia,JP,Tokyo",
+    "status": "UNASSIGNED",
+    "subnet_id": null
   },
   {
     "alertname": "",
