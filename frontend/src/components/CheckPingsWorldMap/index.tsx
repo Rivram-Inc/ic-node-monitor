@@ -1,8 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 
-const main = async (checkDetails: any) => {
-  const currentScript = document.currentScript;
+const main = async (checkDetails) => {
   // icons
   // @ts-ignore
   const dotIcon = L.icon({
@@ -11,7 +10,6 @@ const main = async (checkDetails: any) => {
     iconAnchor: [3, 3],
   });
 
-  // location icon for ping servers (probes)
   // @ts-ignore
   const locationIcon = L.icon({
     iconUrl: "/location1.svg",
@@ -19,7 +17,6 @@ const main = async (checkDetails: any) => {
     iconAnchor: [12, 41], // Anchor the icon at the bottom center
   });
 
-  // location icon for node
   // @ts-ignore
   const locationIcon1 = L.icon({
     iconUrl: "/location.svg",
@@ -58,9 +55,7 @@ const main = async (checkDetails: any) => {
   });
 
   // @ts-ignore
-  const map = L.map("map").setView([nodeLatLon.lat, nodeLatLon.lng], 13);
-  map.setZoom(5);
-  // mark the node location
+  const map = L.map("map").setView([nodeLatLon.lat, nodeLatLon.lng], 0);
   // @ts-ignore
   L.marker([nodeLatLon.lat, nodeLatLon.lng], { icon: locationIcon1 }).addTo(map)
     .bindPopup(`
@@ -73,48 +68,51 @@ const main = async (checkDetails: any) => {
 
   // @ts-ignore
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 19,
+    maxZoom: 6,
+    minZoom: 2,
   }).addTo(map);
 
   const polylines = [];
 
   for (let pingServer of pingServers) {
-    // Geocode city and country to get latitude and longitude
     // @ts-ignore
     const polyline = L.polyline(pingServer.latlng, { color: "#5197e8" }).addTo(
       map
     );
     polylines.push(polyline);
 
-    //create markerplayer
     const points = pingServer.latlng.map((v, i) => {
       return { id: i, latlng: v };
     });
-    // @ts-ignore
-    const animMarker = L.markerPlayer(points, 4000, {
-      icon: dotIcon,
-    }).addTo(map);
 
-    animMarker.start();
+    const createAndStartAnimMarker = () => {
+      // @ts-ignore
+      const animMarker = L.markerPlayer(points, 4000, {
+        icon: dotIcon,
+      }).addTo(map);
 
-    animMarker.on("end", (e) => {
       animMarker.start();
-    });
 
-    // Add location icon markers at both ends of the polyline
+      animMarker.on("end", () => {
+        map.removeLayer(animMarker);
+        createAndStartAnimMarker();
+      });
+    };
+
+    createAndStartAnimMarker();
+
     // @ts-ignore
-    const startMarker = L.marker(pingServer.latlng[0], {
+    L.marker(pingServer.latlng[0], {
       icon: locationIcon,
     }).addTo(map).bindPopup(`
-          <div>
-            <h4 style="font-weight: bold;">Response time: ${pingServer.responsetime} ms</h4>
-            <p>Location: ${pingServer.city}, ${pingServer.country}</p>
-            <p>Status: ${pingServer.status}</p>
-          </div>
-        `);
+      <div>
+        <h4 style="font-weight: bold;">Response time: ${pingServer.responsetime} ms</h4>
+        <p>Location: ${pingServer.city}, ${pingServer.country}</p>
+        <p>Status: ${pingServer.status}</p>
+      </div>
+    `);
   }
 
-  // Fit bounds once after adding all polylines
   const bounds = polylines.reduce((bounds, polyline) => {
     return bounds.extend(polyline.getBounds());
     // @ts-ignore

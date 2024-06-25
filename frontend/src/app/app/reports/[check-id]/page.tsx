@@ -157,7 +157,15 @@ const CheckReport = () => {
   }
 
   return (
-    <div className="flex flex-col w-full p-4">
+    <div className="flex flex-col w-full p-4 pt-0">
+      <div
+        className="font-bold m-0 p-0 mb-4"
+        style={{
+          fontSize: "1.5rem",
+        }}
+      >
+        {checkDetails.name}
+      </div>
       <div className="flex w-full justify-start items-center gap-8 pb-8 z-0">
         <CheckPingsWorldMap
           checkID={checkID as string}
