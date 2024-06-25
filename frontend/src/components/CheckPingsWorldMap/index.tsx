@@ -76,14 +76,15 @@ const main = async (checkDetails: any) => {
     maxZoom: 19,
   }).addTo(map);
 
+  const polylines = [];
+
   for (let pingServer of pingServers) {
     // Geocode city and country to get latitude and longitude
     // @ts-ignore
     const polyline = L.polyline(pingServer.latlng, { color: "#5197e8" }).addTo(
       map
     );
-
-    map.fitBounds(polyline.getBounds());
+    polylines.push(polyline);
 
     //create markerplayer
     const points = pingServer.latlng.map((v, i) => {
@@ -112,6 +113,14 @@ const main = async (checkDetails: any) => {
           </div>
         `);
   }
+
+  // Fit bounds once after adding all polylines
+  const bounds = polylines.reduce((bounds, polyline) => {
+    return bounds.extend(polyline.getBounds());
+    // @ts-ignore
+  }, L.latLngBounds([]));
+
+  map.fitBounds(bounds);
 };
 
 const CheckPingsWorldMap = ({
