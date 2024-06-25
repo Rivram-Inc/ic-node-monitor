@@ -143,6 +143,11 @@ export async function GET(
     }
   }
 
+  if (checkDetails?.name === "Linode server") {
+    checkDetails.lat = 43.6534817;
+    checkDetails.long = -79.3839347;
+  }
+
   // get check results
   const response = await axios({
     method: "GET",

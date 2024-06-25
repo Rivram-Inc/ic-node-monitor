@@ -62,24 +62,31 @@ const App = () => {
   };
 
   const populateChecksWithNodeDetails = (checks) => {
-    const populatedChecksData = checks.map((check: any) => {
-      const node = NodesByNP.find((node) => node.ip_address === check.hostname);
-      const valuesToPopulate = {
-        node_id: "N/A",
-        node_provider_name: check.site_name,
-        region: "N/A",
-      };
-      if (node) {
-        valuesToPopulate.node_id = node.node_id;
-        valuesToPopulate.node_provider_name = node.node_provider_name;
-        valuesToPopulate.region = node.region;
-      }
+    const populatedChecksData = checks
+      .map((check: any) => {
+        const node = NodesByNP.find(
+          (node) => node.ip_address === check.hostname
+        );
+        const valuesToPopulate = {
+          node_id: "N/A",
+          node_provider_name: check.site_name,
+          region: "N/A",
+        };
+        if (node) {
+          valuesToPopulate.node_id = node.node_id;
+          valuesToPopulate.node_provider_name = node.node_provider_name;
+          valuesToPopulate.region = node.region;
+        }
 
-      return {
-        ...check,
-        ...valuesToPopulate,
-      };
-    });
+        return {
+          ...check,
+          ...valuesToPopulate,
+        };
+      })
+      .filter((check: any) => {
+        if (check.site_name === "Linode server") return true;
+        return check.node_id !== "N/A";
+      });
 
     return populatedChecksData;
   };
