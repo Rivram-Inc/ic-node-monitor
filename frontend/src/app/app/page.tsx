@@ -76,8 +76,6 @@ const App = () => {
           valuesToPopulate.node_id = node.node_id;
           valuesToPopulate.node_provider_name = node.node_provider_name;
           valuesToPopulate.region = node.region;
-        } else {
-          valuesToPopulate.node_id = check.id;
         }
 
         return {
