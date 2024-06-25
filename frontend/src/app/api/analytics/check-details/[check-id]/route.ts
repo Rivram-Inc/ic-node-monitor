@@ -1,12 +1,38 @@
+import fs from "fs";
+import path from "path";
 import axios from "axios";
 import moment from "moment";
 import { NextRequest, NextResponse } from "next/server";
+import ProbesLatLong from "../../../../../../public/utils/probes-lat-long.json";
+import NodesByNP from "../../../../../../nodes_by_np.json";
 
+// constants
 const PINGDOM_API_KEY =
   "7S-LOihA3ooDAjkU0HUVk84yPiDQTnYDAiqAAE1EFz0mTZ25oq8CVXOZtiVeQvDMQZ4L8W8";
 const PINGDOM_API_URL = "https://api.pingdom.com/api/3.1";
+const __dirname = path.resolve();
+const probes = []; // Probes list
 
-const probes = [];
+// get lat long of city and country
+const geocodeCityCountry = async (city: string, country: string) => {
+  const url = `https://nominatim.openstreetmap.org/search?city=${city}&country=${country}&format=json&limit=1`;
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    if (data && data.length > 0) {
+      return {
+        latitude: parseFloat(data[0].lat),
+        longitude: parseFloat(data[0].lon),
+      };
+    } else {
+      console.error(`No results found for ${city}, ${country}`);
+      return null;
+    }
+  } catch (error) {
+    console.error(`Error geocoding ${city}, ${country}:`, error);
+    return null;
+  }
+};
 
 const updateProbesList = async () => {
   const response = await axios({
@@ -22,12 +48,36 @@ const updateProbesList = async () => {
   const probesList = response.data.probes;
 
   for (const probe of probesList) {
+    let found: any = ProbesLatLong.find((p) => p.id === probe.id);
+
+    if (!found) {
+      const location = await geocodeCityCountry(probe.city, probe.country);
+      if (location) {
+        found = { id: probe.id, ...location };
+        const updatedProbesList = [
+          ...ProbesLatLong,
+          {
+            ...probe,
+            ...found,
+          },
+        ];
+
+        // Update probes-lat-long.json (use fs module)
+        fs.writeFileSync(
+          path.join(__dirname, "/public/utils/probes-lat-long.json"),
+          JSON.stringify(updatedProbesList, null, 2)
+        );
+      }
+    }
+
     probes.push({
       id: probe.id,
       name: probe.name,
       country: probe.country,
       countryiso: probe.countryiso,
       city: probe.city,
+      lat: found?.latitude,
+      long: found?.longitude,
     });
   }
 };
@@ -78,6 +128,20 @@ export async function GET(
   });
 
   const checkDetails = checkResponse.data.check;
+
+  const checkNode = NodesByNP.find(
+    (node) => node.ip_address === checkDetails.hostname
+  );
+
+  if (checkNode) {
+    const [_continent, country, city] = checkNode.region.split(",");
+    const checkLocation = await geocodeCityCountry(city, country);
+
+    if (checkLocation) {
+      checkDetails.lat = checkLocation.latitude;
+      checkDetails.long = checkLocation.longitude;
+    }
+  }
 
   // get check results
   const response = await axios({

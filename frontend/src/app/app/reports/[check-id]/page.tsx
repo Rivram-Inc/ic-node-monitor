@@ -108,7 +108,8 @@ const CheckReport = () => {
       const response = await axios.get(
         `/api/analytics/check-details/${checkID}`
       );
-      const checkCreatedAt = moment.unix(response.data.check_details.created);
+      const fetchedCheckDetails = response.data.check_details;
+      const checkCreatedAt = moment.unix(fetchedCheckDetails.created);
       const differenceDays = moment().diff(checkCreatedAt, "days");
 
       const summary = await getSummaryAverage({
@@ -119,18 +120,20 @@ const CheckReport = () => {
 
       const totalHoursInWeek = 24 * (differenceDays < 7 ? differenceDays : 7);
       const downtimeInHours = (downtimePercent / 100) * totalHoursInWeek;
-      const hostname = response.data.check_details.hostname;
+      const hostname = fetchedCheckDetails.hostname;
 
       const found = NodesByNP.find((node: any) => {
         return node.ip_address === hostname;
       });
 
       const data = {
-        name: response.data.check_details.name,
+        name: fetchedCheckDetails.name,
         hostname,
+        lat: fetchedCheckDetails.lat,
+        long: fetchedCheckDetails.long,
         dcname: found ? found.dc_name : "",
         region: found ? found.region : "",
-        result_logs: response.data.check_details.result_logs,
+        result_logs: fetchedCheckDetails.result_logs,
         uptime: summary.uptime_percent,
         downtime: moment.duration(downtimeInHours * 60 * 60 * 1000).humanize(),
       };
@@ -155,7 +158,7 @@ const CheckReport = () => {
 
   return (
     <div className="flex flex-col w-full p-4">
-      <div className="flex w-full justify-start items-center gap-8 pb-8">
+      <div className="flex w-full justify-start items-center gap-8 pb-8 z-0">
         <CheckPingsWorldMap
           checkID={checkID as string}
           checkDetails={checkDetails}
