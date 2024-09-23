@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  nextjs-app:
+    image: node:18-alpine
+    container_name: nextjs-app
+    working_dir: /usr/src/app
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      DB_HOST: host.docker.internal
+      DB_NAME: postgres
+      DB_USER: postgres
+      DB_PASS: postgres
+      DB_PORT: 5439
+      DB_DIALECT: postgres
+    command: sh -c "npm install && npm run build && npm start"
