@@ -13,6 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { CircleArrowDown, CircleArrowUp } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -23,113 +24,105 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useRouter } from "next/navigation";
 
-export enum UptimeType {
-  PING = "PING",
-}
-
-export type UptimeCheckTableDataRow = {
-  id: string;
-  site_name: string;
-  tags: string[];
-  type: UptimeType;
-  uptime: number;
-  up_since: number;
-  respnose_time: number;
-  node_id?: number;
-  node_provider_name?: string;
-  region?: string;
+type PingDataType = {
+  avg_rtt: number;
+  packets_sent: number;
+  packets_received: number;
+  packet_loss: number;
+  ping_at_datetime: string;
+  up: boolean;
 };
 
-type CheckListTableProps = {
-  checks: UptimeCheckTableDataRow[];
-  fetchingUptimes: boolean;
+type PaginationType = {
+  totalItems: number;
+  currentPage: number;
+  totalPages: number;
+  pageSize: number;
 };
 
-export const columns: ColumnDef<UptimeCheckTableDataRow>[] = [
+type PingsTableProps = {
+  logs: PingDataType[];
+  pagination: PaginationType;
+  pingFetching: boolean;
+  fetchNextPage: () => void;
+  previousPage: () => void;
+};
+
+export const columns: ColumnDef<any>[] = [
   {
-    accessorKey: "node_id",
-    header: "Node ID",
-    cell: ({ row }) => (
-      <div className="capitalize" style={{ fontSize: ".8rem" }}>
-        {row.getValue("node_id")}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "node_provider_name",
-    header: "Node Provider",
-    cell: ({ row }) => (
-      <div className="capitalize" style={{ fontSize: ".8rem" }}>
-        {row.getValue("node_provider_name")}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "type",
-    header: "Type",
+    id: "up_symbol",
+    header: ({ table }) => <div></div>,
     cell: ({ row }) => {
-      const type: UptimeType = row.getValue("type") || UptimeType.PING;
       return (
-        <div className="capitalize" style={{ fontSize: ".8rem" }}>
-          {type}
+        <div className="flex justify-center items-center">
+          {row.original.up ? (
+            <CircleArrowUp className="h-4 w-4 text-green-500 scale-150" />
+          ) : (
+            <CircleArrowDown className="h-4 w-4 text-red-500 scale-150" />
+          )}
         </div>
       );
     },
+    enableSorting: false,
+    enableHiding: false,
   },
   {
-    accessorKey: "uptime",
-    header: () => <div className="text-left">Uptime</div>,
+    accessorKey: "ping_at_datetime",
+    header: "Time",
     cell: ({ row }) => {
-      const uptime: number | string = row.getValue("uptime") || 0;
-      const uptimeString: string =
-        uptime === "N/A" ? "N/A" : `${Number(uptime).toFixed(2)} %`;
-      return (
-        <div className="capitalize" style={{ fontSize: ".8rem" }}>
-          {uptimeString}
-        </div>
-      );
-    },
-  },
-  // {
-  //   accessorKey: "up_since",
-  //   header: () => <div className="text-left">Up since</div>,
-  //   cell: ({ row }) => {
-  //     return (
-  //       <div className="capitalize" style={{ fontSize: ".8rem" }}>
-  //         ∞
-  //       </div>
-  //     );
-  //   },
-  // },
-  {
-    accessorKey: "response_time",
-    header: () => <div className="text-left">Response time / Outages</div>,
-    cell: ({ row }) => {
-      return (
-        <div
-          className="min-w-16 flex justify-start items-center"
-          style={{ fontSize: ".8rem" }}
-        >
-          N/A
-        </div>
-      );
+      const date = new Date(row.getValue("ping_at_datetime"));
+      return <div className="capitalize">{date.toUTCString()}</div>;
     },
   },
   {
-    accessorKey: "region",
-    header: "Region",
+    accessorKey: "avg_rtt",
+    header: "Average response time",
+    cell: ({ row }) => {
+      const responseTime: number | string = row.getValue("avg_rtt");
+
+      if (typeof responseTime === "string") {
+        return <div className="capitalize">{responseTime}</div>;
+      } else {
+        return <div>{responseTime} ms</div>;
+      }
+    },
+  },
+  {
+    accessorKey: "packets_sent",
+    header: "Packets sent",
     cell: ({ row }) => (
-      <div className="capitalize" style={{ fontSize: ".8rem" }}>
-        {row.getValue("region")}
-      </div>
+      <div className="capitalize">{row.getValue("packets_sent")}</div>
     ),
+  },
+  {
+    accessorKey: "packets_received",
+    header: "Packet received",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("packets_received")}</div>
+    ),
+  },
+  {
+    accessorKey: "packet_loss",
+    header: "Packet loss percentage",
+    cell: ({ row }) => {
+      const packetLoss: string = row.getValue("packet_loss");
+      return (
+        <div className="capitalize">{`${
+          packetLoss ? `${parseFloat(packetLoss)} %` : "-"
+        }`}</div>
+      );
+    },
   },
 ];
 
-const ChecksListTable = ({ checks, fetchingUptimes }: CheckListTableProps) => {
-  const router = useRouter();
+const PingsTable = ({
+  logs,
+  pagination,
+  fetchNextPage,
+  previousPage,
+  pingFetching,
+}: PingsTableProps) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -137,10 +130,9 @@ const ChecksListTable = ({ checks, fetchingUptimes }: CheckListTableProps) => {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-  const [currentPage, setCurrentPage] = React.useState(0);
 
   const table = useReactTable({
-    data: checks,
+    data: logs,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -156,8 +148,8 @@ const ChecksListTable = ({ checks, fetchingUptimes }: CheckListTableProps) => {
       columnVisibility,
       rowSelection,
       pagination: {
-        pageIndex: currentPage,
-        pageSize: 20,
+        pageIndex: pagination.currentPage - 1,
+        pageSize: pagination.pageSize,
       },
     },
   });
@@ -190,8 +182,6 @@ const ChecksListTable = ({ checks, fetchingUptimes }: CheckListTableProps) => {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="cursor-pointer"
-                  onClick={() => router.push(`/app/reports/${row.original.id}`)}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -221,24 +211,32 @@ const ChecksListTable = ({ checks, fetchingUptimes }: CheckListTableProps) => {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => {
-              setCurrentPage((prev) => prev - 1);
-              table.previousPage();
-            }}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() => previousPage()}
+            // disabled={!table.getCanPreviousPage()}
+            disabled={pagination.currentPage - 1 === 0}
           >
             Previous
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => {
-              setCurrentPage((prev) => prev + 1);
+            onClick={async () => {
+              // setCurrentPage((prev) => prev + 1);
+              await fetchNextPage();
               table.nextPage();
             }}
-            disabled={!table.getCanNextPage()}
+            // disabled={!table.getCanNextPage()}
+            disabled={
+              pingFetching ||
+              pagination.currentPage + 1 >= pagination.totalPages
+            }
+            className="min-w-20"
           >
-            Next
+            {pingFetching ? (
+              <div className="w-4 h-4 border-2 border-t-transparent border-blue-500 rounded-full animate-spin"></div>
+            ) : (
+              "Next"
+            )}
           </Button>
         </div>
       </div>
@@ -246,4 +244,4 @@ const ChecksListTable = ({ checks, fetchingUptimes }: CheckListTableProps) => {
   );
 };
 
-export default ChecksListTable;
+export default PingsTable;

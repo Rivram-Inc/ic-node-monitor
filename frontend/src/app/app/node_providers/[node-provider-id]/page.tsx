@@ -1,12 +1,14 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import NodesListTable from "@/components/NodesListTable";
-import Loader from "@/components/Loader";
 import axios from "axios";
-import moment from "moment";
-import NodesByNP from "../../../nodes_by_np.json";
+import React, { useEffect, useState } from "react";
+import NodeProviderNodesListTable from "@/components/NodeProviderNodesListTable";
+import Loader from "@/components/Loader";
+import { useParams } from "next/navigation";
 
-const App = () => {
+const NodeProviderNodesListPage = () => {
+  const params = useParams();
+  const nodeProviderID = params["node-provider-id"];
+
   const [fetching, setFetching] = useState(true);
   const [nodes, setNodes] = useState([]);
   const [fetchingUptimes, setFetchingUptimes] = useState(false);
@@ -47,7 +49,7 @@ const App = () => {
     try {
       setFetching(true);
       const response = await axios.get(
-        `/api/analytics/nodes?page=${page}&limit=${10}`
+        `/api/analytics/nodes?page=${page}&limit=${10}&node_provider_id=${nodeProviderID}`
       );
       if (response.status !== 200) {
         // TODO: handle error
@@ -86,80 +88,20 @@ const App = () => {
     }
   };
 
-  // const fetchUptimes = async (checks) => {
-  //   try {
-  //     setFetchingUptimes(true);
-  //     const checksWithUptime = await Promise.all(
-  //       checks.map(async (check: any) => {
-  //         const uptime = await fetchUptimeByCheckID(check.id);
-  //         return {
-  //           ...check,
-  //           uptime,
-  //         };
-  //       })
-  //     );
-
-  //     const populatedChecks = populateChecksWithNodeDetails(checksWithUptime);
-  //     setNodes(populatedChecks);
-  //   } catch (e) {
-  //     console.error(e);
-  //   } finally {
-  //     setFetchingUptimes(false);
-  //   }
-  // };
-
-  // const populateChecksWithNodeDetails = (checks) => {
-  //   const populatedChecksData = checks
-  //     .map((check: any) => {
-  //       const node = NodesByNP.find(
-  //         (node) => node.ip_address === check.hostname
-  //       );
-  //       const valuesToPopulate = {
-  //         node_id: "N/A",
-  //         node_provider_name: check.site_name,
-  //         region: "N/A",
-  //       };
-  //       if (node) {
-  //         valuesToPopulate.node_id = node.node_id;
-  //         valuesToPopulate.node_provider_name = node.node_provider_name;
-  //         valuesToPopulate.region = node.region;
-  //       }
-
-  //       return {
-  //         ...check,
-  //         ...valuesToPopulate,
-  //       };
-  //     })
-  //     .filter((check: any) => {
-  //       if (check.site_name === "Linode server") return true;
-  //       return check.node_id !== "N/A";
-  //     });
-
-  //   return populatedChecksData;
-  // };
-
-  // const fetchUptimeByCheckID = async (checkID: number) => {
-  //   // Fetch summary average
-  //   try {
-  //     const fromTimestamp = moment().subtract(7, "days").unix();
-
-  //     const response = await axios.get(
-  //       `/api/analytics/summary.average/${checkID}?includeuptime=true&from=${fromTimestamp}`
-  //     );
-
-  //     const summary = response.data.summary.status;
-
-  //     const uptime_percent = (
-  //       (summary.totalup / (summary.totaldown + summary.totalup)) *
-  //       100
-  //     ).toFixed(2);
-
-  //     return uptime_percent;
-  //   } catch (e) {
-  //     console.error(e);
-  //     return "N/A";
-  //   }
-  // };
+  const DetailCardTextRow = ({
+    title,
+    value,
+  }: {
+    title: string;
+    value: string;
+  }) => (
+    <h4 className="flex flex-col w-full overflow-hidden whitespace-nowrap mb-2">
+      <div className="font-bold w-16 flex max-w-16 min-w-16">{title}</div>
+      <div className="overflow-hidden w-full whitespace-nowrap text-ellipsis">
+        {value}
+      </div>
+    </h4>
+  );
 
   if (fetching) {
     return (
@@ -170,8 +112,25 @@ const App = () => {
   }
 
   return (
-    <div className="flex w-full">
-      <NodesListTable
+    <div className="flex flex-col w-full">
+      {nodes?.length ? (
+        <div
+          className="flex w-full justify-start items-center p-2 rounded-sm overflow-hidden mb-4"
+          style={{
+            boxShadow: "4px 4px 2px 1px rgba(0, 0, 0, 0.05)",
+          }}
+        >
+          <DetailCardTextRow
+            title="Node Provider"
+            value={nodes[0]?.node_provider_name}
+          />
+          <DetailCardTextRow
+            title="Total Nodes"
+            value={pagination.totalItems?.toLocaleString() || "-"}
+          />
+        </div>
+      ) : null}
+      <NodeProviderNodesListTable
         nodes={nodes}
         fetchingUptimes={fetchingUptimes}
         pagination={pagination}
@@ -182,4 +141,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default NodeProviderNodesListPage;
