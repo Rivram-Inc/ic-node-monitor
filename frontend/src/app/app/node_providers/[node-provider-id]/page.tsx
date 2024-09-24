@@ -49,7 +49,7 @@ const NodeProviderNodesListPage = () => {
     try {
       setFetching(true);
       const response = await axios.get(
-        `/api/analytics/nodes?page=${page}&limit=${10}&node_provider_id=${nodeProviderID}`
+        `/api/analytics/nodes?page=${page}&limit=${100}&node_provider_id=${nodeProviderID}`
       );
       if (response.status !== 200) {
         // TODO: handle error
@@ -70,6 +70,9 @@ const NodeProviderNodesListPage = () => {
             hostname: node.hostname,
             node_provider_name: node.node_provider_name,
             node_provider_id: node.node_provider_id,
+            uptime_1h: node.uptime_1h,
+            uptime_24h: node.uptime_24h,
+            uptime_30d: node.uptime_30d,
           })) || [];
         // await fetchUptimes(nodes);
 

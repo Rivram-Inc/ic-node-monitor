@@ -98,12 +98,12 @@ const NodesListTable = ({
       },
     },
     {
-      accessorKey: "uptime",
-      header: () => <div className="text-left">Uptime</div>,
+      accessorKey: "uptime_1h",
+      header: () => <div className="text-left">1h Uptime %</div>,
       cell: ({ row }) => {
-        const uptime: number | string = row.getValue("uptime") || 0;
+        const uptime: number | string = row.getValue("uptime_1h") || 0;
         const uptimeString: string =
-          uptime === "N/A" ? "N/A" : `${Number(uptime).toFixed(2)} %`;
+          uptime === "N/A" ? "N/A" : `${Number(uptime).toFixed(2)}`;
         return (
           <div className="capitalize" style={{ fontSize: ".8rem" }}>
             {uptimeString}
@@ -111,17 +111,34 @@ const NodesListTable = ({
         );
       },
     },
-    // {
-    //   accessorKey: "up_since",
-    //   header: () => <div className="text-left">Up since</div>,
-    //   cell: ({ row }) => {
-    //     return (
-    //       <div className="capitalize" style={{ fontSize: ".8rem" }}>
-    //         ∞
-    //       </div>
-    //     );
-    //   },
-    // },
+    {
+      accessorKey: "uptime_24h",
+      header: () => <div className="text-left">24h Uptime %</div>,
+      cell: ({ row }) => {
+        const uptime: number | string = row.getValue("uptime_24h") || 0;
+        const uptimeString: string =
+          uptime === "N/A" ? "N/A" : `${Number(uptime).toFixed(2)}`;
+        return (
+          <div className="capitalize" style={{ fontSize: ".8rem" }}>
+            {uptimeString}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "uptime_30d",
+      header: () => <div className="text-left">30d Uptime %</div>,
+      cell: ({ row }) => {
+        const uptime: number | string = row.getValue("uptime_30d") || 0;
+        const uptimeString: string =
+          uptime === "N/A" ? "N/A" : `${Number(uptime).toFixed(2)}`;
+        return (
+          <div className="capitalize" style={{ fontSize: ".8rem" }}>
+            {uptimeString}
+          </div>
+        );
+      },
+    },
     {
       accessorKey: "response_time",
       header: () => <div className="text-left">Response time / Outages</div>,

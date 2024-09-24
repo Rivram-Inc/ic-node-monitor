@@ -21,27 +21,30 @@ export async function GET(
     const IPAddress = nodeDetails.dataValues.ip_address;
 
     // fetch average response time
-    const oneHourMinMaxResponseTime = await OneHourIpAddresses.findOne({
-      where: { ip_address: IPAddress },
-      attributes: ["ip_address_min_avg_rtt", "ip_address_max_avg_rtt"],
-      limit: 1,
-      order: [["bucket", "DESC"]],
-    });
-
-    const twentyfourHoursMinMaxResponseTime =
-      await TwentyFourHoursIpAddresses.findOne({
+    const [
+      oneHourMinMaxResponseTime,
+      twentyfourHoursMinMaxResponseTime,
+      thirtyDaysMinMaxResponseTime,
+    ] = await Promise.all([
+      OneHourIpAddresses.findOne({
         where: { ip_address: IPAddress },
         attributes: ["ip_address_min_avg_rtt", "ip_address_max_avg_rtt"],
         limit: 1,
         order: [["bucket", "DESC"]],
-      });
-
-    const thirtyDaysMinMaxResponseTime = await ThirtyDaysIpAddresses.findOne({
-      where: { ip_address: IPAddress },
-      attributes: ["ip_address_min_avg_rtt", "ip_address_max_avg_rtt"],
-      limit: 1,
-      order: [["bucket", "DESC"]],
-    });
+      }),
+      TwentyFourHoursIpAddresses.findOne({
+        where: { ip_address: IPAddress },
+        attributes: ["ip_address_min_avg_rtt", "ip_address_max_avg_rtt"],
+        limit: 1,
+        order: [["bucket", "DESC"]],
+      }),
+      ThirtyDaysIpAddresses.findOne({
+        where: { ip_address: IPAddress },
+        attributes: ["ip_address_min_avg_rtt", "ip_address_max_avg_rtt"],
+        limit: 1,
+        order: [["bucket", "DESC"]],
+      }),
+    ]);
 
     return NextResponse.json({
       success: true,
@@ -69,18 +72,3 @@ export async function GET(
     );
   }
 }
-
-// // Example for POST request to create a new node
-// export async function POST(req: Request) {
-//   try {
-//     const body = await req.json();
-//     const newNode = await Nodes.create(body);
-//     return NextResponse.json({ success: true, data: newNode }, { status: 201 });
-//   } catch (error) {
-//     console.error("Error creating node:", error);
-//     return NextResponse.json(
-//       { success: false, message: "Internal Server Error" },
-//       { status: 500 }
-//     );
-//   }
-// }

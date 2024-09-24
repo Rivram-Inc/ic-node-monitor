@@ -4,6 +4,7 @@ import Nodes from "./Nodes";
 import PingResults from "./PingResults";
 import OneHourIpAddresses from "./MaterializedViews/OneHourIPAddresses";
 import TwentyFourHoursIpAddresses from "./MaterializedViews/TwentyFourHoursIPAddresses";
+import SevenDaysIpAddresses from "./MaterializedViews/SevenDaysIPAddresses";
 import ThirtyDaysIpAddresses from "./MaterializedViews/ThirtyDaysIPAddresses";
 
 const authenticateDB = async () => {
@@ -18,6 +19,7 @@ export {
   PingResults,
   OneHourIpAddresses,
   TwentyFourHoursIpAddresses,
+  SevenDaysIpAddresses,
   ThirtyDaysIpAddresses,
 };
 

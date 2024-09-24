@@ -101,7 +101,7 @@ const LineChart = ({
             .reduce((a, b) => Math.max(a, b), 0) + 50, // Set the max value of y-axis (response time + 100ms
         title: {
           display: false,
-          text: "Average Response Time (ms)",
+          text: "Average RTT (ms)",
         },
         ticks: {
           font: {

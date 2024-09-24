@@ -44,18 +44,3 @@ export async function GET(
     );
   }
 }
-
-// // Example for POST request to create a new node
-// export async function POST(req: Request) {
-//   try {
-//     const body = await req.json();
-//     const newNode = await Nodes.create(body);
-//     return NextResponse.json({ success: true, data: newNode }, { status: 201 });
-//   } catch (error) {
-//     console.error("Error creating node:", error);
-//     return NextResponse.json(
-//       { success: false, message: "Internal Server Error" },
-//       { status: 500 }
-//     );
-//   }
-// }

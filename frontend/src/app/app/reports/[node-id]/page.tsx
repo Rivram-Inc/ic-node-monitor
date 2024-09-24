@@ -4,7 +4,6 @@ import { useParams } from "next/navigation";
 import axios from "axios";
 import KeyValueCard from "@/components/Cards/KeyValueCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
-import LogsTable from "@/components/LogsTable";
 import moment from "moment";
 import Loader from "@/components/Loader";
 import CheckResponseLineChart from "@/components/Charts/CheckResponseTimeLineChart";
@@ -29,6 +28,7 @@ const NodeDetails = () => {
   const [averageResponseData, setAverageResponseData] = React.useState<any>([]);
   const [selectedDuration, setSelectedDuration] = React.useState("last_7_days");
   const [pingResults, setPingReults] = React.useState<any>([]);
+  const [fetchingChartData, setFetchingChartData] = React.useState(true);
   const [pagination, setPagination] = React.useState<any>({
     totalItems: 10,
     currentPage: 1,
@@ -36,9 +36,56 @@ const NodeDetails = () => {
     pageSize: 10,
   });
 
+  const [chartDetails, setChartDetails] = React.useState<any>({
+    uptime: null,
+    downtime: null,
+    chartPoints: [],
+  });
+
   useEffect(() => {
     fetchDetails();
+    fetchChartDetails();
   }, []);
+
+  const fetchChartDetails = async () => {
+    try {
+      setFetchingChartData(true);
+      const duration: number = 7;
+
+      const response = await axios.get(
+        `/api/analytics/nodes/${nodeID}/chart-data?duration=${duration}`
+      );
+
+      if (response.data?.data?.success === false) {
+        // TODO: handle error
+      }
+
+      const results = response.data.data;
+      const uptime = parseFloat(results.uptime || 0).toFixed(2);
+      const downtime = parseFloat(results.downtime || 0).toFixed(2);
+
+      const chartPoints =
+        results.avg_rtt_data_points?.map((data: any) => {
+          return {
+            label: moment(data.hour).format("MMM Do, h A"),
+            responseTime: parseFloat(data.avg_rtt || "0").toFixed(2),
+          };
+        }) || [];
+
+      setChartDetails({
+        uptime,
+        downtime,
+        chartPoints,
+      });
+
+      setFetchingChartData(false);
+    } catch (error) {
+      setFetchingChartData(false);
+      console.error(error);
+    } finally {
+      setFetchingChartData(false);
+    }
+  };
 
   const fetchDetails = async () => {
     fetchCheckDetails();
@@ -147,7 +194,12 @@ const NodeDetails = () => {
         const pingResultsList = response.data.data;
         const paginationDetails = response.data.pagination;
 
-        setPingReults((curr: any) => [...curr, ...pingResultsList]);
+        const pingResultsListItems = pingResultsList.map((ping: any) => ({
+          ...ping,
+          up: parseFloat(ping.packet_loss) == 0.0,
+        }));
+
+        setPingReults((curr: any) => [...curr, ...pingResultsListItems]);
         setPagination({
           totalItems: paginationDetails.totalItems || 10,
           currentPage: paginationDetails.currentPage || 1,
@@ -174,33 +226,6 @@ const NodeDetails = () => {
       }
       const details = nodeDetails.data.data;
       await fetchPingResults(1, details.ip_address);
-
-      // const checkCreatedAt = moment.unix(response.data.check_details.created);
-      // const differenceDays = moment().diff(checkCreatedAt, "days");
-
-      // const summary = await getSummaryAverage({
-      //   differenceDays,
-      //   createdAt: differenceDays < 7 ? checkCreatedAt.unix() : null,
-      // });
-      // const downtimePercent = summary.downtime_percent;
-
-      // const totalHoursInWeek = 24 * (differenceDays < 7 ? differenceDays : 7);
-      // const downtimeInHours = (downtimePercent / 100) * totalHoursInWeek;
-      // const hostname = response.data.check_details.hostname;
-
-      // const found = NodesByNP.find((node: any) => {
-      //   return node.ip_address === hostname;
-      // });
-
-      // const data = {
-      //   name: response.data.check_details.name,
-      //   hostname,
-      //   dcname: found ? found.dc_name : "",
-      //   region: found ? found.region : "",
-      //   result_logs: response.data.check_details.result_logs,
-      //   uptime: summary.uptime_percent,
-      //   downtime: moment.duration(downtimeInHours * 60 * 60 * 1000).humanize(),
-      // };
 
       const data = {
         name: details.node_provider_name,
@@ -319,21 +344,17 @@ const NodeDetails = () => {
       </div>
       <div className="flex w-full justify-start items-center gap-8">
         <div className="w-3/4 h-80 flex bg-slate-100 rounded-sm">
-          <CheckResponseLineChart dataValues={averageResponseData} />
+          <CheckResponseLineChart dataValues={chartDetails.chartPoints} />
         </div>
         <div className="w-1/4 h-80 flex flex-col rounded-sm gap-4">
           <KeyValueCard
             title="DOWNTIME"
-            value={
-              nodeDetails?.downtime === "a few seconds"
-                ? "None"
-                : nodeDetails?.downtime || ""
-            }
+            value={chartDetails?.downtime ? `${chartDetails.downtime} %` : ""}
             subtext=""
           />
           <KeyValueCard
             title="UPTIME"
-            value={nodeDetails?.uptime ? `${nodeDetails.uptime} %` : ""}
+            value={chartDetails?.uptime ? `${chartDetails.uptime} %` : ""}
             subtext=""
           />
         </div>
@@ -401,20 +422,6 @@ const NodeDetails = () => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="test_result_log">
-            {/* <LogsTable
-              logs={
-                nodeDetails?.result_logs?.map((log) => ({
-                  probeid: log.probeid,
-                  time: log.time,
-                  up: log.status === "up",
-                  time_relative: log.time_relative,
-                  response_time: log.responsetime,
-                  location: log.probe
-                    ? `${log.probe.city}, ${log.probe.country}`
-                    : "",
-                })) || []
-              }
-            /> */}
             <PingsTable
               logs={pingResults || []}
               pagination={pagination}
