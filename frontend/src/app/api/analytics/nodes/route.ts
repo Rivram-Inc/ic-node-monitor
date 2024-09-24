@@ -14,7 +14,8 @@ const fetchLatestIPData = async (model: string) => {
     ip_address, 
     bucket AS latest_bucket, 
     ip_address_packets_sent, 
-    ip_address_packets_received
+    ip_address_packets_received,
+    ip_address_avg_avg_rtt
   FROM ` +
     model +
     `
@@ -87,6 +88,7 @@ export async function GET(request: NextRequest) {
               thirtyDaysIP.ip_address_packets_sent
             )
           : 0,
+        avg_rtt_30d: thirtyDaysIP ? thirtyDaysIP.ip_address_avg_avg_rtt : 0,
       };
     });
 

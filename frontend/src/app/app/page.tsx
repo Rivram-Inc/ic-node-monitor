@@ -69,6 +69,7 @@ const App = () => {
             uptime_1h: node.uptime_1h,
             uptime_24h: node.uptime_24h,
             uptime_30d: node.uptime_30d,
+            avg_rtt_30d: parseFloat(node.avg_rtt_30d || "0").toFixed(2),
           })) || [];
 
         setPagination({

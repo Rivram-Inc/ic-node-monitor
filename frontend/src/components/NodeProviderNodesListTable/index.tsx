@@ -42,6 +42,7 @@ export type UptimeCheckTableDataRow = {
   node_provider_name?: string;
   region?: string;
   node_provider_id: string;
+  avg_rtt_30d: string;
 };
 
 type PaginationType = {
@@ -140,15 +141,15 @@ const NodesListTable = ({
       },
     },
     {
-      accessorKey: "response_time",
-      header: () => <div className="text-left">Response time / Outages</div>,
+      accessorKey: "avg_rtt_30d",
+      header: () => <div className="text-left">RTT (30d)</div>,
       cell: ({ row }) => {
         return (
           <div
             className="min-w-16 flex justify-start items-center"
             style={{ fontSize: ".8rem" }}
           >
-            N/A
+            {row.original.avg_rtt_30d} ms
           </div>
         );
       },
