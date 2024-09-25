@@ -21,6 +21,7 @@ export async function GET(
       where: { ip_address: IPAddress },
       offset,
       limit,
+      order: [["ping_at_datetime", "DESC"]],
     });
 
     // Calculate total pages
