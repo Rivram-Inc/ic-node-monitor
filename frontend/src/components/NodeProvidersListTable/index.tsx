@@ -86,19 +86,8 @@ const NodeProvidersListTable = ({
         return (
           <div
             id="node-provider-id-cell"
-            className={`capitalize ${
-              nodeProvoiderID
-                ? "cursor-pointer hover:text-blue-400 ease-in-out transition-all"
-                : ""
-            }`}
+            className={`capitalize`}
             style={{ fontSize: ".8rem" }}
-            onClick={(e) => {
-              if (nodeProvoiderID) {
-                e.preventDefault();
-                router.push(`/app/node_providers/${nodeProvoiderID}`);
-                return;
-              }
-            }}
           >
             {row.getValue("node_provider_name")}
           </div>
@@ -113,19 +102,8 @@ const NodeProvidersListTable = ({
         return (
           <div
             id="node-provider-id-cell"
-            className={`capitalize ${
-              nodeProvoiderID
-                ? "cursor-pointer hover:text-blue-400 ease-in-out transition-all"
-                : ""
-            }`}
+            className={`capitalize`}
             style={{ fontSize: ".8rem" }}
-            onClick={(e) => {
-              if (nodeProvoiderID) {
-                e.preventDefault();
-                router.push(`/app/node_providers/${nodeProvoiderID}`);
-                return;
-              }
-            }}
           >
             {row.getValue("node_provider_id")}
           </div>
@@ -202,7 +180,9 @@ const NodeProvidersListTable = ({
                   className="cursor-pointer"
                   onClick={(e: any) => {
                     if (e.target.id === "node-provider-id-cell") return;
-                    return router.push(`/app/reports/${row.original.id}`);
+                    return router.push(
+                      `/app/node_providers/${row.original.node_provider_id}`
+                    );
                   }}
                 >
                   {row.getVisibleCells().map((cell) => (

@@ -59,69 +59,40 @@ export async function GET(
     });
 
     const IPAddress = nodeDetails.dataValues.ip_address;
-    let uptime = 0,
-      downtime = 0;
 
-    switch (duration) {
-      case 1: {
-        const response = await getUptimeDowntimeForDuration(
-          OneHourIpAddresses,
-          IPAddress
-        );
-
-        uptime = response.uptime;
-        downtime = response.downtime;
-        break;
-      }
-      case 24: {
-        const response = await getUptimeDowntimeForDuration(
-          TwentyFourHoursIpAddresses,
-          IPAddress
-        );
-
-        uptime = response.uptime;
-        downtime = response.downtime;
-        break;
-      }
-      case 30: {
-        const response = await getUptimeDowntimeForDuration(
-          ThirtyDaysIpAddresses,
-          IPAddress
-        );
-
-        uptime = response.uptime;
-        downtime = response.downtime;
-        break;
-      }
-      default: {
-        const { uptime: responseUptime, downtime: responseDowntime } =
-          await getUptimeDowntimeForDuration(SevenDaysIpAddresses, IPAddress);
-
-        uptime = responseUptime;
-        downtime = responseDowntime;
-        break;
-      }
-    }
+    const IPAddressesModel = {
+      1: OneHourIpAddresses,
+      24: TwentyFourHoursIpAddresses,
+      30: ThirtyDaysIpAddresses,
+    };
 
     const now = new Date();
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(now.getDate() - 7);
 
-    // last 7 days data points
-    const avgRTTResults = await PingResults.findAll({
-      attributes: [
-        [fn("DATE_TRUNC", "hour", col("ping_at_datetime")), "hour"],
-        [fn("AVG", col("avg_rtt")), "avg_rtt"],
-      ],
-      where: {
-        ping_at_datetime: {
-          [Op.gte]: sevenDaysAgo,
-          [Op.lte]: now,
+    const [uptimeDowntimeResponse, avgRTTResults] = await Promise.all([
+      getUptimeDowntimeForDuration(
+        IPAddressesModel[duration] || SevenDaysIpAddresses,
+        IPAddress
+      ),
+      PingResults.findAll({
+        attributes: [
+          [fn("DATE_TRUNC", "hour", col("ping_at_datetime")), "hour"],
+          [fn("AVG", col("avg_rtt")), "avg_rtt"],
+        ],
+        where: {
+          ping_at_datetime: {
+            [Op.gte]: sevenDaysAgo,
+            [Op.lte]: now,
+          },
         },
-      },
-      group: [fn("DATE_TRUNC", "hour", col("ping_at_datetime"))],
-      order: [[fn("DATE_TRUNC", "hour", col("ping_at_datetime")), "ASC"]],
-    });
+        group: [fn("DATE_TRUNC", "hour", col("ping_at_datetime"))],
+        order: [[fn("DATE_TRUNC", "hour", col("ping_at_datetime")), "ASC"]],
+      }),
+    ]);
+
+    const uptime = uptimeDowntimeResponse.uptime || 0;
+    const downtime = uptimeDowntimeResponse.downtime || 0;
 
     return NextResponse.json({
       success: true,

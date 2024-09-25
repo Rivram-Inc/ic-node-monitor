@@ -277,9 +277,11 @@ const NodeDetails = () => {
     title: string;
     value: string;
   }) => (
-    <h4 className="flex flex-col w-full overflow-hidden whitespace-nowrap mb-2">
-      <div className="font-bold w-16 flex max-w-16 min-w-16">{title}</div>
-      <div className="overflow-hidden w-full whitespace-nowrap text-ellipsis">
+    <h4 className="flex flex-col w-full overflow-hidden whitespace-nowrap mb-2 my-2">
+      <div className="font-semibold w-16 flex max-w-16 min-w-16 text-slate-700">
+        {title}
+      </div>
+      <div className="overflow-hidden w-full whitespace-nowrap text-ellipsis text-slate-800">
         {value}
       </div>
     </h4>
@@ -287,13 +289,7 @@ const NodeDetails = () => {
 
   return (
     <div className="flex flex-col w-full p-4">
-      {/* elevate and card */}
-      <div
-        className="flex w-full justify-start items-center p-2 rounded-sm overflow-hidden"
-        style={{
-          boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.05)",
-        }}
-      >
+      <div className="flex w-full p-6 justify-start items-center overflow-hidden bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mr-4">
         <div className="flex flex-col w-1/3 pr-2">
           <NodeDetailCardTextRow
             title="IP Address"
@@ -360,14 +356,11 @@ const NodeDetails = () => {
         </div>
       </div>
       <hr className="text-slate-400 w-full my-8" />
-      <div
-        className="flex w-full justify-start items-center p-2 rounded-sm overflow-hidden"
-        style={{
-          boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.05)",
-        }}
-      >
-        <div className="flex flex-col w-1/3 pr-2">
-          <h1 className="font-bold text-slate-700">1 hour</h1>
+      <div className="flex w-full justify-start items-center overflow-hidden gap-8">
+        <div className="flex flex-col w-1/3 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mr-4">
+          <h1 className="mb-2 text-xl font-bold tracking-tight text-gray-900">
+            1 hour
+          </h1>
           <hr className="text-slate-400 w-full my-1" />
           <NodeDetailCardTextRow
             title="Min. average RTT"
@@ -378,8 +371,10 @@ const NodeDetails = () => {
             value={nodeDetails?.one_hour_max_avg_rtt}
           />
         </div>
-        <div className="flex flex-col w-1/3 pr-2">
-          <h1 className="font-bold text-slate-700">24 hours</h1>
+        <div className="flex flex-col p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 w-1/3 mr-3">
+          <h1 className="mb-2 text-xl font-bold tracking-tight text-gray-900">
+            24 hours
+          </h1>
           <hr className="text-slate-400 w-full my-1" />
           <NodeDetailCardTextRow
             title="Min. average RTT"
@@ -390,9 +385,10 @@ const NodeDetails = () => {
             value={nodeDetails?.twentyfour_hours_max_avg_rtt}
           />
         </div>
-
-        <div className="flex flex-col w-1/3 pr-2">
-          <h1 className="font-bold text-slate-700">30 days</h1>
+        <div className="flex flex-col p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 w-1/3">
+          <h1 className="mb-2 text-xl font-bold tracking-tight text-gray-900">
+            30 days
+          </h1>
           <hr className="text-slate-400 w-full my-1" />
           <NodeDetailCardTextRow
             title="Min. average RTT"
