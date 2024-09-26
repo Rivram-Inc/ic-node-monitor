@@ -12,6 +12,10 @@ const PingResults = db.define(
       type: DataTypes.DECIMAL(10, 3),
       allowNull: false,
     },
+    probe_name: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
     packets_sent: {
       type: DataTypes.INTEGER,
       allowNull: false,

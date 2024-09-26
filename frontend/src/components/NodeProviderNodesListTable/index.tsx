@@ -217,7 +217,9 @@ const NodesListTable = ({
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                   className="cursor-pointer"
-                  onClick={() => router.push(`/app/reports/${row.original.id}`)}
+                  onClick={() => {
+                    return router.push(`/app/nodes/${row.original.id}`);
+                  }}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

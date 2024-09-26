@@ -179,7 +179,6 @@ const NodeProvidersListTable = ({
                   data-state={row.getIsSelected() && "selected"}
                   className="cursor-pointer"
                   onClick={(e: any) => {
-                    if (e.target.id === "node-provider-id-cell") return;
                     return router.push(
                       `/app/node_providers/${row.original.node_provider_id}`
                     );

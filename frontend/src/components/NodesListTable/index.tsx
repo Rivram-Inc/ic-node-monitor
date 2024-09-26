@@ -246,7 +246,7 @@ const NodesListTable = ({
                   className="cursor-pointer"
                   onClick={(e: any) => {
                     if (e.target.id === "node-provider-id-cell") return;
-                    return router.push(`/app/reports/${row.original.id}`);
+                    return router.push(`/app/nodes/${row.original.id}`);
                   }}
                 >
                   {row.getVisibleCells().map((cell) => (

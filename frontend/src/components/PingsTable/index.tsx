@@ -31,6 +31,7 @@ type PingDataType = {
   packets_received: number;
   packet_loss: number;
   ping_at_datetime: string;
+  probe_name: string;
   up: boolean;
 };
 
@@ -112,6 +113,14 @@ export const columns: ColumnDef<any>[] = [
           packetLoss ? `${parseFloat(packetLoss)} %` : "-"
         }`}</div>
       );
+    },
+  },
+  {
+    accessorKey: "probe_name",
+    header: "Probe name",
+    cell: ({ row }) => {
+      const probeName: string = row.original.probe_name.replace("_", " ");
+      return <div className="capitalize">{probeName}</div>;
     },
   },
 ];
