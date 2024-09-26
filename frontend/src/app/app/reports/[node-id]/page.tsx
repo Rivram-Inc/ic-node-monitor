@@ -289,8 +289,8 @@ const NodeDetails = () => {
 
   return (
     <div className="flex flex-col w-full p-4">
-      <div className="flex w-full p-6 justify-start items-center overflow-hidden bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mr-4">
-        <div className="flex flex-col w-1/3 pr-2">
+      <div className="flex md:flex-row flex-col w-full p-6 justify-start items-center overflow-hidden bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mr-4">
+        <div className="flex flex-col w-full md:w-1/3 pr-2">
           <NodeDetailCardTextRow
             title="IP Address"
             value={nodeDetails?.ip_address}
@@ -298,7 +298,7 @@ const NodeDetails = () => {
           <NodeDetailCardTextRow title="DC Name" value={nodeDetails?.dc_name} />
           <NodeDetailCardTextRow title="Region" value={nodeDetails?.region} />
         </div>
-        <div className="flex flex-col w-1/3">
+        <div className="flex flex-col w-full md:w-1/3 pr-2">
           <NodeDetailCardTextRow title="Owner" value={nodeDetails?.owner} />
           <NodeDetailCardTextRow
             title="Node Type"
@@ -309,7 +309,7 @@ const NodeDetails = () => {
             value={nodeDetails?.node_provider_name}
           />
         </div>
-        <div className="flex flex-col w-1/3 overflow-hidden max-w-1/3">
+        <div className="flex flex-col w-full md:w-1/3 pr-2">
           <NodeDetailCardTextRow title="Status" value={nodeDetails?.status} />
           <NodeDetailCardTextRow
             title="Node Provider ID"
@@ -338,11 +338,11 @@ const NodeDetails = () => {
           </SelectContent>
         </Select>
       </div>
-      <div className="flex w-full justify-start items-center gap-8">
-        <div className="w-3/4 h-80 flex bg-slate-100 rounded-sm">
+      <div className="flex flex-col md:flex-row w-full justify-start items-center gap-8">
+        <div className="w-full md:w-3/4 h-80 flex bg-slate-100 rounded-sm">
           <CheckResponseLineChart dataValues={chartDetails.chartPoints} />
         </div>
-        <div className="w-1/4 h-80 flex flex-col rounded-sm gap-4">
+        <div className="w-full md:w-1/4 h-80 flex flex-col rounded-sm gap-4">
           <KeyValueCard
             title="DOWNTIME"
             value={chartDetails?.downtime ? `${chartDetails.downtime} %` : ""}
@@ -356,8 +356,8 @@ const NodeDetails = () => {
         </div>
       </div>
       <hr className="text-slate-400 w-full my-8" />
-      <div className="flex w-full justify-start items-center overflow-hidden gap-8">
-        <div className="flex flex-col w-1/3 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mr-4">
+      <div className="flex md:flex-row flex-col w-full justify-start items-center overflow-hidden gap-8">
+        <div className="flex flex-col w-full md:w-1/3 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 md:mr-4">
           <h1 className="mb-2 text-xl font-bold tracking-tight text-gray-900">
             1 hour
           </h1>
@@ -371,7 +371,7 @@ const NodeDetails = () => {
             value={nodeDetails?.one_hour_max_avg_rtt}
           />
         </div>
-        <div className="flex flex-col p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 w-1/3 mr-3">
+        <div className="flex flex-col p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 w-full md:w-1/3 md:mr-3">
           <h1 className="mb-2 text-xl font-bold tracking-tight text-gray-900">
             24 hours
           </h1>
@@ -385,7 +385,7 @@ const NodeDetails = () => {
             value={nodeDetails?.twentyfour_hours_max_avg_rtt}
           />
         </div>
-        <div className="flex flex-col p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 w-1/3">
+        <div className="flex flex-col p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 w-full md:w-1/3">
           <h1 className="mb-2 text-xl font-bold tracking-tight text-gray-900">
             30 days
           </h1>
