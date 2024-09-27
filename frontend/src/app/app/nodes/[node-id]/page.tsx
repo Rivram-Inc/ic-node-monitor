@@ -67,8 +67,10 @@ const NodeDetails = () => {
       const chartPoints =
         results.avg_rtt_data_points?.map((data: any) => {
           return {
-            label: moment(data.hour).format("MMM Do, h A"),
-            responseTime: parseFloat(data.avg_rtt || "0").toFixed(2),
+            label: moment(data.bucket).format("MMM Do, h A"),
+            responseTime: parseFloat(
+              data.ip_address_avg_avg_rtt || "0"
+            ).toFixed(2),
           };
         }) || [];
 

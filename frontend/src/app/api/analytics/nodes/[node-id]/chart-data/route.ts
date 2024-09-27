@@ -42,6 +42,17 @@ const getUptimeDowntimeForDuration = async (model: any, ipAddress: string) => {
   };
 };
 
+const fetchAvgRTTInDuration = async (ipAddress: string, duration: string) => {
+  return db.query(
+    `
+    SELECT *
+    FROM one_hour_ip_addresses
+    WHERE bucket > NOW() - INTERVAL :duration AND ip_address = :ipAddress
+  `,
+    { replacements: { ipAddress, duration } }
+  );
+};
+
 // Handle GET request to retrieve all nodes
 export async function GET(
   req: NextRequest,
@@ -75,20 +86,7 @@ export async function GET(
         IPAddressesModel[duration] || SevenDaysIpAddresses,
         IPAddress
       ),
-      PingResults.findAll({
-        attributes: [
-          [fn("DATE_TRUNC", "hour", col("ping_at_datetime")), "hour"],
-          [fn("AVG", col("avg_rtt")), "avg_rtt"],
-        ],
-        where: {
-          ping_at_datetime: {
-            [Op.gte]: sevenDaysAgo,
-            [Op.lte]: now,
-          },
-        },
-        group: [fn("DATE_TRUNC", "hour", col("ping_at_datetime"))],
-        order: [[fn("DATE_TRUNC", "hour", col("ping_at_datetime")), "ASC"]],
-      }),
+      fetchAvgRTTInDuration(IPAddress, "7 days"),
     ]);
 
     const uptime = uptimeDowntimeResponse.uptime || 0;
@@ -99,7 +97,7 @@ export async function GET(
       data: {
         uptime, // uptime for the duration
         downtime, // downtime for the duration
-        avg_rtt_data_points: avgRTTResults,
+        avg_rtt_data_points: avgRTTResults[0],
       },
     });
   } catch (error) {
