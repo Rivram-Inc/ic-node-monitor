@@ -236,6 +236,8 @@ const NodeDetails = () => {
         type: details.node_type,
         uptime: details.uptime,
         downtime: details.downtime,
+        lat: details.datacenter.latitude,
+        long: details.datacenter.longitude,
         ip_address: details.ip_address,
         result_logs: details.result_logs,
         owner: details.owner,
@@ -250,6 +252,7 @@ const NodeDetails = () => {
         twentyfour_hours_max_avg_rtt: details.twentyfour_hours_max_avg_rtt,
         thirty_days_min_avg_rtt: details.thirty_days_min_avg_rtt,
         thirty_days_max_avg_rtt: details.thirty_days_max_avg_rtt,
+        probes: details.probes,
       };
 
       setNodeDetails(data);
@@ -322,11 +325,8 @@ const NodeDetails = () => {
         </div>
       </div>
 
-      <div className="flex w-full justify-start items-center gap-8 pb-8">
-        {/* <CheckPingsWorldMap
-          nodeID={nodeID as string}
-          checkDetails={checkDetails}
-        /> */}
+      <div className="flex w-full justify-start items-center gap-8 pb-8 mt-6 rounded-sm">
+        <CheckPingsWorldMap nodeDetails={nodeDetails} />
       </div>
       <div className="flex w-full justify-start items-center gap-8 pb-8">
         <Select value={selectedDuration}>

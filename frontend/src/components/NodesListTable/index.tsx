@@ -59,6 +59,7 @@ type NodesListTableProps = {
   pagination: PaginationType;
   fetchNextPage: () => void;
   previousPage: () => void;
+  nodesFetching: boolean;
 };
 
 const NodesListTable = ({
@@ -67,6 +68,7 @@ const NodesListTable = ({
   pagination,
   fetchNextPage,
   previousPage,
+  nodesFetching,
 }: NodesListTableProps) => {
   const router = useRouter();
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -295,10 +297,18 @@ const NodesListTable = ({
               await fetchNextPage();
               table.nextPage();
             }}
+            className="min-w-20"
             // disabled={!table.getCanNextPage()}
-            disabled={pagination.currentPage + 1 >= pagination.totalPages}
+            disabled={
+              nodesFetching ||
+              pagination.currentPage + 1 >= pagination.totalPages
+            }
           >
-            Next
+            {nodesFetching ? (
+              <div className="w-3 h-3 border-2 border-t-transparent border-blue-500 rounded-full animate-spin"></div>
+            ) : (
+              "Next"
+            )}
           </Button>
         </div>
       </div>

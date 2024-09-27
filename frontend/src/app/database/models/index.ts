@@ -7,6 +7,7 @@ import TwentyFourHoursIpAddresses from "./MaterializedViews/TwentyFourHoursIPAdd
 import SevenDaysIpAddresses from "./MaterializedViews/SevenDaysIPAddresses";
 import ThirtyDaysIpAddresses from "./MaterializedViews/ThirtyDaysIPAddresses";
 import ThirtyDaysNodeProviders from "./MaterializedViews/ThirtyDaysNodeProviders";
+import DataCenters from "./DataCenters";
 
 const authenticateDB = async () => {
   // define associations here
@@ -17,6 +18,7 @@ const authenticateDB = async () => {
 
 export {
   Nodes,
+  DataCenters,
   PingResults,
   OneHourIpAddresses,
   TwentyFourHoursIpAddresses,

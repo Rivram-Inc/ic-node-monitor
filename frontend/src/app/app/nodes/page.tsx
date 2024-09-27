@@ -8,6 +8,7 @@ const Nodes = () => {
   const [fetching, setFetching] = useState(true);
   const [nodes, setNodes] = useState([]);
   const [fetchingUptimes, setFetchingUptimes] = useState(false);
+  const [nodesFetching, setNodesFetching] = useState(false);
   const [pagination, setPagination] = useState({
     totalItems: 10,
     currentPage: 1,
@@ -43,7 +44,7 @@ const Nodes = () => {
 
   const fetchNodes = async (page: number) => {
     try {
-      setFetching(true);
+      setNodesFetching(true);
       const response = await axios.get(
         `/api/analytics/nodes?page=${page}&limit=${50}`
       );
@@ -81,8 +82,11 @@ const Nodes = () => {
         setNodes((curr) => [...curr, ...nodesList]);
       }
     } catch (error) {
+      setNodesFetching(false);
+      setFetching(false);
       console.error(error);
     } finally {
+      setNodesFetching(false);
       setFetching(false);
     }
   };
@@ -103,6 +107,7 @@ const Nodes = () => {
         pagination={pagination}
         fetchNextPage={fetchNextPage}
         previousPage={previousPage}
+        nodesFetching={nodesFetching}
       />
     </div>
   );

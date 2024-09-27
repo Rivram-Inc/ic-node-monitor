@@ -9,7 +9,7 @@ export default function Layout({
   return (
     <div className="w-full flex flex-col">
       <DashboardHeader />
-      <div className="px-8 py-2 pt-8">{children}</div>
+      <div className="px-0 md:px-8 py-2 md:pt-8">{children}</div>
     </div>
   );
 }

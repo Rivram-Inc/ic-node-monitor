@@ -242,7 +242,7 @@ const PingsTable = ({
             className="min-w-20"
           >
             {pingFetching ? (
-              <div className="w-4 h-4 border-2 border-t-transparent border-blue-500 rounded-full animate-spin"></div>
+              <div className="w-3 h-3 border-2 border-t-transparent border-blue-500 rounded-full animate-spin"></div>
             ) : (
               "Next"
             )}

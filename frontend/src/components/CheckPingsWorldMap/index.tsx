@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 
-const main = async (checkDetails) => {
+const main = async (nodeDetails: any) => {
   // icons
   // @ts-ignore
   const dotIcon = L.icon({
@@ -24,19 +24,19 @@ const main = async (checkDetails) => {
     iconAnchor: [12, 41], // Anchor the icon at the bottom center
   });
 
-  const nodeDCName = checkDetails.dcname;
-  const nodeLatLon = { lat: checkDetails.lat, lng: checkDetails.long };
+  const nodeDCName = nodeDetails.dcname;
+  const nodeLatLon = { lat: nodeDetails.lat, lng: nodeDetails.long };
   const probeList = {};
 
-  for (let log of checkDetails.result_logs) {
-    if (probeList[log.probe.id] === undefined) {
-      probeList[log.probe.id] = {
-        id: log.probe.id,
-        latlng: [log.probe.lat, log.probe.long],
-        responsetime: log.responsetime,
-        status: log.status,
-        city: log.probe.city,
-        country: log.probe.countryiso,
+  for (let probe of nodeDetails.probes) {
+    if (probeList[probe.probe_name] === undefined) {
+      probeList[probe.probe_name] = {
+        name: probe.probe_name,
+        latlng: [probe.lat, probe.long],
+        responsetime: probe.avg_rtt,
+        // status: probe.status,
+        // city: probe.probe.city,
+        // country: probe.probe.countryiso,
       };
     }
   }
@@ -48,9 +48,9 @@ const main = async (checkDetails) => {
       id: probe.id,
       latlng: [probe.latlng, [nodeLatLon.lat, nodeLatLon.lng]],
       responsetime: probe.responsetime,
-      status: probe.status,
-      city: probe.city,
-      country: probe.country,
+      // status: probe.status,
+      // city: probe.city,
+      // country: probe.country,
     };
   });
 
@@ -60,8 +60,8 @@ const main = async (checkDetails) => {
   L.marker([nodeLatLon.lat, nodeLatLon.lng], { icon: locationIcon1 }).addTo(map)
     .bindPopup(`
       <div>
-        <h4 style="font-weight: bold;">Name: ${checkDetails.name}</h4>
-        <p>Hostname: ${checkDetails.hostname}</p>
+        <h4 style="font-weight: bold;">Name: ${nodeDetails.name}</h4>
+        <p>Hostname: ${nodeDetails.hostname}</p>
         <p>Datacenter Name: ${nodeDCName}</p>
       </div>
      `);
@@ -107,11 +107,11 @@ const main = async (checkDetails) => {
     }).addTo(map).bindPopup(`
       <div>
         <h4 style="font-weight: bold;">Response time: ${pingServer.responsetime} ms</h4>
-        <p>Location: ${pingServer.city}, ${pingServer.country}</p>
-        <p>Status: ${pingServer.status}</p>
       </div>
     `);
   }
+  // <p>Location: ${pingServer.city}, ${pingServer.country}</p>
+  // <p>Status: ${pingServer.status}</p>
 
   const bounds = polylines.reduce((bounds, polyline) => {
     return bounds.extend(polyline.getBounds());
@@ -121,15 +121,9 @@ const main = async (checkDetails) => {
   map.fitBounds(bounds);
 };
 
-const CheckPingsWorldMap = ({
-  checkID,
-  checkDetails,
-}: {
-  checkID: string;
-  checkDetails: any;
-}) => {
+const CheckPingsWorldMap = ({ nodeDetails }: { nodeDetails: any }) => {
   useEffect(() => {
-    main(checkDetails);
+    main(nodeDetails);
   }, []);
 
   return (
