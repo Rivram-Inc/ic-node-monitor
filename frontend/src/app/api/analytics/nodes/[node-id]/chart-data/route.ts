@@ -48,9 +48,26 @@ const fetchAvgRTTInDuration = async (ipAddress: string, duration: string) => {
     SELECT *
     FROM one_hour_ip_addresses
     WHERE bucket > NOW() - INTERVAL :duration AND ip_address = :ipAddress
+    ORDER BY bucket ASC
   `,
     { replacements: { ipAddress, duration } }
   );
+};
+
+const getDurationString = (duration: number) => {
+  // 1h, 7d, 24h, 30d
+  switch (duration) {
+    case 1:
+      return "1 hour";
+    case 7:
+      return "7 days";
+    case 24:
+      return "24 hours";
+    case 30:
+      return "30 days";
+    default:
+      return "7 days";
+  }
 };
 
 // Handle GET request to retrieve all nodes
@@ -73,9 +90,13 @@ export async function GET(
 
     const IPAddressesModel = {
       1: OneHourIpAddresses,
+      7: SevenDaysIpAddresses,
       24: TwentyFourHoursIpAddresses,
       30: ThirtyDaysIpAddresses,
     };
+
+    // duration string for hours & days
+    const durationString = getDurationString(duration);
 
     const now = new Date();
     const sevenDaysAgo = new Date();
@@ -86,7 +107,7 @@ export async function GET(
         IPAddressesModel[duration] || SevenDaysIpAddresses,
         IPAddress
       ),
-      fetchAvgRTTInDuration(IPAddress, "7 days"),
+      fetchAvgRTTInDuration(IPAddress, durationString),
     ]);
 
     const uptime = uptimeDowntimeResponse.uptime || 0;

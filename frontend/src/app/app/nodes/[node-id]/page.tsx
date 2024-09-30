@@ -26,7 +26,7 @@ const NodeDetails = () => {
   const [fetchingResponseTime, setFetchingResponseTime] = React.useState(true);
   const [pingFetching, setPingFetching] = React.useState(true);
   const [averageResponseData, setAverageResponseData] = React.useState<any>([]);
-  const [selectedDuration, setSelectedDuration] = React.useState("last_7_days");
+  const [selectedDuration, setSelectedDuration] = React.useState(7);
   const [pingResults, setPingReults] = React.useState<any>([]);
   const [fetchingChartData, setFetchingChartData] = React.useState(true);
   const [pagination, setPagination] = React.useState<any>({
@@ -44,13 +44,13 @@ const NodeDetails = () => {
 
   useEffect(() => {
     fetchDetails();
-    fetchChartDetails();
+    fetchChartDetails(7);
   }, []);
 
-  const fetchChartDetails = async () => {
+  const fetchChartDetails = async (duration: number) => {
     try {
       setFetchingChartData(true);
-      const duration: number = 7;
+      setSelectedDuration(duration);
 
       const response = await axios.get(
         `/api/analytics/nodes/${nodeID}/chart-data?duration=${duration}`
@@ -331,29 +331,41 @@ const NodeDetails = () => {
         <CheckPingsWorldMap nodeDetails={nodeDetails} />
       </div>
       <div className="flex w-full justify-start items-center gap-8 pb-8">
-        <Select value={selectedDuration}>
+        <Select
+          value={`${selectedDuration}`}
+          onValueChange={async (value) => {
+            await fetchChartDetails(Number(value));
+          }}
+        >
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Duration" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="last_7_days">Last 7 days</SelectItem>
+            <SelectItem value={"24"}>Last 24 hours</SelectItem>
+            <SelectItem value={"7"}>Last 7 days</SelectItem>
+            <SelectItem value={"30"}>Last 30 days</SelectItem>
           </SelectContent>
         </Select>
       </div>
       <div className="flex flex-col md:flex-row w-full justify-start items-center gap-8">
         <div className="w-full md:w-3/4 h-80 flex bg-slate-100 rounded-sm">
-          <CheckResponseLineChart dataValues={chartDetails.chartPoints} />
+          <CheckResponseLineChart
+            dataValues={chartDetails.chartPoints}
+            loading={fetchingChartData}
+          />
         </div>
         <div className="w-full md:w-1/4 h-80 flex flex-col rounded-sm gap-4">
           <KeyValueCard
             title="DOWNTIME"
             value={chartDetails?.downtime ? `${chartDetails.downtime} %` : ""}
             subtext=""
+            loading={fetchingChartData}
           />
           <KeyValueCard
             title="UPTIME"
             value={chartDetails?.uptime ? `${chartDetails.uptime} %` : ""}
             subtext=""
+            loading={fetchingChartData}
           />
         </div>
       </div>
