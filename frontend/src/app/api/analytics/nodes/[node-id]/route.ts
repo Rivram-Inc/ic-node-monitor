@@ -16,6 +16,10 @@ const PROBES_COORDINATES = {
     lat: 43.65107,
     long: -79.347015,
   },
+  PROBE_SINGAPORE: {
+    lat: 1.3521,
+    long: 103.8198,
+  },
 };
 
 const getLatestPingResultsForNode = async (ipAddress: string) => {
