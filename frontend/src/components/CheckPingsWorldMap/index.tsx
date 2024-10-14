@@ -1,6 +1,24 @@
 "use client";
 import React, { useEffect } from "react";
 
+function haversine(lat1: number, lon1: number, lat2: number, lon2: number) {
+  const R = 6371; // Radius of the Earth in kilometers
+  const toRadians = (angle: number) => (angle * Math.PI) / 180; // Helper function to convert degrees to radians
+
+  const deltaLat = toRadians(lat2 - lat1);
+  const deltaLon = toRadians(lon2 - lon1);
+
+  const a =
+    Math.sin(deltaLat / 2) ** 2 +
+    Math.cos(toRadians(lat1)) *
+      Math.cos(toRadians(lat2)) *
+      Math.sin(deltaLon / 2) ** 2;
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return R * c; // Distance in kilometers
+}
+
 function generateConeShapedArcPoints(
   startLat: number,
   startLng: number,
@@ -124,11 +142,17 @@ const main = async (nodeDetails: any) => {
 
   for (let pingServer of pingServers) {
     let extraCurvePoints = [];
-    if (
-      pingServer.latlng[0][0] === pingServer.latlng[1][0] &&
-      pingServer.latlng[0][1] === pingServer.latlng[1][1]
-    ) {
-      // Example usage
+    // Calculate the distance
+    const distanceKm = haversine(
+      pingServer.latlng[0][0],
+      pingServer.latlng[0][1],
+      pingServer.latlng[1][0],
+      pingServer.latlng[1][1]
+    );
+
+    if (distanceKm < 20) {
+      // console.log("The datacenter and probe are in the same city");
+
       let startLat = parseFloat(pingServer.latlng[0][0]); // Starting Latitude
       let startLng = parseFloat(pingServer.latlng[0][1]); // Starting Longitude
       let minRadiusLat = 2; // Small vertical radius near the start and end points
