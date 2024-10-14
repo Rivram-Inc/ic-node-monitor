@@ -1,6 +1,54 @@
 "use client";
 import React, { useEffect } from "react";
 
+function generateConeShapedArcPoints(
+  startLat: number,
+  startLng: number,
+  minRadiusLat: number,
+  maxRadiusLat: number,
+  minRadiusLng: number,
+  maxRadiusLng: number,
+  totalPoints: number,
+  tiltFactor = 0.5
+) {
+  let arcPoints = [];
+
+  const halfPoints = Math.floor(totalPoints / 2);
+
+  // Generate points for the upward arc, making the curve wider at the top
+  for (let i = 0; i <= halfPoints; i++) {
+    let t = (i / halfPoints) * Math.PI; // Parameter t goes from 0 to π
+
+    // Radius should gradually increase towards the top and decrease as we move back
+    let currentRadiusLat =
+      minRadiusLat + (maxRadiusLat - minRadiusLat) * Math.sin(t) ** 2;
+    let currentRadiusLng =
+      minRadiusLng + (maxRadiusLng - minRadiusLng) * Math.sin(t) ** 2;
+
+    // Apply the tilt by adding an offset to the longitude
+    let newLat = startLat + currentRadiusLat * Math.sin(t);
+    let newLng =
+      startLng + currentRadiusLng * Math.cos(t) + tiltFactor * Math.sin(t); // Add tilt factor here
+
+    if (Math.abs(newLat - startLat) < 2 && Math.abs(newLng - startLng) < 2)
+      continue;
+
+    arcPoints.push([newLat, newLng]);
+  }
+  arcPoints.push([startLat, startLng]);
+
+  const length = arcPoints.length - 1;
+
+  // Mirror the points to complete the cone-shaped arc by reflecting across the starting latitude
+  for (let i = length; i >= 0; i--) {
+    arcPoints.push([arcPoints[i][0], arcPoints[i][1]]);
+  }
+
+  arcPoints.push([startLat, startLng]);
+
+  return arcPoints;
+}
+
 const main = async (nodeDetails: any) => {
   // icons
   // @ts-ignore
@@ -75,15 +123,61 @@ const main = async (nodeDetails: any) => {
   const polylines = [];
 
   for (let pingServer of pingServers) {
-    // @ts-ignore
-    const polyline = L.polyline(pingServer.latlng, { color: "#5197e8" }).addTo(
-      map
-    );
-    polylines.push(polyline);
+    let extraCurvePoints = [];
+    if (
+      pingServer.latlng[0][0] === pingServer.latlng[1][0] &&
+      pingServer.latlng[0][1] === pingServer.latlng[1][1]
+    ) {
+      // Example usage
+      let startLat = parseFloat(pingServer.latlng[0][0]); // Starting Latitude
+      let startLng = parseFloat(pingServer.latlng[0][1]); // Starting Longitude
+      let minRadiusLat = 2; // Small vertical radius near the start and end points
+      let maxRadiusLat = 20; // Maximum vertical radius at the top of the arc
+      let minRadiusLng = 1; // Small horizontal radius near the start and end points
+      let maxRadiusLng = 8; // Maximum horizontal radius at the top of the arc
+      let totalPoints = 300; // Total number of points for smoothness
+      let tiltFactor = -1; // Tilt factor for the arc
 
-    const points = pingServer.latlng.map((v, i) => {
+      extraCurvePoints = generateConeShapedArcPoints(
+        startLat,
+        startLng,
+        minRadiusLat,
+        maxRadiusLat,
+        minRadiusLng,
+        maxRadiusLng,
+        totalPoints,
+        tiltFactor
+      );
+    }
+
+    if (extraCurvePoints.length > 0) {
+      // @ts-ignore
+      const polyline = L.polyline(extraCurvePoints, { color: "#5197e8" }).addTo(
+        map
+      );
+      polylines.push(polyline);
+    } else {
+      // @ts-ignore
+      const polyline = L.polyline(pingServer.latlng, {
+        color: "#5197e8",
+      }).addTo(map);
+      polylines.push(polyline);
+    }
+
+    let points = pingServer.latlng.map((v, i) => {
       return { id: i, latlng: v };
     });
+
+    if (extraCurvePoints.length > 0) {
+      // take only half of the extraCurvePoints
+      extraCurvePoints = extraCurvePoints.slice(
+        0,
+        Math.floor(extraCurvePoints.length / 2)
+      );
+      points = extraCurvePoints.map((v, i) => {
+        return { id: i, latlng: v };
+      });
+    }
 
     const createAndStartAnimMarker = () => {
       // @ts-ignore
