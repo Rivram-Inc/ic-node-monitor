@@ -144,10 +144,10 @@ const main = async (nodeDetails: any) => {
     let extraCurvePoints = [];
     // Calculate the distance
     const distanceKm = haversine(
-      pingServer.latlng[0][0],
-      pingServer.latlng[0][1],
-      pingServer.latlng[1][0],
-      pingServer.latlng[1][1]
+      parseFloat(pingServer.latlng[0][0]),
+      parseFloat(pingServer.latlng[0][1]),
+      parseFloat(pingServer.latlng[1][0]),
+      parseFloat(pingServer.latlng[1][1])
     );
 
     if (distanceKm < 20) {

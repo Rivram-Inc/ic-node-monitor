@@ -20,6 +20,10 @@ const PROBES_COORDINATES = {
     lat: 1.3521,
     long: 103.8198,
   },
+  PROBE_SPAIN: {
+    lat: 40.416775,
+    long: -3.70379,
+  },
 };
 
 const getLatestPingResultsForNode = async (ipAddress: string) => {
