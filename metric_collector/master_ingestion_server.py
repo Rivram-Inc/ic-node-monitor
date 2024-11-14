@@ -22,11 +22,11 @@ print(f'Environment: {ENV}')
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # Define database credentials based on environment
-DATABASE_NAME = os.getenv("DATABASE_NAME", "postgres")
-DATABASE_HOST = os.getenv("DATABASE_HOST", "127.0.0.1")
-DATABASE_USER = os.getenv("DATABASE_USER", "postgres")
-DATABASE_PASSWORD = os.getenv("DATABASE_PASSWORD", "postgres")
-DATABASE_PORT = os.getenv("DATABASE_PORT", "5432")
+DATABASE_NAME = os.getenv("DATABASE_NAME")
+DATABASE_HOST = os.getenv("DATABASE_HOST")
+DATABASE_USER = os.getenv("DATABASE_USER")
+DATABASE_PASSWORD = os.getenv("DATABASE_PASSWORD")
+DATABASE_PORT = os.getenv("DATABASE_PORT")
 
 
 # Initialize connection pool (this can be done when the app starts)

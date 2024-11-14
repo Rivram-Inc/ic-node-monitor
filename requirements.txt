@@ -1,0 +1,6 @@
+icmplib
+requests
+psycopg2-binary
+fastapi 
+uvicorn
+python-jose
