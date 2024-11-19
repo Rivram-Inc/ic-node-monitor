@@ -66,13 +66,17 @@ else:
         ping_response = ping_util(ip_address)
         print(ping_response)
 
+        ping_details = ping_response[0]
+        traceroute_data = ping_response[1]
+
         ping_result = {
             "ip_address": ip_address,
-            "avg_rtt": ping_response.avg_rtt,
-            "packets_sent": ping_response.packets_sent,
-            "packets_received": ping_response.packets_received,
-            "packet_loss": ping_response.packet_loss,
-            "probe_name": PROBE_NAME
+            "avg_rtt": ping_details.avg_rtt,
+            "packets_sent": ping_details.packets_sent,
+            "packets_received": ping_details.packets_received,
+            "packet_loss": ping_details.packet_loss,
+            "probe_name": PROBE_NAME,
+            "traceroute_data": json.dumps(traceroute_data)
         }
 
         try:
