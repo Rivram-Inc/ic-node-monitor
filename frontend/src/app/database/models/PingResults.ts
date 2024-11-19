@@ -33,6 +33,10 @@ const PingResults = db.define(
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
+    traceroute_data: {
+      type: DataTypes.JSONB,
+      allowNull: true,
+    },
   },
   {
     createdAt: false,
