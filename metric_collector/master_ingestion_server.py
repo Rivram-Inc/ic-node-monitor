@@ -92,6 +92,7 @@ class PingResult(BaseModel):
     packets_received: int
     packet_loss: float
     probe_name: str
+    traceroute_data: str
 
 # Endpoint to get nodes from the database
 
@@ -124,8 +125,8 @@ async def add_ping_results(ping_results: List[PingResult], token: str = Depends(
     try:
         insert_query = '''
             INSERT INTO ping_results 
-            (ip_address, avg_rtt, packets_sent, packets_received, packet_loss, probe_name, ping_at_datetime)
-            VALUES (%s, %s, %s, %s, %s, %s, NOW())
+            (ip_address, avg_rtt, packets_sent, packets_received, packet_loss, probe_name, traceroute_data, ping_at_datetime)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, NOW())
         '''
 
         # Prepare data for bulk insert
@@ -136,7 +137,8 @@ async def add_ping_results(ping_results: List[PingResult], token: str = Depends(
                 result.packets_sent,
                 result.packets_received,
                 result.packet_loss,
-                result.probe_name
+                result.probe_name,
+                result.traceroute_data
             )
             for result in ping_results
         ]
