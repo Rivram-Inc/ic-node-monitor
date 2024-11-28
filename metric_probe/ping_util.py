@@ -1,21 +1,28 @@
 import os
 import logging
+from pathlib import Path
 from icmplib import ping, traceroute
 
 env = os.getenv('ENV', 'dev')  # Defaults to 'dev' if not set
 
-env_file = f".env.{env}"
+# Construct the absolute path for the log file in the script's directory
+script_dir = Path(__file__).resolve().parent
+log_file = script_dir / f"{env}.log"
+env_file = script_dir / f".env.{env}"
+
+log_path = Path(log_file)
+if not log_path.exists():
+    log_path.touch()  # Create the file if it doesn't exist
 
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler(f"{env}.log"),  # Logs to a file
+        logging.FileHandler(log_file),  # Logs to a file
         logging.StreamHandler()               # Logs to the console
     ]
 )
-
 
 def ping_util(ip_address):
     """
