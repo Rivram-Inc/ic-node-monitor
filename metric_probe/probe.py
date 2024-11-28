@@ -1,26 +1,46 @@
-from ping_util import ping_util
-import requests
-import json
 import os
+import json
+import logging
+import requests
 from datetime import datetime
 from jose import jwt
-
-# JWT token configs: secret key and algorithm
-# this secret match JWT secret in script
+from dotenv import load_dotenv
+from pathlib import Path
+from ping_util import ping_util
 
 env = os.getenv('ENV', 'dev')  # Defaults to 'dev' if not set
+
+# Determine which .env file to load
+env_file = f".env.{env}"
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.FileHandler(f"{env}.log"),  # Logs to a file
+        # logging.StreamHandler()          # Logs to the console
+    ]
+)
+
+# Load the environment-specific .env file
+dotenv_path = Path(env_file)
+if dotenv_path.exists():
+    load_dotenv(dotenv_path)
+    logging.info(f"Loaded environment variables from {env_file}")
+else:
+    logging.warning(f"Environment file {env_file} not found. Falling back to default environment variables.")
+
 MASTER_INGESTION_URL = os.getenv('MASTER_INGESTION_URL')
 JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
 ALGORITHM = os.getenv('ALGORITHM')
 PROBE_NAME = os.getenv('PROBE_NAME')  # take probe name from env variable
 
-print(f'Probe name: {PROBE_NAME}')
+logging.info(f'Probe name: {PROBE_NAME}')
 # if probe name is not available, exit the program
 if PROBE_NAME is None:
-    print("Missing probe name!")
+    logging.error("Missing probe name!")
     exit(1)
-
-print(f'Environment: {env}')
 
 
 def generate_token():
@@ -34,7 +54,6 @@ def generate_token():
 
 # Get the token
 token = generate_token()
-print(f"Generated token: {token}")
 
 # Headers with the Authorization token
 headers = {
@@ -55,16 +74,14 @@ def get_nodes_from_api():
 
 nodes = get_nodes_from_api()
 
-
 # Check if nodes is None
 if nodes is None:
-    print("No nodes available.")
+    logging.info("No nodes available.")
 else:
     for node in nodes:
         ip_address = node[3]
-        # print(f'Pinging {ip_address}...')
         ping_response = ping_util(ip_address)
-        print(ping_response)
+        logging.info(ping_response)
 
         ping_details = ping_response[0]
         traceroute_data = ping_response[1]
@@ -88,12 +105,12 @@ else:
 
             # Check if the request was successful
             if response.status_code == 200:
-                print(
+                logging.info(
                     f"Ping result for {ip_address} successfully sent to API.")
             else:
-                print(
+                logging.error(
                     f"Failed to send ping result for {ip_address}. Status code: {response.status_code}")
-                print(f"Response: {response.text}")
+                logging.error(f"Response: {response.text}")
 
         except requests.exceptions.RequestException as e:
-            print(f"Error sending ping result for {ip_address}: {e}")
+            logging.error(f"Error sending ping result for {ip_address}: {e}")
