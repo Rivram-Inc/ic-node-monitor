@@ -94,6 +94,14 @@ else:
         ping_details = ping_response[0]
         traceroute_data = ping_response[1]
 
+        if(ping_details is None):
+            logging.error(f"Error pinging {ip_address}")
+            continue
+        
+        if(traceroute_data is None):
+            # empty traceroute data
+            traceroute_data = []
+
         ping_result = {
             "ip_address": ip_address,
             "avg_rtt": ping_details.avg_rtt,
