@@ -24,19 +24,19 @@ def ping_util(ip_address):
 
     # Perform the traceroute
     print('\nTraceroute Details:')
-    hops = traceroute(host.address, count=1, interval=1,
-                      max_hops=30, timeout=2)
+    # hops = traceroute(host.address, count=1, interval=1,
+                    #   max_hops=30, timeout=2)
 
     # Structure the traceroute data
     traceroute_data = []
-    for hop in hops:
-        print(
-            f'  Hop {hop.distance}: Address: {hop.address}, RTT: {hop.avg_rtt} ms')
-        traceroute_data.append({
-            "hop_number": hop.distance,
-            "ip_address": hop.address,
-            "rtt": hop.avg_rtt
-        })
+    # for hop in hops:
+    #     print(
+    #         f'  Hop {hop.distance}: Address: {hop.address}, RTT: {hop.avg_rtt} ms')
+    #     traceroute_data.append({
+    #         "hop_number": hop.distance,
+    #         "ip_address": hop.address,
+    #         "rtt": hop.avg_rtt
+    #     })
 
     # Return a structured dictionary containing both ping and traceroute data
     return (host, traceroute_data)
