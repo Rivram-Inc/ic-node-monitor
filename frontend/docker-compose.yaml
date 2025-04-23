@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  nextjs-app:
+    build:
+      context: .
+    container_name: nextjs-app
+    working_dir: /usr/src/app
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      DB_HOST: localhost
+      DB_NAME: node_monitoring_prod
+      DB_USER: postgres
+      DB_PASS: postgres
+      DB_PORT: 5432
+      DB_DIALECT: postgres
+    network_mode: "host"

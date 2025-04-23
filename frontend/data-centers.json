@@ -1,0 +1,1863 @@
+[
+  {
+    "key": "an1",
+    "latitude": 51.2194,
+    "longitude": 4.4025,
+    "name": "Antwerp",
+    "node_providers": 1,
+    "owner": "Datacenter United",
+    "region": "Europe,BE,Flanders",
+    "subnets": [
+      "2fq7c-slacv-26cgz-vzbx2-2jrcs-5edph-i5s2j-tck77-c3rlz-iobzx-mqe",
+      "3hhby-wmtmw-umt4t-7ieyg-bbiig-xiylg-sblrt-voxgt-bqckd-a75bf-rqe",
+      "4ecnw-byqwz-dtgss-ua2mh-pfvs7-c3lct-gtf4e-hnu75-j7eek-iifqm-sqe",
+      "4zbus-z2bmt-ilreg-xakz4-6tyre-hsqj4-slb4g-zjwqo-snjcc-iqphi-3qe",
+      "brlsh-zidhj-3yy3e-6vqbz-7xnih-xeq2l-as5oc-g32c4-i5pdn-2wwof-oae",
+      "e66qm-3cydn-nkf4i-ml4rb-4ro6o-srm5s-x5hwq-hnprz-3meqp-s7vks-5qe",
+      "ejbmu-grnam-gk6ol-6irwa-htwoj-7ihfl-goimw-hlnvh-abms4-47v2e-zqe",
+      "eq6en-6jqla-fbu5s-daskr-h6hx2-376n5-iqabl-qgrng-gfqmv-n3yjr-mqe",
+      "lhg73-sax6z-2zank-6oer2-575lz-zgbxx-ptudx-5korm-fy7we-kh4hl-pqe",
+      "lspz2-jx4pu-k3e7p-znm7j-q4yum-ork6e-6w4q6-pijwq-znehu-4jabe-kqe",
+      "nl6hn-ja4yw-wvmpy-3z2jx-ymc34-pisx3-3cp5z-3oj4a-qzzny-jbsv3-4qe",
+      "o3ow2-2ipam-6fcjo-3j5vt-fzbge-2g7my-5fz2m-p4o2t-dwlc4-gt2q7-5ae",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "qdvhd-os4o2-zzrdw-xrcv4-gljou-eztdp-bj326-e6jgr-tkhuc-ql6v2-yqe",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe",
+      "w4rem-dv5e3-widiz-wbpea-kbttk-mnzfm-tzrc7-svcj3-kbxyb-zamch-hqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae",
+      "yinp6-35cfo-wgcd2-oc4ty-2kqpf-t4dul-rfk33-fsq3r-mfmua-m2ngh-jqe"
+    ],
+    "total_nodes": 28
+  },
+  {
+    "key": "ar1",
+    "latitude": -34.60550308227539,
+    "longitude": -58.37938690185547,
+    "name": "CABA 1",
+    "node_providers": 1,
+    "owner": "SyT - Servicios y Telecomunicaciones S.A.",
+    "region": "South America,AR,CABA",
+    "subnets": [
+      "o3ow2-2ipam-6fcjo-3j5vt-fzbge-2g7my-5fz2m-p4o2t-dwlc4-gt2q7-5ae",
+      "snjp4-xlbw4-mnbog-ddwy6-6ckfd-2w5a2-eipqo-7l436-pxqkh-l6fuv-vae"
+    ],
+    "total_nodes": 4
+  },
+  {
+    "key": "at1",
+    "latitude": 33.6844,
+    "longitude": -84.382,
+    "name": "Atlanta",
+    "node_providers": 8,
+    "owner": "Flexential",
+    "region": "North America,US,Georgia",
+    "subnets": [
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "qdvhd-os4o2-zzrdw-xrcv4-gljou-eztdp-bj326-e6jgr-tkhuc-ql6v2-yqe",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe"
+    ],
+    "total_nodes": 28
+  },
+  {
+    "key": "at2",
+    "latitude": 33.818,
+    "longitude": -84.3905,
+    "name": "Atlanta 2",
+    "node_providers": 2,
+    "owner": "Datasite",
+    "region": "North America,US,Georgia",
+    "subnets": [
+      "4zbus-z2bmt-ilreg-xakz4-6tyre-hsqj4-slb4g-zjwqo-snjcc-iqphi-3qe",
+      "brlsh-zidhj-3yy3e-6vqbz-7xnih-xeq2l-as5oc-g32c4-i5pdn-2wwof-oae",
+      "e66qm-3cydn-nkf4i-ml4rb-4ro6o-srm5s-x5hwq-hnprz-3meqp-s7vks-5qe",
+      "nl6hn-ja4yw-wvmpy-3z2jx-ymc34-pisx3-3cp5z-3oj4a-qzzny-jbsv3-4qe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae",
+      "yinp6-35cfo-wgcd2-oc4ty-2kqpf-t4dul-rfk33-fsq3r-mfmua-m2ngh-jqe"
+    ],
+    "total_nodes": 27
+  },
+  {
+    "key": "aw1",
+    "latitude": 40.6022,
+    "longitude": -75.4712,
+    "name": "Allentown",
+    "node_providers": 1,
+    "owner": "Tierpoint",
+    "region": "North America,US,Pennsylvania",
+    "subnets": [
+      "2fq7c-slacv-26cgz-vzbx2-2jrcs-5edph-i5s2j-tck77-c3rlz-iobzx-mqe",
+      "3hhby-wmtmw-umt4t-7ieyg-bbiig-xiylg-sblrt-voxgt-bqckd-a75bf-rqe",
+      "csyj4-zmann-ys6ge-3kzi6-onexi-obayx-2fvak-zersm-euci4-6pslt-lae",
+      "cv73p-6v7zi-u67oy-7jc3h-qspsz-g5lrj-4fn7k-xrax3-thek2-sl46v-jae",
+      "eq6en-6jqla-fbu5s-daskr-h6hx2-376n5-iqabl-qgrng-gfqmv-n3yjr-mqe",
+      "gmq5v-hbozq-uui6y-o55wc-ihop3-562wb-3qspg-nnijg-npqp5-he3cj-3ae",
+      "mpubz-g52jc-grhjo-5oze5-qcj74-sex34-omprz-ivnsm-qvvhr-rfzpv-vae",
+      "qxesv-zoxpm-vc64m-zxguk-5sj74-35vrb-tbgwg-pcird-5gr26-62oxl-cae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 28
+  },
+  {
+    "key": "ba1",
+    "latitude": 38.664528,
+    "longitude": -9.067395,
+    "name": "Barreiro 1",
+    "node_providers": 3,
+    "owner": "Online",
+    "region": "Europe,PT,Barreiro",
+    "subnets": [
+      "bkfrj-6k62g-dycql-7h53p-atvkj-zg4to-gaogh-netha-ptybj-ntsgw-rqe",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe"
+    ],
+    "total_nodes": 3
+  },
+  {
+    "key": "bc1",
+    "latitude": 49.2638,
+    "longitude": -123.1887,
+    "name": "Vancouver",
+    "node_providers": 1,
+    "owner": "Cyxtera",
+    "region": "North America,CA,British Columbia",
+    "subnets": [
+      "brlsh-zidhj-3yy3e-6vqbz-7xnih-xeq2l-as5oc-g32c4-i5pdn-2wwof-oae",
+      "ejbmu-grnam-gk6ol-6irwa-htwoj-7ihfl-goimw-hlnvh-abms4-47v2e-zqe",
+      "io67a-2jmkw-zup3h-snbwi-g6a5n-rm5dn-b6png-lvdpl-nqnto-yih6l-gqe",
+      "lhg73-sax6z-2zank-6oer2-575lz-zgbxx-ptudx-5korm-fy7we-kh4hl-pqe",
+      "snjp4-xlbw4-mnbog-ddwy6-6ckfd-2w5a2-eipqo-7l436-pxqkh-l6fuv-vae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe"
+    ],
+    "total_nodes": 14
+  },
+  {
+    "key": "be1",
+    "latitude": 46.57789993286133,
+    "longitude": 8.005900382995605,
+    "name": "Bern 1",
+    "node_providers": 0,
+    "owner": "MOUNT10 AG",
+    "region": "Europe,CH,Bern",
+    "subnets": [],
+    "total_nodes": 0
+  },
+  {
+    "key": "bg1",
+    "latitude": 4.680663,
+    "longitude": -74.04094,
+    "name": "Bogota 1",
+    "node_providers": 1,
+    "owner": "EdgeUno",
+    "region": "South America,CO,Bogota",
+    "subnets": [
+      "lhg73-sax6z-2zank-6oer2-575lz-zgbxx-ptudx-5korm-fy7we-kh4hl-pqe",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 4
+  },
+  {
+    "key": "bn1",
+    "latitude": 49.196938,
+    "longitude": 16.618692,
+    "name": "South Moravian Region 1",
+    "node_providers": 3,
+    "owner": "Master Internet",
+    "region": "Europe,CZ,South Moravian Region",
+    "subnets": [
+      "bkfrj-6k62g-dycql-7h53p-atvkj-zg4to-gaogh-netha-ptybj-ntsgw-rqe",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe",
+      "w4asl-4nmyj-qnr7c-6cqq4-tkwmt-o26di-iupkq-vx4kt-asbrx-jzuxh-4ae",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 8
+  },
+  {
+    "key": "bo1",
+    "latitude": 42.3601,
+    "longitude": -71.0589,
+    "name": "Boston",
+    "node_providers": 1,
+    "owner": "INAP",
+    "region": "North America,US,Massachusetts",
+    "subnets": [
+      "io67a-2jmkw-zup3h-snbwi-g6a5n-rm5dn-b6png-lvdpl-nqnto-yih6l-gqe",
+      "nl6hn-ja4yw-wvmpy-3z2jx-ymc34-pisx3-3cp5z-3oj4a-qzzny-jbsv3-4qe",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "w4rem-dv5e3-widiz-wbpea-kbttk-mnzfm-tzrc7-svcj3-kbxyb-zamch-hqe"
+    ],
+    "total_nodes": 28
+  },
+  {
+    "key": "br1",
+    "latitude": 50.8386,
+    "longitude": 4.3475,
+    "name": "Brussels",
+    "node_providers": 1,
+    "owner": "Digital Realty",
+    "region": "Europe,BE,Brussels Capital",
+    "subnets": [
+      "csyj4-zmann-ys6ge-3kzi6-onexi-obayx-2fvak-zersm-euci4-6pslt-lae",
+      "cv73p-6v7zi-u67oy-7jc3h-qspsz-g5lrj-4fn7k-xrax3-thek2-sl46v-jae",
+      "gmq5v-hbozq-uui6y-o55wc-ihop3-562wb-3qspg-nnijg-npqp5-he3cj-3ae",
+      "io67a-2jmkw-zup3h-snbwi-g6a5n-rm5dn-b6png-lvdpl-nqnto-yih6l-gqe",
+      "jtdsg-3h6gi-hs7o5-z2soi-43w3z-soyl3-ajnp3-ekni5-sw553-5kw67-nqe",
+      "k44fs-gm4pv-afozh-rs7zw-cg32n-u7xov-xqyx3-2pw5q-eucnu-cosd4-uqe",
+      "pjljw-kztyl-46ud4-ofrj6-nzkhm-3n4nt-wi3jt-ypmav-ijqkt-gjf66-uae",
+      "qxesv-zoxpm-vc64m-zxguk-5sj74-35vrb-tbgwg-pcird-5gr26-62oxl-cae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe"
+    ],
+    "total_nodes": 28
+  },
+  {
+    "key": "br2",
+    "latitude": 50.8571,
+    "longitude": 4.3471,
+    "name": "Brussels 2",
+    "node_providers": 1,
+    "owner": "AtlasEdge",
+    "region": "Europe,BE,Brussels Capital",
+    "subnets": [
+      "bkfrj-6k62g-dycql-7h53p-atvkj-zg4to-gaogh-netha-ptybj-ntsgw-rqe",
+      "mpubz-g52jc-grhjo-5oze5-qcj74-sex34-omprz-ivnsm-qvvhr-rfzpv-vae",
+      "shefu-t3kr5-t5q3w-mqmdq-jabyv-vyvtf-cyyey-3kmo4-toyln-emubw-4qe",
+      "w4asl-4nmyj-qnr7c-6cqq4-tkwmt-o26di-iupkq-vx4kt-asbrx-jzuxh-4ae"
+    ],
+    "total_nodes": 14
+  },
+  {
+    "key": "bt1",
+    "latitude": 54.640133,
+    "longitude": 25.306004,
+    "name": "Vilnius 1",
+    "node_providers": 4,
+    "owner": "Baltneta",
+    "region": "Europe,LT,Vilnius",
+    "subnets": [
+      "bkfrj-6k62g-dycql-7h53p-atvkj-zg4to-gaogh-netha-ptybj-ntsgw-rqe",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 8
+  },
+  {
+    "key": "bu1",
+    "latitude": 44.4268,
+    "longitude": 26.1025,
+    "name": "Bucharest",
+    "node_providers": 1,
+    "owner": "M247 ",
+    "region": "Europe,RO,Bucuresti",
+    "subnets": [
+      "3hhby-wmtmw-umt4t-7ieyg-bbiig-xiylg-sblrt-voxgt-bqckd-a75bf-rqe",
+      "4ecnw-byqwz-dtgss-ua2mh-pfvs7-c3lct-gtf4e-hnu75-j7eek-iifqm-sqe",
+      "4zbus-z2bmt-ilreg-xakz4-6tyre-hsqj4-slb4g-zjwqo-snjcc-iqphi-3qe",
+      "5kdm2-62fc6-fwnja-hutkz-ycsnm-4z33i-woh43-4cenu-ev7mi-gii6t-4ae",
+      "6pbhf-qzpdk-kuqbr-pklfa-5ehhf-jfjps-zsj6q-57nrl-kzhpd-mu7hc-vae",
+      "bkfrj-6k62g-dycql-7h53p-atvkj-zg4to-gaogh-netha-ptybj-ntsgw-rqe",
+      "cv73p-6v7zi-u67oy-7jc3h-qspsz-g5lrj-4fn7k-xrax3-thek2-sl46v-jae",
+      "ejbmu-grnam-gk6ol-6irwa-htwoj-7ihfl-goimw-hlnvh-abms4-47v2e-zqe",
+      "fuqsr-in2lc-zbcjj-ydmcw-pzq7h-4xm2z-pto4i-dcyee-5z4rz-x63ji-nae",
+      "gmq5v-hbozq-uui6y-o55wc-ihop3-562wb-3qspg-nnijg-npqp5-he3cj-3ae",
+      "jtdsg-3h6gi-hs7o5-z2soi-43w3z-soyl3-ajnp3-ekni5-sw553-5kw67-nqe",
+      "k44fs-gm4pv-afozh-rs7zw-cg32n-u7xov-xqyx3-2pw5q-eucnu-cosd4-uqe",
+      "mpubz-g52jc-grhjo-5oze5-qcj74-sex34-omprz-ivnsm-qvvhr-rfzpv-vae",
+      "pjljw-kztyl-46ud4-ofrj6-nzkhm-3n4nt-wi3jt-ypmav-ijqkt-gjf66-uae",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "qdvhd-os4o2-zzrdw-xrcv4-gljou-eztdp-bj326-e6jgr-tkhuc-ql6v2-yqe",
+      "qxesv-zoxpm-vc64m-zxguk-5sj74-35vrb-tbgwg-pcird-5gr26-62oxl-cae",
+      "snjp4-xlbw4-mnbog-ddwy6-6ckfd-2w5a2-eipqo-7l436-pxqkh-l6fuv-vae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe",
+      "w4rem-dv5e3-widiz-wbpea-kbttk-mnzfm-tzrc7-svcj3-kbxyb-zamch-hqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae",
+      "yinp6-35cfo-wgcd2-oc4ty-2kqpf-t4dul-rfk33-fsq3r-mfmua-m2ngh-jqe"
+    ],
+    "total_nodes": 26
+  },
+  {
+    "key": "ch2",
+    "latitude": 41.97438,
+    "longitude": -87.6839,
+    "name": "Chicago 2",
+    "node_providers": 1,
+    "owner": "Tierpoint",
+    "region": "North America,US,Illinois",
+    "subnets": [
+      "ejbmu-grnam-gk6ol-6irwa-htwoj-7ihfl-goimw-hlnvh-abms4-47v2e-zqe",
+      "o3ow2-2ipam-6fcjo-3j5vt-fzbge-2g7my-5fz2m-p4o2t-dwlc4-gt2q7-5ae",
+      "w4asl-4nmyj-qnr7c-6cqq4-tkwmt-o26di-iupkq-vx4kt-asbrx-jzuxh-4ae"
+    ],
+    "total_nodes": 24
+  },
+  {
+    "key": "ch3",
+    "latitude": 41.9347,
+    "longitude": -87.7768,
+    "name": "Chicago 3",
+    "node_providers": 1,
+    "owner": "CyrusOne",
+    "region": "North America,US,Illinois",
+    "subnets": [
+      "3hhby-wmtmw-umt4t-7ieyg-bbiig-xiylg-sblrt-voxgt-bqckd-a75bf-rqe",
+      "lhg73-sax6z-2zank-6oer2-575lz-zgbxx-ptudx-5korm-fy7we-kh4hl-pqe",
+      "mpubz-g52jc-grhjo-5oze5-qcj74-sex34-omprz-ivnsm-qvvhr-rfzpv-vae",
+      "pjljw-kztyl-46ud4-ofrj6-nzkhm-3n4nt-wi3jt-ypmav-ijqkt-gjf66-uae",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "shefu-t3kr5-t5q3w-mqmdq-jabyv-vyvtf-cyyey-3kmo4-toyln-emubw-4qe",
+      "snjp4-xlbw4-mnbog-ddwy6-6ckfd-2w5a2-eipqo-7l436-pxqkh-l6fuv-vae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe"
+    ],
+    "total_nodes": 24
+  },
+  {
+    "key": "cm1",
+    "latitude": 6.941655,
+    "longitude": 79.87952,
+    "name": "Colombo 1",
+    "node_providers": 1,
+    "owner": "OrionStellar",
+    "region": "Asia,LK,Colombo",
+    "subnets": [
+      "5kdm2-62fc6-fwnja-hutkz-ycsnm-4z33i-woh43-4cenu-ev7mi-gii6t-4ae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe"
+    ],
+    "total_nodes": 6
+  },
+  {
+    "key": "cr1",
+    "latitude": 9.935999,
+    "longitude": -84.09665,
+    "name": "San José 1",
+    "node_providers": 1,
+    "owner": "Navegalo",
+    "region": "North America,CR,San Jose",
+    "subnets": [
+      "k44fs-gm4pv-afozh-rs7zw-cg32n-u7xov-xqyx3-2pw5q-eucnu-cosd4-uqe",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "qxesv-zoxpm-vc64m-zxguk-5sj74-35vrb-tbgwg-pcird-5gr26-62oxl-cae",
+      "w4rem-dv5e3-widiz-wbpea-kbttk-mnzfm-tzrc7-svcj3-kbxyb-zamch-hqe"
+    ],
+    "total_nodes": 8
+  },
+  {
+    "key": "ct1",
+    "latitude": -34.037502,
+    "longitude": 18.47787,
+    "name": "Cape Town 1",
+    "node_providers": 1,
+    "owner": "Africa Data Centres",
+    "region": "Africa,ZA,Cape Town",
+    "subnets": [
+      "io67a-2jmkw-zup3h-snbwi-g6a5n-rm5dn-b6png-lvdpl-nqnto-yih6l-gqe",
+      "lspz2-jx4pu-k3e7p-znm7j-q4yum-ork6e-6w4q6-pijwq-znehu-4jabe-kqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 6
+  },
+  {
+    "key": "ct2",
+    "latitude": -33.896877,
+    "longitude": 18.679499,
+    "name": "Cape Town 2",
+    "node_providers": 1,
+    "owner": "Teraco",
+    "region": "Africa,ZA,Cape Town",
+    "subnets": [
+      "jtdsg-3h6gi-hs7o5-z2soi-43w3z-soyl3-ajnp3-ekni5-sw553-5kw67-nqe",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "w4rem-dv5e3-widiz-wbpea-kbttk-mnzfm-tzrc7-svcj3-kbxyb-zamch-hqe"
+    ],
+    "total_nodes": 6
+  },
+  {
+    "key": "dl1",
+    "latitude": 32.7767,
+    "longitude": -96.797,
+    "name": "Dallas",
+    "node_providers": 1,
+    "owner": "Flexential",
+    "region": "North America,US,Texas",
+    "subnets": [
+      "5kdm2-62fc6-fwnja-hutkz-ycsnm-4z33i-woh43-4cenu-ev7mi-gii6t-4ae",
+      "pjljw-kztyl-46ud4-ofrj6-nzkhm-3n4nt-wi3jt-ypmav-ijqkt-gjf66-uae",
+      "shefu-t3kr5-t5q3w-mqmdq-jabyv-vyvtf-cyyey-3kmo4-toyln-emubw-4qe",
+      "w4asl-4nmyj-qnr7c-6cqq4-tkwmt-o26di-iupkq-vx4kt-asbrx-jzuxh-4ae"
+    ],
+    "total_nodes": 20
+  },
+  {
+    "key": "dr1",
+    "latitude": 40.511448,
+    "longitude": -111.88796,
+    "name": "Utah 1",
+    "node_providers": 1,
+    "owner": "FiberState",
+    "region": "North America,US,Utah",
+    "subnets": [],
+    "total_nodes": 3
+  },
+  {
+    "key": "es1",
+    "latitude": 41.409122,
+    "longitude": 2.1700408,
+    "name": "Barcelona 1",
+    "node_providers": 0,
+    "owner": "Adam",
+    "region": "Europe,ES,Barcelona",
+    "subnets": [],
+    "total_nodes": 0
+  },
+  {
+    "key": "ev1",
+    "latitude": 49.02422,
+    "longitude": 1.152285,
+    "name": "Normandie 1",
+    "node_providers": 0,
+    "owner": "Exaion",
+    "region": "Europe,FR,Normandie",
+    "subnets": [],
+    "total_nodes": 0
+  },
+  {
+    "key": "fm1",
+    "latitude": 37.5485,
+    "longitude": -121.9886,
+    "name": "Fremont",
+    "node_providers": 9,
+    "owner": "Hurricane Electric",
+    "region": "North America,US,California",
+    "subnets": [
+      "4zbus-z2bmt-ilreg-xakz4-6tyre-hsqj4-slb4g-zjwqo-snjcc-iqphi-3qe",
+      "5kdm2-62fc6-fwnja-hutkz-ycsnm-4z33i-woh43-4cenu-ev7mi-gii6t-4ae",
+      "brlsh-zidhj-3yy3e-6vqbz-7xnih-xeq2l-as5oc-g32c4-i5pdn-2wwof-oae",
+      "cv73p-6v7zi-u67oy-7jc3h-qspsz-g5lrj-4fn7k-xrax3-thek2-sl46v-jae",
+      "shefu-t3kr5-t5q3w-mqmdq-jabyv-vyvtf-cyyey-3kmo4-toyln-emubw-4qe",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe",
+      "w4asl-4nmyj-qnr7c-6cqq4-tkwmt-o26di-iupkq-vx4kt-asbrx-jzuxh-4ae",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 27
+  },
+  {
+    "key": "fr2",
+    "latitude": 50.1223,
+    "longitude": 8.66366,
+    "name": "Frankfurt 2",
+    "node_providers": 1,
+    "owner": "Equinix",
+    "region": "Europe,DE,Hesse",
+    "subnets": [
+      "3hhby-wmtmw-umt4t-7ieyg-bbiig-xiylg-sblrt-voxgt-bqckd-a75bf-rqe",
+      "bkfrj-6k62g-dycql-7h53p-atvkj-zg4to-gaogh-netha-ptybj-ntsgw-rqe",
+      "csyj4-zmann-ys6ge-3kzi6-onexi-obayx-2fvak-zersm-euci4-6pslt-lae",
+      "eq6en-6jqla-fbu5s-daskr-h6hx2-376n5-iqabl-qgrng-gfqmv-n3yjr-mqe",
+      "lspz2-jx4pu-k3e7p-znm7j-q4yum-ork6e-6w4q6-pijwq-znehu-4jabe-kqe",
+      "nl6hn-ja4yw-wvmpy-3z2jx-ymc34-pisx3-3cp5z-3oj4a-qzzny-jbsv3-4qe",
+      "pjljw-kztyl-46ud4-ofrj6-nzkhm-3n4nt-wi3jt-ypmav-ijqkt-gjf66-uae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe",
+      "yinp6-35cfo-wgcd2-oc4ty-2kqpf-t4dul-rfk33-fsq3r-mfmua-m2ngh-jqe"
+    ],
+    "total_nodes": 28
+  },
+  {
+    "key": "ge1",
+    "latitude": 46.2044,
+    "longitude": 6.1432,
+    "name": "Geneva",
+    "node_providers": 1,
+    "owner": "HighDC",
+    "region": "Europe,CH,Geneva",
+    "subnets": [
+      "5kdm2-62fc6-fwnja-hutkz-ycsnm-4z33i-woh43-4cenu-ev7mi-gii6t-4ae",
+      "bkfrj-6k62g-dycql-7h53p-atvkj-zg4to-gaogh-netha-ptybj-ntsgw-rqe",
+      "csyj4-zmann-ys6ge-3kzi6-onexi-obayx-2fvak-zersm-euci4-6pslt-lae",
+      "ejbmu-grnam-gk6ol-6irwa-htwoj-7ihfl-goimw-hlnvh-abms4-47v2e-zqe",
+      "eq6en-6jqla-fbu5s-daskr-h6hx2-376n5-iqabl-qgrng-gfqmv-n3yjr-mqe",
+      "fuqsr-in2lc-zbcjj-ydmcw-pzq7h-4xm2z-pto4i-dcyee-5z4rz-x63ji-nae",
+      "gmq5v-hbozq-uui6y-o55wc-ihop3-562wb-3qspg-nnijg-npqp5-he3cj-3ae",
+      "lspz2-jx4pu-k3e7p-znm7j-q4yum-ork6e-6w4q6-pijwq-znehu-4jabe-kqe",
+      "mpubz-g52jc-grhjo-5oze5-qcj74-sex34-omprz-ivnsm-qvvhr-rfzpv-vae",
+      "pae4o-o6dxf-xki7q-ezclx-znyd6-fnk6w-vkv5z-5lfwh-xym2i-otrrw-fqe",
+      "pjljw-kztyl-46ud4-ofrj6-nzkhm-3n4nt-wi3jt-ypmav-ijqkt-gjf66-uae",
+      "snjp4-xlbw4-mnbog-ddwy6-6ckfd-2w5a2-eipqo-7l436-pxqkh-l6fuv-vae",
+      "yinp6-35cfo-wgcd2-oc4ty-2kqpf-t4dul-rfk33-fsq3r-mfmua-m2ngh-jqe"
+    ],
+    "total_nodes": 24
+  },
+  {
+    "key": "ge2",
+    "latitude": 46.2022,
+    "longitude": 6.13628,
+    "name": "Geneva 2",
+    "node_providers": 1,
+    "owner": "SafeHost",
+    "region": "Europe,CH,Geneva",
+    "subnets": [
+      "3hhby-wmtmw-umt4t-7ieyg-bbiig-xiylg-sblrt-voxgt-bqckd-a75bf-rqe",
+      "4ecnw-byqwz-dtgss-ua2mh-pfvs7-c3lct-gtf4e-hnu75-j7eek-iifqm-sqe",
+      "4zbus-z2bmt-ilreg-xakz4-6tyre-hsqj4-slb4g-zjwqo-snjcc-iqphi-3qe",
+      "6pbhf-qzpdk-kuqbr-pklfa-5ehhf-jfjps-zsj6q-57nrl-kzhpd-mu7hc-vae",
+      "cv73p-6v7zi-u67oy-7jc3h-qspsz-g5lrj-4fn7k-xrax3-thek2-sl46v-jae",
+      "nl6hn-ja4yw-wvmpy-3z2jx-ymc34-pisx3-3cp5z-3oj4a-qzzny-jbsv3-4qe",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "shefu-t3kr5-t5q3w-mqmdq-jabyv-vyvtf-cyyey-3kmo4-toyln-emubw-4qe",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "w4asl-4nmyj-qnr7c-6cqq4-tkwmt-o26di-iupkq-vx4kt-asbrx-jzuxh-4ae",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 23
+  },
+  {
+    "key": "gn1",
+    "latitude": 28.55256,
+    "longitude": 77.48345,
+    "name": "Greater Noida 1",
+    "node_providers": 1,
+    "owner": "Yotta",
+    "region": "Asia,IN,Greater Noida",
+    "subnets": [
+      "ejbmu-grnam-gk6ol-6irwa-htwoj-7ihfl-goimw-hlnvh-abms4-47v2e-zqe",
+      "jtdsg-3h6gi-hs7o5-z2soi-43w3z-soyl3-ajnp3-ekni5-sw553-5kw67-nqe",
+      "k44fs-gm4pv-afozh-rs7zw-cg32n-u7xov-xqyx3-2pw5q-eucnu-cosd4-uqe",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 10
+  },
+  {
+    "key": "hk1",
+    "latitude": 22.28358,
+    "longitude": 114.26856,
+    "name": "HongKong 1",
+    "node_providers": 2,
+    "owner": "Unicom",
+    "region": "Asia,HK,HongKong",
+    "subnets": [
+      "4ecnw-byqwz-dtgss-ua2mh-pfvs7-c3lct-gtf4e-hnu75-j7eek-iifqm-sqe",
+      "brlsh-zidhj-3yy3e-6vqbz-7xnih-xeq2l-as5oc-g32c4-i5pdn-2wwof-oae",
+      "csyj4-zmann-ys6ge-3kzi6-onexi-obayx-2fvak-zersm-euci4-6pslt-lae",
+      "e66qm-3cydn-nkf4i-ml4rb-4ro6o-srm5s-x5hwq-hnprz-3meqp-s7vks-5qe",
+      "fuqsr-in2lc-zbcjj-ydmcw-pzq7h-4xm2z-pto4i-dcyee-5z4rz-x63ji-nae",
+      "lhg73-sax6z-2zank-6oer2-575lz-zgbxx-ptudx-5korm-fy7we-kh4hl-pqe",
+      "pae4o-o6dxf-xki7q-ezclx-znyd6-fnk6w-vkv5z-5lfwh-xym2i-otrrw-fqe",
+      "snjp4-xlbw4-mnbog-ddwy6-6ckfd-2w5a2-eipqo-7l436-pxqkh-l6fuv-vae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe",
+      "w4rem-dv5e3-widiz-wbpea-kbttk-mnzfm-tzrc7-svcj3-kbxyb-zamch-hqe"
+    ],
+    "total_nodes": 28
+  },
+  {
+    "key": "hk2",
+    "latitude": 22.286,
+    "longitude": 114.269,
+    "name": "HongKong 2",
+    "node_providers": 0,
+    "owner": "Global Switch",
+    "region": "Asia,HK,HongKong",
+    "subnets": [],
+    "total_nodes": 0
+  },
+  {
+    "key": "hk3",
+    "latitude": 22.291012,
+    "longitude": 114.27451,
+    "name": "HongKong 3",
+    "node_providers": 1,
+    "owner": "hkcolo",
+    "region": "Asia,HK,HongKong",
+    "subnets": [
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe"
+    ],
+    "total_nodes": 5
+  },
+  {
+    "key": "hk4",
+    "latitude": 22.453768,
+    "longitude": 114.18723,
+    "name": "HongKong 4",
+    "node_providers": 2,
+    "owner": "hkntt",
+    "region": "Asia,HK,HongKong",
+    "subnets": [
+      "2fq7c-slacv-26cgz-vzbx2-2jrcs-5edph-i5s2j-tck77-c3rlz-iobzx-mqe",
+      "eq6en-6jqla-fbu5s-daskr-h6hx2-376n5-iqabl-qgrng-gfqmv-n3yjr-mqe",
+      "io67a-2jmkw-zup3h-snbwi-g6a5n-rm5dn-b6png-lvdpl-nqnto-yih6l-gqe",
+      "nl6hn-ja4yw-wvmpy-3z2jx-ymc34-pisx3-3cp5z-3oj4a-qzzny-jbsv3-4qe",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 14
+  },
+  {
+    "key": "hu1",
+    "latitude": 29.7398,
+    "longitude": -95.3963,
+    "name": "Houston",
+    "node_providers": 1,
+    "owner": "TRG",
+    "region": "North America,US,Texas",
+    "subnets": [
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe",
+      "yinp6-35cfo-wgcd2-oc4ty-2kqpf-t4dul-rfk33-fsq3r-mfmua-m2ngh-jqe"
+    ],
+    "total_nodes": 14
+  },
+  {
+    "key": "jb1",
+    "latitude": -26.137756,
+    "longitude": 28.19758,
+    "name": "Gauteng 1",
+    "node_providers": 1,
+    "owner": "Teraco",
+    "region": "Africa,ZA,Gauteng",
+    "subnets": [
+      "pae4o-o6dxf-xki7q-ezclx-znyd6-fnk6w-vkv5z-5lfwh-xym2i-otrrw-fqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 6
+  },
+  {
+    "key": "jb2",
+    "latitude": -25.93044,
+    "longitude": 28.138489,
+    "name": "Gauteng 2",
+    "node_providers": 2,
+    "owner": "Africa Data Centres",
+    "region": "Africa,ZA,Gauteng",
+    "subnets": [
+      "5kdm2-62fc6-fwnja-hutkz-ycsnm-4z33i-woh43-4cenu-ev7mi-gii6t-4ae",
+      "fuqsr-in2lc-zbcjj-ydmcw-pzq7h-4xm2z-pto4i-dcyee-5z4rz-x63ji-nae",
+      "k44fs-gm4pv-afozh-rs7zw-cg32n-u7xov-xqyx3-2pw5q-eucnu-cosd4-uqe",
+      "o3ow2-2ipam-6fcjo-3j5vt-fzbge-2g7my-5fz2m-p4o2t-dwlc4-gt2q7-5ae",
+      "opn46-zyspe-hhmyp-4zu6u-7sbrh-dok77-m7dch-im62f-vyimr-a3n2c-4ae",
+      "pjljw-kztyl-46ud4-ofrj6-nzkhm-3n4nt-wi3jt-ypmav-ijqkt-gjf66-uae",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe"
+    ],
+    "total_nodes": 18
+  },
+  {
+    "key": "jb3",
+    "latitude": -25.927364,
+    "longitude": 28.142067,
+    "name": "Gauteng 3",
+    "node_providers": 1,
+    "owner": "Xneelo",
+    "region": "Africa,ZA,Gauteng",
+    "subnets": [
+      "2fq7c-slacv-26cgz-vzbx2-2jrcs-5edph-i5s2j-tck77-c3rlz-iobzx-mqe",
+      "e66qm-3cydn-nkf4i-ml4rb-4ro6o-srm5s-x5hwq-hnprz-3meqp-s7vks-5qe",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 6
+  },
+  {
+    "key": "jv1",
+    "latitude": 30.3321,
+    "longitude": -81.6556,
+    "name": "Jacksonville",
+    "node_providers": 1,
+    "owner": "Tierpoint",
+    "region": "North America,US,Florida",
+    "subnets": [
+      "4zbus-z2bmt-ilreg-xakz4-6tyre-hsqj4-slb4g-zjwqo-snjcc-iqphi-3qe",
+      "csyj4-zmann-ys6ge-3kzi6-onexi-obayx-2fvak-zersm-euci4-6pslt-lae",
+      "io67a-2jmkw-zup3h-snbwi-g6a5n-rm5dn-b6png-lvdpl-nqnto-yih6l-gqe",
+      "nl6hn-ja4yw-wvmpy-3z2jx-ymc34-pisx3-3cp5z-3oj4a-qzzny-jbsv3-4qe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae",
+      "yinp6-35cfo-wgcd2-oc4ty-2kqpf-t4dul-rfk33-fsq3r-mfmua-m2ngh-jqe"
+    ],
+    "total_nodes": 25
+  },
+  {
+    "key": "kr1",
+    "latitude": 37.47765,
+    "longitude": 126.87979,
+    "name": "Seoul 3",
+    "node_providers": 1,
+    "owner": "KT",
+    "region": "Asia,KR,Seoul",
+    "subnets": [
+      "opn46-zyspe-hhmyp-4zu6u-7sbrh-dok77-m7dch-im62f-vyimr-a3n2c-4ae",
+      "shefu-t3kr5-t5q3w-mqmdq-jabyv-vyvtf-cyyey-3kmo4-toyln-emubw-4qe"
+    ],
+    "total_nodes": 17
+  },
+  {
+    "key": "kr2",
+    "latitude": 37.48227,
+    "longitude": 126.87982,
+    "name": "Seoul 2",
+    "node_providers": 1,
+    "owner": "Gasan",
+    "region": "Asia,KR,Seoul",
+    "subnets": [
+      "6pbhf-qzpdk-kuqbr-pklfa-5ehhf-jfjps-zsj6q-57nrl-kzhpd-mu7hc-vae",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe"
+    ],
+    "total_nodes": 10
+  },
+  {
+    "key": "ld1",
+    "latitude": 51.568878173828125,
+    "longitude": -0.23037000000476837,
+    "name": "London 1",
+    "node_providers": 1,
+    "owner": "Latitude.sh",
+    "region": "Europe,UK,London",
+    "subnets": [],
+    "total_nodes": 2
+  },
+  {
+    "key": "li1",
+    "latitude": 38.747547,
+    "longitude": -9.09864,
+    "name": "Lisbon 1",
+    "node_providers": 3,
+    "owner": "Dotsi",
+    "region": "Europe,PT,Lisbon",
+    "subnets": [
+      "ejbmu-grnam-gk6ol-6irwa-htwoj-7ihfl-goimw-hlnvh-abms4-47v2e-zqe"
+    ],
+    "total_nodes": 3
+  },
+  {
+    "key": "li2",
+    "latitude": 38.747635,
+    "longitude": -9.098029,
+    "name": "Lisbon 2",
+    "node_providers": 0,
+    "owner": "Edgoo Networks",
+    "region": "Europe,PT,Lisbon",
+    "subnets": [],
+    "total_nodes": 0
+  },
+  {
+    "key": "Li2",
+    "latitude": 38.74763488769531,
+    "longitude": -9.098029136657715,
+    "name": "Lisbon 2",
+    "node_providers": 0,
+    "owner": "Edgoo Networks",
+    "region": "Europe,PT,Lisbon",
+    "subnets": [],
+    "total_nodes": 0
+  },
+  {
+    "key": "lj1",
+    "latitude": 46.04998,
+    "longitude": 14.50686,
+    "name": "Ljubljana",
+    "node_providers": 1,
+    "owner": "Posita.si",
+    "region": "Europe,SI,Ljubljana",
+    "subnets": [
+      "5kdm2-62fc6-fwnja-hutkz-ycsnm-4z33i-woh43-4cenu-ev7mi-gii6t-4ae",
+      "bkfrj-6k62g-dycql-7h53p-atvkj-zg4to-gaogh-netha-ptybj-ntsgw-rqe",
+      "brlsh-zidhj-3yy3e-6vqbz-7xnih-xeq2l-as5oc-g32c4-i5pdn-2wwof-oae",
+      "eq6en-6jqla-fbu5s-daskr-h6hx2-376n5-iqabl-qgrng-gfqmv-n3yjr-mqe",
+      "gmq5v-hbozq-uui6y-o55wc-ihop3-562wb-3qspg-nnijg-npqp5-he3cj-3ae",
+      "jtdsg-3h6gi-hs7o5-z2soi-43w3z-soyl3-ajnp3-ekni5-sw553-5kw67-nqe",
+      "lspz2-jx4pu-k3e7p-znm7j-q4yum-ork6e-6w4q6-pijwq-znehu-4jabe-kqe",
+      "nl6hn-ja4yw-wvmpy-3z2jx-ymc34-pisx3-3cp5z-3oj4a-qzzny-jbsv3-4qe",
+      "pjljw-kztyl-46ud4-ofrj6-nzkhm-3n4nt-wi3jt-ypmav-ijqkt-gjf66-uae",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "qxesv-zoxpm-vc64m-zxguk-5sj74-35vrb-tbgwg-pcird-5gr26-62oxl-cae",
+      "shefu-t3kr5-t5q3w-mqmdq-jabyv-vyvtf-cyyey-3kmo4-toyln-emubw-4qe",
+      "snjp4-xlbw4-mnbog-ddwy6-6ckfd-2w5a2-eipqo-7l436-pxqkh-l6fuv-vae",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe",
+      "w4asl-4nmyj-qnr7c-6cqq4-tkwmt-o26di-iupkq-vx4kt-asbrx-jzuxh-4ae"
+    ],
+    "total_nodes": 27
+  },
+  {
+    "key": "lj2",
+    "latitude": 46.0766,
+    "longitude": 14.48509,
+    "name": "Ljubljana 2",
+    "node_providers": 1,
+    "owner": "Anonstake",
+    "region": "Europe,SI,Ljubljana",
+    "subnets": [
+      "3hhby-wmtmw-umt4t-7ieyg-bbiig-xiylg-sblrt-voxgt-bqckd-a75bf-rqe",
+      "4zbus-z2bmt-ilreg-xakz4-6tyre-hsqj4-slb4g-zjwqo-snjcc-iqphi-3qe",
+      "csyj4-zmann-ys6ge-3kzi6-onexi-obayx-2fvak-zersm-euci4-6pslt-lae",
+      "cv73p-6v7zi-u67oy-7jc3h-qspsz-g5lrj-4fn7k-xrax3-thek2-sl46v-jae",
+      "e66qm-3cydn-nkf4i-ml4rb-4ro6o-srm5s-x5hwq-hnprz-3meqp-s7vks-5qe",
+      "fuqsr-in2lc-zbcjj-ydmcw-pzq7h-4xm2z-pto4i-dcyee-5z4rz-x63ji-nae",
+      "io67a-2jmkw-zup3h-snbwi-g6a5n-rm5dn-b6png-lvdpl-nqnto-yih6l-gqe",
+      "opn46-zyspe-hhmyp-4zu6u-7sbrh-dok77-m7dch-im62f-vyimr-a3n2c-4ae",
+      "pae4o-o6dxf-xki7q-ezclx-znyd6-fnk6w-vkv5z-5lfwh-xym2i-otrrw-fqe",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 12
+  },
+  {
+    "key": "lv1",
+    "latitude": 36.08,
+    "longitude": -115.17,
+    "name": "Las Vegas",
+    "node_providers": 1,
+    "owner": "Flexential",
+    "region": "North America,US,Nevada",
+    "subnets": [
+      "yinp6-35cfo-wgcd2-oc4ty-2kqpf-t4dul-rfk33-fsq3r-mfmua-m2ngh-jqe"
+    ],
+    "total_nodes": 10
+  },
+  {
+    "key": "ma1",
+    "latitude": 40.438904,
+    "longitude": -3.6230261,
+    "name": "Madrid 1",
+    "node_providers": 3,
+    "owner": "Ginernet",
+    "region": "Europe,ES,Madrid",
+    "subnets": [
+      "6pbhf-qzpdk-kuqbr-pklfa-5ehhf-jfjps-zsj6q-57nrl-kzhpd-mu7hc-vae",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 3
+  },
+  {
+    "key": "ma2",
+    "latitude": 40.39604,
+    "longitude": -3.7960002,
+    "name": "Madrid 2",
+    "node_providers": 0,
+    "owner": "Espacio Rack",
+    "region": "Europe,ES,Madrid",
+    "subnets": [],
+    "total_nodes": 0
+  },
+  {
+    "key": "ma3",
+    "latitude": 40.445953369140625,
+    "longitude": -3.5700926780700684,
+    "name": "Madrid 3",
+    "node_providers": 2,
+    "owner": "IPCore",
+    "region": "Europe,ES,Madrid",
+    "subnets": [
+      "2fq7c-slacv-26cgz-vzbx2-2jrcs-5edph-i5s2j-tck77-c3rlz-iobzx-mqe"
+    ],
+    "total_nodes": 2
+  },
+  {
+    "key": "mb1",
+    "latitude": 46.557644,
+    "longitude": 15.645585,
+    "name": "Maribor",
+    "node_providers": 1,
+    "owner": "Posita.si",
+    "region": "Europe,SI,Maribor",
+    "subnets": [
+      "2fq7c-slacv-26cgz-vzbx2-2jrcs-5edph-i5s2j-tck77-c3rlz-iobzx-mqe",
+      "4ecnw-byqwz-dtgss-ua2mh-pfvs7-c3lct-gtf4e-hnu75-j7eek-iifqm-sqe",
+      "6pbhf-qzpdk-kuqbr-pklfa-5ehhf-jfjps-zsj6q-57nrl-kzhpd-mu7hc-vae",
+      "cv73p-6v7zi-u67oy-7jc3h-qspsz-g5lrj-4fn7k-xrax3-thek2-sl46v-jae",
+      "e66qm-3cydn-nkf4i-ml4rb-4ro6o-srm5s-x5hwq-hnprz-3meqp-s7vks-5qe",
+      "ejbmu-grnam-gk6ol-6irwa-htwoj-7ihfl-goimw-hlnvh-abms4-47v2e-zqe",
+      "fuqsr-in2lc-zbcjj-ydmcw-pzq7h-4xm2z-pto4i-dcyee-5z4rz-x63ji-nae",
+      "lhg73-sax6z-2zank-6oer2-575lz-zgbxx-ptudx-5korm-fy7we-kh4hl-pqe",
+      "mpubz-g52jc-grhjo-5oze5-qcj74-sex34-omprz-ivnsm-qvvhr-rfzpv-vae",
+      "o3ow2-2ipam-6fcjo-3j5vt-fzbge-2g7my-5fz2m-p4o2t-dwlc4-gt2q7-5ae",
+      "pae4o-o6dxf-xki7q-ezclx-znyd6-fnk6w-vkv5z-5lfwh-xym2i-otrrw-fqe",
+      "qdvhd-os4o2-zzrdw-xrcv4-gljou-eztdp-bj326-e6jgr-tkhuc-ql6v2-yqe",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "yinp6-35cfo-wgcd2-oc4ty-2kqpf-t4dul-rfk33-fsq3r-mfmua-m2ngh-jqe"
+    ],
+    "total_nodes": 25
+  },
+  {
+    "key": "me1",
+    "latitude": -37.8230094909668,
+    "longitude": 144.91281127929688,
+    "name": "Melbourne 1",
+    "node_providers": 0,
+    "owner": "Equinix",
+    "region": "Oceania,AU,Melbourne",
+    "subnets": [],
+    "total_nodes": 0
+  },
+  {
+    "key": "me3",
+    "latitude": -37.81735,
+    "longitude": 144.95679,
+    "name": "Melbourne 3",
+    "node_providers": 0,
+    "owner": "5G Networks",
+    "region": "Oceania,AU,Melbourne",
+    "subnets": [],
+    "total_nodes": 0
+  },
+  {
+    "key": "mm1",
+    "latitude": 25.7617,
+    "longitude": -80.1918,
+    "name": "Miami",
+    "node_providers": 1,
+    "owner": "Digital Realty",
+    "region": "North America,US,Florida",
+    "subnets": [],
+    "total_nodes": 14
+  },
+  {
+    "key": "mn2",
+    "latitude": -37.70878,
+    "longitude": 144.87614,
+    "name": "Melbourne 2",
+    "node_providers": 1,
+    "owner": "NEXTDC",
+    "region": "Oceania,AU,Melbourne",
+    "subnets": [
+      "3hhby-wmtmw-umt4t-7ieyg-bbiig-xiylg-sblrt-voxgt-bqckd-a75bf-rqe",
+      "k44fs-gm4pv-afozh-rs7zw-cg32n-u7xov-xqyx3-2pw5q-eucnu-cosd4-uqe",
+      "o3ow2-2ipam-6fcjo-3j5vt-fzbge-2g7my-5fz2m-p4o2t-dwlc4-gt2q7-5ae",
+      "pae4o-o6dxf-xki7q-ezclx-znyd6-fnk6w-vkv5z-5lfwh-xym2i-otrrw-fqe",
+      "pjljw-kztyl-46ud4-ofrj6-nzkhm-3n4nt-wi3jt-ypmav-ijqkt-gjf66-uae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "w4rem-dv5e3-widiz-wbpea-kbttk-mnzfm-tzrc7-svcj3-kbxyb-zamch-hqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 18
+  },
+  {
+    "key": "mr1",
+    "latitude": 43.2965,
+    "longitude": 5.3698,
+    "name": "Marseille",
+    "node_providers": 1,
+    "owner": "Digital Realty",
+    "region": "Europe,FR,Provence-Alpes-Cote d'Azur",
+    "subnets": [
+      "lhg73-sax6z-2zank-6oer2-575lz-zgbxx-ptudx-5korm-fy7we-kh4hl-pqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 24
+  },
+  {
+    "key": "mt1",
+    "latitude": 45.486538,
+    "longitude": -73.75656,
+    "name": "Quebec 1",
+    "node_providers": 0,
+    "owner": "Vantage",
+    "region": "North America,CA,Quebec",
+    "subnets": [],
+    "total_nodes": 0
+  },
+  {
+    "key": "mtl1",
+    "latitude": 45.46804,
+    "longitude": -73.53816,
+    "name": "Quebec l1",
+    "node_providers": 2,
+    "owner": "Leaseweb",
+    "region": "North America,CA,Quebec",
+    "subnets": [
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "w4rem-dv5e3-widiz-wbpea-kbttk-mnzfm-tzrc7-svcj3-kbxyb-zamch-hqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 3
+  },
+  {
+    "key": "mu1",
+    "latitude": 48.1351,
+    "longitude": 11.582,
+    "name": "Munich",
+    "node_providers": 1,
+    "owner": "q.beyond",
+    "region": "Europe,DE,Bavaria",
+    "subnets": [
+      "3hhby-wmtmw-umt4t-7ieyg-bbiig-xiylg-sblrt-voxgt-bqckd-a75bf-rqe",
+      "5kdm2-62fc6-fwnja-hutkz-ycsnm-4z33i-woh43-4cenu-ev7mi-gii6t-4ae",
+      "6pbhf-qzpdk-kuqbr-pklfa-5ehhf-jfjps-zsj6q-57nrl-kzhpd-mu7hc-vae",
+      "brlsh-zidhj-3yy3e-6vqbz-7xnih-xeq2l-as5oc-g32c4-i5pdn-2wwof-oae",
+      "cv73p-6v7zi-u67oy-7jc3h-qspsz-g5lrj-4fn7k-xrax3-thek2-sl46v-jae",
+      "e66qm-3cydn-nkf4i-ml4rb-4ro6o-srm5s-x5hwq-hnprz-3meqp-s7vks-5qe",
+      "fuqsr-in2lc-zbcjj-ydmcw-pzq7h-4xm2z-pto4i-dcyee-5z4rz-x63ji-nae",
+      "gmq5v-hbozq-uui6y-o55wc-ihop3-562wb-3qspg-nnijg-npqp5-he3cj-3ae",
+      "jtdsg-3h6gi-hs7o5-z2soi-43w3z-soyl3-ajnp3-ekni5-sw553-5kw67-nqe",
+      "k44fs-gm4pv-afozh-rs7zw-cg32n-u7xov-xqyx3-2pw5q-eucnu-cosd4-uqe",
+      "mpubz-g52jc-grhjo-5oze5-qcj74-sex34-omprz-ivnsm-qvvhr-rfzpv-vae",
+      "nl6hn-ja4yw-wvmpy-3z2jx-ymc34-pisx3-3cp5z-3oj4a-qzzny-jbsv3-4qe",
+      "o3ow2-2ipam-6fcjo-3j5vt-fzbge-2g7my-5fz2m-p4o2t-dwlc4-gt2q7-5ae",
+      "pae4o-o6dxf-xki7q-ezclx-znyd6-fnk6w-vkv5z-5lfwh-xym2i-otrrw-fqe",
+      "pjljw-kztyl-46ud4-ofrj6-nzkhm-3n4nt-wi3jt-ypmav-ijqkt-gjf66-uae",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "qdvhd-os4o2-zzrdw-xrcv4-gljou-eztdp-bj326-e6jgr-tkhuc-ql6v2-yqe",
+      "qxesv-zoxpm-vc64m-zxguk-5sj74-35vrb-tbgwg-pcird-5gr26-62oxl-cae",
+      "shefu-t3kr5-t5q3w-mqmdq-jabyv-vyvtf-cyyey-3kmo4-toyln-emubw-4qe",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "w4asl-4nmyj-qnr7c-6cqq4-tkwmt-o26di-iupkq-vx4kt-asbrx-jzuxh-4ae"
+    ],
+    "total_nodes": 27
+  },
+  {
+    "key": "nd1",
+    "latitude": 28.627478,
+    "longitude": 77.38391,
+    "name": "New Delhi 1",
+    "node_providers": 2,
+    "owner": "Marvelous Web3 DC",
+    "region": "Asia,IN,New Delhi",
+    "subnets": [
+      "eq6en-6jqla-fbu5s-daskr-h6hx2-376n5-iqabl-qgrng-gfqmv-n3yjr-mqe",
+      "lspz2-jx4pu-k3e7p-znm7j-q4yum-ork6e-6w4q6-pijwq-znehu-4jabe-kqe",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "snjp4-xlbw4-mnbog-ddwy6-6ckfd-2w5a2-eipqo-7l436-pxqkh-l6fuv-vae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 14
+  },
+  {
+    "key": "nm1",
+    "latitude": 19.141201,
+    "longitude": 73.00894,
+    "name": "Navi Mumbai 1",
+    "node_providers": 1,
+    "owner": "Rivram",
+    "region": "Asia,IN,Navi Mumbai",
+    "subnets": [
+      "4ecnw-byqwz-dtgss-ua2mh-pfvs7-c3lct-gtf4e-hnu75-j7eek-iifqm-sqe",
+      "lhg73-sax6z-2zank-6oer2-575lz-zgbxx-ptudx-5korm-fy7we-kh4hl-pqe",
+      "o3ow2-2ipam-6fcjo-3j5vt-fzbge-2g7my-5fz2m-p4o2t-dwlc4-gt2q7-5ae",
+      "opn46-zyspe-hhmyp-4zu6u-7sbrh-dok77-m7dch-im62f-vyimr-a3n2c-4ae",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae",
+      "yinp6-35cfo-wgcd2-oc4ty-2kqpf-t4dul-rfk33-fsq3r-mfmua-m2ngh-jqe"
+    ],
+    "total_nodes": 12
+  },
+  {
+    "key": "ns1",
+    "latitude": -33.87548828125,
+    "longitude": 151.1975555419922,
+    "name": "New South Wales 1",
+    "node_providers": 1,
+    "owner": "Latitude.sh",
+    "region": "Oceania,AU,New South Wales",
+    "subnets": [],
+    "total_nodes": 2
+  },
+  {
+    "key": "ny1",
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "name": "New York",
+    "node_providers": 1,
+    "owner": "Tierpoint",
+    "region": "North America,US,New York",
+    "subnets": [
+      "snjp4-xlbw4-mnbog-ddwy6-6ckfd-2w5a2-eipqo-7l436-pxqkh-l6fuv-vae",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe"
+    ],
+    "total_nodes": 14
+  },
+  {
+    "key": "ny2",
+    "latitude": 40.787,
+    "longitude": -74.068,
+    "name": "New York",
+    "node_providers": 0,
+    "owner": "INAP",
+    "region": "North America,US,New York",
+    "subnets": [],
+    "total_nodes": 0
+  },
+  {
+    "key": "NZ1",
+    "latitude": -37.74277877807617,
+    "longitude": 175.2253875732422,
+    "name": "Hamilton 1",
+    "node_providers": 0,
+    "owner": "Data Vault",
+    "region": "Oceania,NZ,Hamilton",
+    "subnets": [],
+    "total_nodes": 0
+  },
+  {
+    "key": "or1",
+    "latitude": 28.5883,
+    "longitude": -81.3792,
+    "name": "Orlando",
+    "node_providers": 1,
+    "owner": "Datasite",
+    "region": "North America,US,Florida",
+    "subnets": [
+      "cv73p-6v7zi-u67oy-7jc3h-qspsz-g5lrj-4fn7k-xrax3-thek2-sl46v-jae",
+      "eq6en-6jqla-fbu5s-daskr-h6hx2-376n5-iqabl-qgrng-gfqmv-n3yjr-mqe",
+      "gmq5v-hbozq-uui6y-o55wc-ihop3-562wb-3qspg-nnijg-npqp5-he3cj-3ae",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "shefu-t3kr5-t5q3w-mqmdq-jabyv-vyvtf-cyyey-3kmo4-toyln-emubw-4qe",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe"
+    ],
+    "total_nodes": 26
+  },
+  {
+    "key": "pa1",
+    "latitude": 50.06963,
+    "longitude": 14.46379,
+    "name": "Praha 1",
+    "node_providers": 1,
+    "owner": "MasterDC",
+    "region": "Europe,CZ,Praha",
+    "subnets": [
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe"
+    ],
+    "total_nodes": 1
+  },
+  {
+    "key": "pa2",
+    "latitude": 50.078022,
+    "longitude": 14.473687,
+    "name": "Praha 2",
+    "node_providers": 2,
+    "owner": "Coolhousing",
+    "region": "Europe,CZ,Praha",
+    "subnets": [
+      "opn46-zyspe-hhmyp-4zu6u-7sbrh-dok77-m7dch-im62f-vyimr-a3n2c-4ae",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 2
+  },
+  {
+    "key": "pc1",
+    "latitude": 8.948325,
+    "longitude": -79.5607,
+    "name": "Panama City 1",
+    "node_providers": 1,
+    "owner": "Navegalo",
+    "region": "North America,PA,Panama City",
+    "subnets": [
+      "io67a-2jmkw-zup3h-snbwi-g6a5n-rm5dn-b6png-lvdpl-nqnto-yih6l-gqe",
+      "opn46-zyspe-hhmyp-4zu6u-7sbrh-dok77-m7dch-im62f-vyimr-a3n2c-4ae",
+      "qdvhd-os4o2-zzrdw-xrcv4-gljou-eztdp-bj326-e6jgr-tkhuc-ql6v2-yqe",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe"
+    ],
+    "total_nodes": 4
+  },
+  {
+    "key": "ph1",
+    "latitude": 33.4484,
+    "longitude": -112.0741,
+    "name": "Phoenix",
+    "node_providers": 1,
+    "owner": "CyrusOne",
+    "region": "North America,US,Arizona",
+    "subnets": [
+      "eq6en-6jqla-fbu5s-daskr-h6hx2-376n5-iqabl-qgrng-gfqmv-n3yjr-mqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 22
+  },
+  {
+    "key": "pl1",
+    "latitude": 45.5051,
+    "longitude": -122.675,
+    "name": "Portland",
+    "node_providers": 1,
+    "owner": "Flexential",
+    "region": "North America,US,Oregon",
+    "subnets": [
+      "4zbus-z2bmt-ilreg-xakz4-6tyre-hsqj4-slb4g-zjwqo-snjcc-iqphi-3qe",
+      "cv73p-6v7zi-u67oy-7jc3h-qspsz-g5lrj-4fn7k-xrax3-thek2-sl46v-jae",
+      "gmq5v-hbozq-uui6y-o55wc-ihop3-562wb-3qspg-nnijg-npqp5-he3cj-3ae",
+      "jtdsg-3h6gi-hs7o5-z2soi-43w3z-soyl3-ajnp3-ekni5-sw553-5kw67-nqe",
+      "nl6hn-ja4yw-wvmpy-3z2jx-ymc34-pisx3-3cp5z-3oj4a-qzzny-jbsv3-4qe",
+      "pae4o-o6dxf-xki7q-ezclx-znyd6-fnk6w-vkv5z-5lfwh-xym2i-otrrw-fqe",
+      "snjp4-xlbw4-mnbog-ddwy6-6ckfd-2w5a2-eipqo-7l436-pxqkh-l6fuv-vae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 20
+  },
+  {
+    "key": "pl2",
+    "latitude": 18.912172,
+    "longitude": 73.20085,
+    "name": "Panvel 2",
+    "node_providers": 1,
+    "owner": "Yotta",
+    "region": "Asia,IN,Panvel",
+    "subnets": [
+      "5kdm2-62fc6-fwnja-hutkz-ycsnm-4z33i-woh43-4cenu-ev7mi-gii6t-4ae",
+      "csyj4-zmann-ys6ge-3kzi6-onexi-obayx-2fvak-zersm-euci4-6pslt-lae",
+      "qdvhd-os4o2-zzrdw-xrcv4-gljou-eztdp-bj326-e6jgr-tkhuc-ql6v2-yqe",
+      "shefu-t3kr5-t5q3w-mqmdq-jabyv-vyvtf-cyyey-3kmo4-toyln-emubw-4qe",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "w4asl-4nmyj-qnr7c-6cqq4-tkwmt-o26di-iupkq-vx4kt-asbrx-jzuxh-4ae",
+      "w4rem-dv5e3-widiz-wbpea-kbttk-mnzfm-tzrc7-svcj3-kbxyb-zamch-hqe"
+    ],
+    "total_nodes": 15
+  },
+  {
+    "key": "pr1",
+    "latitude": 48.83561,
+    "longitude": 2.5877786,
+    "name": "Paris 1",
+    "node_providers": 1,
+    "owner": "Celeste",
+    "region": "Europe,FR,Paris",
+    "subnets": [],
+    "total_nodes": 4
+  },
+  {
+    "key": "rg1",
+    "latitude": 56.88984,
+    "longitude": 24.232077,
+    "name": "Riga 1",
+    "node_providers": 4,
+    "owner": "DEAC",
+    "region": "Europe,LV,Riga",
+    "subnets": [
+      "brlsh-zidhj-3yy3e-6vqbz-7xnih-xeq2l-as5oc-g32c4-i5pdn-2wwof-oae",
+      "lspz2-jx4pu-k3e7p-znm7j-q4yum-ork6e-6w4q6-pijwq-znehu-4jabe-kqe",
+      "qxesv-zoxpm-vc64m-zxguk-5sj74-35vrb-tbgwg-pcird-5gr26-62oxl-cae",
+      "w4rem-dv5e3-widiz-wbpea-kbttk-mnzfm-tzrc7-svcj3-kbxyb-zamch-hqe"
+    ],
+    "total_nodes": 6
+  },
+  {
+    "key": "rg3",
+    "latitude": 56.921062,
+    "longitude": 24.169752,
+    "name": "Riga 3",
+    "node_providers": 2,
+    "owner": "Nano",
+    "region": "Europe,LV,Riga",
+    "subnets": [
+      "jtdsg-3h6gi-hs7o5-z2soi-43w3z-soyl3-ajnp3-ekni5-sw553-5kw67-nqe"
+    ],
+    "total_nodes": 2
+  },
+  {
+    "key": "sa",
+    "latitude": 29.476343154907227,
+    "longitude": -98.39115905761719,
+    "name": "Texas ",
+    "node_providers": 0,
+    "owner": "Nugget Enterprises Inc",
+    "region": "North America,US,Texas",
+    "subnets": [],
+    "total_nodes": 0
+  },
+  {
+    "key": "sc1",
+    "latitude": -26.659637,
+    "longitude": 153.09305,
+    "name": "Queensland 1",
+    "node_providers": 2,
+    "owner": "NEXTDC",
+    "region": "Oceania,AU,Queensland",
+    "subnets": [
+      "2fq7c-slacv-26cgz-vzbx2-2jrcs-5edph-i5s2j-tck77-c3rlz-iobzx-mqe",
+      "4ecnw-byqwz-dtgss-ua2mh-pfvs7-c3lct-gtf4e-hnu75-j7eek-iifqm-sqe",
+      "6pbhf-qzpdk-kuqbr-pklfa-5ehhf-jfjps-zsj6q-57nrl-kzhpd-mu7hc-vae",
+      "csyj4-zmann-ys6ge-3kzi6-onexi-obayx-2fvak-zersm-euci4-6pslt-lae",
+      "io67a-2jmkw-zup3h-snbwi-g6a5n-rm5dn-b6png-lvdpl-nqnto-yih6l-gqe",
+      "opn46-zyspe-hhmyp-4zu6u-7sbrh-dok77-m7dch-im62f-vyimr-a3n2c-4ae",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 16
+  },
+  {
+    "key": "sg1",
+    "latitude": 1.3521,
+    "longitude": 103.8289,
+    "name": "Singapore",
+    "node_providers": 1,
+    "owner": "Telin",
+    "region": "Asia,SG,Singapore",
+    "subnets": [
+      "3hhby-wmtmw-umt4t-7ieyg-bbiig-xiylg-sblrt-voxgt-bqckd-a75bf-rqe",
+      "4ecnw-byqwz-dtgss-ua2mh-pfvs7-c3lct-gtf4e-hnu75-j7eek-iifqm-sqe",
+      "4zbus-z2bmt-ilreg-xakz4-6tyre-hsqj4-slb4g-zjwqo-snjcc-iqphi-3qe",
+      "6pbhf-qzpdk-kuqbr-pklfa-5ehhf-jfjps-zsj6q-57nrl-kzhpd-mu7hc-vae",
+      "csyj4-zmann-ys6ge-3kzi6-onexi-obayx-2fvak-zersm-euci4-6pslt-lae",
+      "cv73p-6v7zi-u67oy-7jc3h-qspsz-g5lrj-4fn7k-xrax3-thek2-sl46v-jae",
+      "e66qm-3cydn-nkf4i-ml4rb-4ro6o-srm5s-x5hwq-hnprz-3meqp-s7vks-5qe",
+      "ejbmu-grnam-gk6ol-6irwa-htwoj-7ihfl-goimw-hlnvh-abms4-47v2e-zqe",
+      "eq6en-6jqla-fbu5s-daskr-h6hx2-376n5-iqabl-qgrng-gfqmv-n3yjr-mqe",
+      "fuqsr-in2lc-zbcjj-ydmcw-pzq7h-4xm2z-pto4i-dcyee-5z4rz-x63ji-nae",
+      "nl6hn-ja4yw-wvmpy-3z2jx-ymc34-pisx3-3cp5z-3oj4a-qzzny-jbsv3-4qe",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "qdvhd-os4o2-zzrdw-xrcv4-gljou-eztdp-bj326-e6jgr-tkhuc-ql6v2-yqe",
+      "snjp4-xlbw4-mnbog-ddwy6-6ckfd-2w5a2-eipqo-7l436-pxqkh-l6fuv-vae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "w4rem-dv5e3-widiz-wbpea-kbttk-mnzfm-tzrc7-svcj3-kbxyb-zamch-hqe",
+      "yinp6-35cfo-wgcd2-oc4ty-2kqpf-t4dul-rfk33-fsq3r-mfmua-m2ngh-jqe"
+    ],
+    "total_nodes": 24
+  },
+  {
+    "key": "sg2",
+    "latitude": 1.2995,
+    "longitude": 103.8289,
+    "name": "Singapore 2",
+    "node_providers": 1,
+    "owner": "Telin",
+    "region": "Asia,SG,Singapore",
+    "subnets": [
+      "2fq7c-slacv-26cgz-vzbx2-2jrcs-5edph-i5s2j-tck77-c3rlz-iobzx-mqe",
+      "lspz2-jx4pu-k3e7p-znm7j-q4yum-ork6e-6w4q6-pijwq-znehu-4jabe-kqe",
+      "mpubz-g52jc-grhjo-5oze5-qcj74-sex34-omprz-ivnsm-qvvhr-rfzpv-vae",
+      "pjljw-kztyl-46ud4-ofrj6-nzkhm-3n4nt-wi3jt-ypmav-ijqkt-gjf66-uae",
+      "qxesv-zoxpm-vc64m-zxguk-5sj74-35vrb-tbgwg-pcird-5gr26-62oxl-cae",
+      "shefu-t3kr5-t5q3w-mqmdq-jabyv-vyvtf-cyyey-3kmo4-toyln-emubw-4qe",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe",
+      "w4asl-4nmyj-qnr7c-6cqq4-tkwmt-o26di-iupkq-vx4kt-asbrx-jzuxh-4ae"
+    ],
+    "total_nodes": 13
+  },
+  {
+    "key": "sg3",
+    "latitude": 1.3321,
+    "longitude": 103.9527,
+    "name": "Singapore 3",
+    "node_providers": 1,
+    "owner": "Racks Central",
+    "region": "Asia,SG,Singapore",
+    "subnets": [
+      "brlsh-zidhj-3yy3e-6vqbz-7xnih-xeq2l-as5oc-g32c4-i5pdn-2wwof-oae",
+      "io67a-2jmkw-zup3h-snbwi-g6a5n-rm5dn-b6png-lvdpl-nqnto-yih6l-gqe",
+      "jtdsg-3h6gi-hs7o5-z2soi-43w3z-soyl3-ajnp3-ekni5-sw553-5kw67-nqe",
+      "k44fs-gm4pv-afozh-rs7zw-cg32n-u7xov-xqyx3-2pw5q-eucnu-cosd4-uqe",
+      "lhg73-sax6z-2zank-6oer2-575lz-zgbxx-ptudx-5korm-fy7we-kh4hl-pqe",
+      "opn46-zyspe-hhmyp-4zu6u-7sbrh-dok77-m7dch-im62f-vyimr-a3n2c-4ae",
+      "pae4o-o6dxf-xki7q-ezclx-znyd6-fnk6w-vkv5z-5lfwh-xym2i-otrrw-fqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 25
+  },
+  {
+    "key": "sh1",
+    "latitude": 59.3293,
+    "longitude": 18.0686,
+    "name": "Stockholm 1",
+    "node_providers": 1,
+    "owner": "Digital Realty",
+    "region": "Europe,SE,Stockholm",
+    "subnets": [
+      "2fq7c-slacv-26cgz-vzbx2-2jrcs-5edph-i5s2j-tck77-c3rlz-iobzx-mqe",
+      "4ecnw-byqwz-dtgss-ua2mh-pfvs7-c3lct-gtf4e-hnu75-j7eek-iifqm-sqe",
+      "4zbus-z2bmt-ilreg-xakz4-6tyre-hsqj4-slb4g-zjwqo-snjcc-iqphi-3qe",
+      "5kdm2-62fc6-fwnja-hutkz-ycsnm-4z33i-woh43-4cenu-ev7mi-gii6t-4ae",
+      "6pbhf-qzpdk-kuqbr-pklfa-5ehhf-jfjps-zsj6q-57nrl-kzhpd-mu7hc-vae",
+      "bkfrj-6k62g-dycql-7h53p-atvkj-zg4to-gaogh-netha-ptybj-ntsgw-rqe",
+      "brlsh-zidhj-3yy3e-6vqbz-7xnih-xeq2l-as5oc-g32c4-i5pdn-2wwof-oae",
+      "csyj4-zmann-ys6ge-3kzi6-onexi-obayx-2fvak-zersm-euci4-6pslt-lae",
+      "e66qm-3cydn-nkf4i-ml4rb-4ro6o-srm5s-x5hwq-hnprz-3meqp-s7vks-5qe",
+      "ejbmu-grnam-gk6ol-6irwa-htwoj-7ihfl-goimw-hlnvh-abms4-47v2e-zqe",
+      "eq6en-6jqla-fbu5s-daskr-h6hx2-376n5-iqabl-qgrng-gfqmv-n3yjr-mqe",
+      "fuqsr-in2lc-zbcjj-ydmcw-pzq7h-4xm2z-pto4i-dcyee-5z4rz-x63ji-nae",
+      "lspz2-jx4pu-k3e7p-znm7j-q4yum-ork6e-6w4q6-pijwq-znehu-4jabe-kqe",
+      "mpubz-g52jc-grhjo-5oze5-qcj74-sex34-omprz-ivnsm-qvvhr-rfzpv-vae",
+      "nl6hn-ja4yw-wvmpy-3z2jx-ymc34-pisx3-3cp5z-3oj4a-qzzny-jbsv3-4qe",
+      "opn46-zyspe-hhmyp-4zu6u-7sbrh-dok77-m7dch-im62f-vyimr-a3n2c-4ae",
+      "pae4o-o6dxf-xki7q-ezclx-znyd6-fnk6w-vkv5z-5lfwh-xym2i-otrrw-fqe",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "qdvhd-os4o2-zzrdw-xrcv4-gljou-eztdp-bj326-e6jgr-tkhuc-ql6v2-yqe",
+      "shefu-t3kr5-t5q3w-mqmdq-jabyv-vyvtf-cyyey-3kmo4-toyln-emubw-4qe",
+      "snjp4-xlbw4-mnbog-ddwy6-6ckfd-2w5a2-eipqo-7l436-pxqkh-l6fuv-vae",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe",
+      "w4asl-4nmyj-qnr7c-6cqq4-tkwmt-o26di-iupkq-vx4kt-asbrx-jzuxh-4ae"
+    ],
+    "total_nodes": 28
+  },
+  {
+    "key": "si1",
+    "latitude": 55.91061,
+    "longitude": 23.316347,
+    "name": "Siauliai 1",
+    "node_providers": 2,
+    "owner": "Bacloud",
+    "region": "Europe,LT,Siauliai",
+    "subnets": [
+      "4ecnw-byqwz-dtgss-ua2mh-pfvs7-c3lct-gtf4e-hnu75-j7eek-iifqm-sqe",
+      "qdvhd-os4o2-zzrdw-xrcv4-gljou-eztdp-bj326-e6jgr-tkhuc-ql6v2-yqe"
+    ],
+    "total_nodes": 2
+  },
+  {
+    "key": "sj1",
+    "latitude": 37.3517,
+    "longitude": -121.8819,
+    "name": "San Jose",
+    "node_providers": 12,
+    "owner": "INAP",
+    "region": "North America,US,California",
+    "subnets": [
+      "6pbhf-qzpdk-kuqbr-pklfa-5ehhf-jfjps-zsj6q-57nrl-kzhpd-mu7hc-vae",
+      "fuqsr-in2lc-zbcjj-ydmcw-pzq7h-4xm2z-pto4i-dcyee-5z4rz-x63ji-nae",
+      "gmq5v-hbozq-uui6y-o55wc-ihop3-562wb-3qspg-nnijg-npqp5-he3cj-3ae",
+      "k44fs-gm4pv-afozh-rs7zw-cg32n-u7xov-xqyx3-2pw5q-eucnu-cosd4-uqe",
+      "lspz2-jx4pu-k3e7p-znm7j-q4yum-ork6e-6w4q6-pijwq-znehu-4jabe-kqe",
+      "opn46-zyspe-hhmyp-4zu6u-7sbrh-dok77-m7dch-im62f-vyimr-a3n2c-4ae",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe"
+    ],
+    "total_nodes": 24
+  },
+  {
+    "key": "sj2",
+    "latitude": 37.2747,
+    "longitude": -121.9158,
+    "name": "San Jose",
+    "node_providers": 1,
+    "owner": "Digital Realty",
+    "region": "North America,US,California",
+    "subnets": [
+      "mpubz-g52jc-grhjo-5oze5-qcj74-sex34-omprz-ivnsm-qvvhr-rfzpv-vae"
+    ],
+    "total_nodes": 27
+  },
+  {
+    "key": "sj3",
+    "latitude": 37.28977,
+    "longitude": -121.98804,
+    "name": "California 3",
+    "node_providers": 1,
+    "owner": "InfoObjects",
+    "region": "North America,US,California",
+    "subnets": [],
+    "total_nodes": 2
+  },
+  {
+    "key": "sl1",
+    "latitude": 37.511,
+    "longitude": 127.037,
+    "name": "Seoul 1",
+    "node_providers": 1,
+    "owner": "Megazone Cloud",
+    "region": "Asia,KR,Seoul",
+    "subnets": [
+      "brlsh-zidhj-3yy3e-6vqbz-7xnih-xeq2l-as5oc-g32c4-i5pdn-2wwof-oae",
+      "ejbmu-grnam-gk6ol-6irwa-htwoj-7ihfl-goimw-hlnvh-abms4-47v2e-zqe",
+      "lhg73-sax6z-2zank-6oer2-575lz-zgbxx-ptudx-5korm-fy7we-kh4hl-pqe",
+      "lspz2-jx4pu-k3e7p-znm7j-q4yum-ork6e-6w4q6-pijwq-znehu-4jabe-kqe",
+      "o3ow2-2ipam-6fcjo-3j5vt-fzbge-2g7my-5fz2m-p4o2t-dwlc4-gt2q7-5ae",
+      "pae4o-o6dxf-xki7q-ezclx-znyd6-fnk6w-vkv5z-5lfwh-xym2i-otrrw-fqe",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 25
+  },
+  {
+    "key": "st1",
+    "latitude": 39.0038,
+    "longitude": -77.4083,
+    "name": "Sterling",
+    "node_providers": 1,
+    "owner": "CyrusOne",
+    "region": "North America,US,Virginia",
+    "subnets": [
+      "2fq7c-slacv-26cgz-vzbx2-2jrcs-5edph-i5s2j-tck77-c3rlz-iobzx-mqe",
+      "ejbmu-grnam-gk6ol-6irwa-htwoj-7ihfl-goimw-hlnvh-abms4-47v2e-zqe"
+    ],
+    "total_nodes": 12
+  },
+  {
+    "key": "ta1",
+    "latitude": 59.45709,
+    "longitude": 24.69322,
+    "name": "Tallinn 1",
+    "node_providers": 2,
+    "owner": "InfonetDC",
+    "region": "Europe,EE,Tallinn",
+    "subnets": [],
+    "total_nodes": 2
+  },
+  {
+    "key": "ta2",
+    "latitude": 59.40129,
+    "longitude": 24.699966,
+    "name": "Tallinn 2",
+    "node_providers": 3,
+    "owner": "Telia DC",
+    "region": "Europe,EE,Tallinn",
+    "subnets": [
+      "lhg73-sax6z-2zank-6oer2-575lz-zgbxx-ptudx-5korm-fy7we-kh4hl-pqe",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe"
+    ],
+    "total_nodes": 3
+  },
+  {
+    "key": "tb1",
+    "latitude": 41.722145,
+    "longitude": 44.79061,
+    "name": "Tbilisi 1",
+    "node_providers": 1,
+    "owner": "Cloud9",
+    "region": "Asia,GE,Tbilisi",
+    "subnets": [
+      "gmq5v-hbozq-uui6y-o55wc-ihop3-562wb-3qspg-nnijg-npqp5-he3cj-3ae",
+      "io67a-2jmkw-zup3h-snbwi-g6a5n-rm5dn-b6png-lvdpl-nqnto-yih6l-gqe",
+      "k44fs-gm4pv-afozh-rs7zw-cg32n-u7xov-xqyx3-2pw5q-eucnu-cosd4-uqe",
+      "lhg73-sax6z-2zank-6oer2-575lz-zgbxx-ptudx-5korm-fy7we-kh4hl-pqe",
+      "o3ow2-2ipam-6fcjo-3j5vt-fzbge-2g7my-5fz2m-p4o2t-dwlc4-gt2q7-5ae",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe",
+      "w4rem-dv5e3-widiz-wbpea-kbttk-mnzfm-tzrc7-svcj3-kbxyb-zamch-hqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 18
+  },
+  {
+    "key": "to1",
+    "latitude": 43.6458,
+    "longitude": -79.4461,
+    "name": "Toronto",
+    "node_providers": 1,
+    "owner": "Cyxtera",
+    "region": "North America,CA,Ontario",
+    "subnets": [
+      "eq6en-6jqla-fbu5s-daskr-h6hx2-376n5-iqabl-qgrng-gfqmv-n3yjr-mqe",
+      "gmq5v-hbozq-uui6y-o55wc-ihop3-562wb-3qspg-nnijg-npqp5-he3cj-3ae",
+      "k44fs-gm4pv-afozh-rs7zw-cg32n-u7xov-xqyx3-2pw5q-eucnu-cosd4-uqe",
+      "qdvhd-os4o2-zzrdw-xrcv4-gljou-eztdp-bj326-e6jgr-tkhuc-ql6v2-yqe",
+      "qxesv-zoxpm-vc64m-zxguk-5sj74-35vrb-tbgwg-pcird-5gr26-62oxl-cae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 26
+  },
+  {
+    "key": "to2",
+    "latitude": 43.6597,
+    "longitude": -79.3695,
+    "name": "Toronto 2",
+    "node_providers": 1,
+    "owner": "Cyxtera",
+    "region": "North America,CA,Ontario",
+    "subnets": [
+      "4ecnw-byqwz-dtgss-ua2mh-pfvs7-c3lct-gtf4e-hnu75-j7eek-iifqm-sqe",
+      "e66qm-3cydn-nkf4i-ml4rb-4ro6o-srm5s-x5hwq-hnprz-3meqp-s7vks-5qe",
+      "fuqsr-in2lc-zbcjj-ydmcw-pzq7h-4xm2z-pto4i-dcyee-5z4rz-x63ji-nae",
+      "jtdsg-3h6gi-hs7o5-z2soi-43w3z-soyl3-ajnp3-ekni5-sw553-5kw67-nqe",
+      "lspz2-jx4pu-k3e7p-znm7j-q4yum-ork6e-6w4q6-pijwq-znehu-4jabe-kqe",
+      "o3ow2-2ipam-6fcjo-3j5vt-fzbge-2g7my-5fz2m-p4o2t-dwlc4-gt2q7-5ae",
+      "opn46-zyspe-hhmyp-4zu6u-7sbrh-dok77-m7dch-im62f-vyimr-a3n2c-4ae",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "w4asl-4nmyj-qnr7c-6cqq4-tkwmt-o26di-iupkq-vx4kt-asbrx-jzuxh-4ae"
+    ],
+    "total_nodes": 28
+  },
+  {
+    "key": "tp1",
+    "latitude": 27.9506,
+    "longitude": -82.4572,
+    "name": "Tampa",
+    "node_providers": 7,
+    "owner": "Flexential",
+    "region": "North America,US,Florida",
+    "subnets": [
+      "2fq7c-slacv-26cgz-vzbx2-2jrcs-5edph-i5s2j-tck77-c3rlz-iobzx-mqe",
+      "3hhby-wmtmw-umt4t-7ieyg-bbiig-xiylg-sblrt-voxgt-bqckd-a75bf-rqe",
+      "4ecnw-byqwz-dtgss-ua2mh-pfvs7-c3lct-gtf4e-hnu75-j7eek-iifqm-sqe",
+      "fuqsr-in2lc-zbcjj-ydmcw-pzq7h-4xm2z-pto4i-dcyee-5z4rz-x63ji-nae",
+      "mpubz-g52jc-grhjo-5oze5-qcj74-sex34-omprz-ivnsm-qvvhr-rfzpv-vae",
+      "qxesv-zoxpm-vc64m-zxguk-5sj74-35vrb-tbgwg-pcird-5gr26-62oxl-cae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe"
+    ],
+    "total_nodes": 26
+  },
+  {
+    "key": "tv1",
+    "latitude": 32.080303,
+    "longitude": 34.849342,
+    "name": "Tel Aviv 1",
+    "node_providers": 1,
+    "owner": "Interhost",
+    "region": "Asia,IL,Tel Aviv",
+    "subnets": [
+      "5kdm2-62fc6-fwnja-hutkz-ycsnm-4z33i-woh43-4cenu-ev7mi-gii6t-4ae",
+      "6pbhf-qzpdk-kuqbr-pklfa-5ehhf-jfjps-zsj6q-57nrl-kzhpd-mu7hc-vae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 8
+  },
+  {
+    "key": "ty1",
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "name": "Tokyo",
+    "node_providers": 1,
+    "owner": "Equinix",
+    "region": "Asia,JP,Tokyo",
+    "subnets": [
+      "2fq7c-slacv-26cgz-vzbx2-2jrcs-5edph-i5s2j-tck77-c3rlz-iobzx-mqe",
+      "cv73p-6v7zi-u67oy-7jc3h-qspsz-g5lrj-4fn7k-xrax3-thek2-sl46v-jae",
+      "ejbmu-grnam-gk6ol-6irwa-htwoj-7ihfl-goimw-hlnvh-abms4-47v2e-zqe",
+      "lhg73-sax6z-2zank-6oer2-575lz-zgbxx-ptudx-5korm-fy7we-kh4hl-pqe",
+      "o3ow2-2ipam-6fcjo-3j5vt-fzbge-2g7my-5fz2m-p4o2t-dwlc4-gt2q7-5ae",
+      "opn46-zyspe-hhmyp-4zu6u-7sbrh-dok77-m7dch-im62f-vyimr-a3n2c-4ae",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe",
+      "w4asl-4nmyj-qnr7c-6cqq4-tkwmt-o26di-iupkq-vx4kt-asbrx-jzuxh-4ae"
+    ],
+    "total_nodes": 22
+  },
+  {
+    "key": "ty2",
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "name": "Tokyo 2",
+    "node_providers": 1,
+    "owner": "Equinix",
+    "region": "Asia,JP,Tokyo",
+    "subnets": [
+      "3hhby-wmtmw-umt4t-7ieyg-bbiig-xiylg-sblrt-voxgt-bqckd-a75bf-rqe",
+      "4ecnw-byqwz-dtgss-ua2mh-pfvs7-c3lct-gtf4e-hnu75-j7eek-iifqm-sqe",
+      "6pbhf-qzpdk-kuqbr-pklfa-5ehhf-jfjps-zsj6q-57nrl-kzhpd-mu7hc-vae",
+      "csyj4-zmann-ys6ge-3kzi6-onexi-obayx-2fvak-zersm-euci4-6pslt-lae",
+      "e66qm-3cydn-nkf4i-ml4rb-4ro6o-srm5s-x5hwq-hnprz-3meqp-s7vks-5qe",
+      "eq6en-6jqla-fbu5s-daskr-h6hx2-376n5-iqabl-qgrng-gfqmv-n3yjr-mqe",
+      "io67a-2jmkw-zup3h-snbwi-g6a5n-rm5dn-b6png-lvdpl-nqnto-yih6l-gqe",
+      "k44fs-gm4pv-afozh-rs7zw-cg32n-u7xov-xqyx3-2pw5q-eucnu-cosd4-uqe",
+      "mpubz-g52jc-grhjo-5oze5-qcj74-sex34-omprz-ivnsm-qvvhr-rfzpv-vae",
+      "pae4o-o6dxf-xki7q-ezclx-znyd6-fnk6w-vkv5z-5lfwh-xym2i-otrrw-fqe",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "qdvhd-os4o2-zzrdw-xrcv4-gljou-eztdp-bj326-e6jgr-tkhuc-ql6v2-yqe",
+      "qxesv-zoxpm-vc64m-zxguk-5sj74-35vrb-tbgwg-pcird-5gr26-62oxl-cae",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 23
+  },
+  {
+    "key": "ty3",
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "name": "Tokyo 3",
+    "node_providers": 1,
+    "owner": "Equinix",
+    "region": "Asia,JP,Tokyo",
+    "subnets": [
+      "4zbus-z2bmt-ilreg-xakz4-6tyre-hsqj4-slb4g-zjwqo-snjcc-iqphi-3qe",
+      "5kdm2-62fc6-fwnja-hutkz-ycsnm-4z33i-woh43-4cenu-ev7mi-gii6t-4ae",
+      "gmq5v-hbozq-uui6y-o55wc-ihop3-562wb-3qspg-nnijg-npqp5-he3cj-3ae",
+      "jtdsg-3h6gi-hs7o5-z2soi-43w3z-soyl3-ajnp3-ekni5-sw553-5kw67-nqe",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe"
+    ],
+    "total_nodes": 14
+  },
+  {
+    "key": "vl2",
+    "latitude": 54.611744,
+    "longitude": 25.12092,
+    "name": "Vilnius 2",
+    "node_providers": 1,
+    "owner": "Data Inn",
+    "region": "Europe,LT,Vilnius",
+    "subnets": [
+      "bkfrj-6k62g-dycql-7h53p-atvkj-zg4to-gaogh-netha-ptybj-ntsgw-rqe",
+      "e66qm-3cydn-nkf4i-ml4rb-4ro6o-srm5s-x5hwq-hnprz-3meqp-s7vks-5qe"
+    ],
+    "total_nodes": 7
+  },
+  {
+    "key": "wa1",
+    "latitude": 52.22744,
+    "longitude": 21.00335,
+    "name": "Warszawa 1",
+    "node_providers": 1,
+    "owner": "LIM DC",
+    "region": "Europe,PL,Warszawa",
+    "subnets": [],
+    "total_nodes": 1
+  },
+  {
+    "key": "wa2",
+    "latitude": 52.22709,
+    "longitude": 21.001675,
+    "name": "Warszawa 2",
+    "node_providers": 1,
+    "owner": "Central Tower DC",
+    "region": "Europe,PL,Warszawa",
+    "subnets": [],
+    "total_nodes": 1
+  },
+  {
+    "key": "wa3",
+    "latitude": 52.194801330566406,
+    "longitude": 20.925399780273438,
+    "name": "Warszawa 3",
+    "node_providers": 3,
+    "owner": "DataHouse",
+    "region": "Europe,PL,Warszawa",
+    "subnets": [],
+    "total_nodes": 3
+  },
+  {
+    "key": "wy1",
+    "latitude": 52.613052,
+    "longitude": 21.427597,
+    "name": "Wyszkow 1",
+    "node_providers": 0,
+    "owner": "Mevspace",
+    "region": "Europe,PL,Wyszkow",
+    "subnets": [],
+    "total_nodes": 0
+  },
+  {
+    "key": "zg1",
+    "latitude": 45.803616,
+    "longitude": 15.944661,
+    "name": "Zagreb 1",
+    "node_providers": 1,
+    "owner": "Anonstake",
+    "region": "Europe,HR,Zagreb",
+    "subnets": [
+      "6pbhf-qzpdk-kuqbr-pklfa-5ehhf-jfjps-zsj6q-57nrl-kzhpd-mu7hc-vae",
+      "jtdsg-3h6gi-hs7o5-z2soi-43w3z-soyl3-ajnp3-ekni5-sw553-5kw67-nqe"
+    ],
+    "total_nodes": 4
+  },
+  {
+    "key": "zh2",
+    "latitude": 47.3744,
+    "longitude": 8.541,
+    "name": "Zurich 2",
+    "node_providers": 1,
+    "owner": "Everyware",
+    "region": "Europe,CH,Zurich",
+    "subnets": [
+      "3hhby-wmtmw-umt4t-7ieyg-bbiig-xiylg-sblrt-voxgt-bqckd-a75bf-rqe",
+      "cv73p-6v7zi-u67oy-7jc3h-qspsz-g5lrj-4fn7k-xrax3-thek2-sl46v-jae",
+      "gmq5v-hbozq-uui6y-o55wc-ihop3-562wb-3qspg-nnijg-npqp5-he3cj-3ae",
+      "jtdsg-3h6gi-hs7o5-z2soi-43w3z-soyl3-ajnp3-ekni5-sw553-5kw67-nqe",
+      "k44fs-gm4pv-afozh-rs7zw-cg32n-u7xov-xqyx3-2pw5q-eucnu-cosd4-uqe",
+      "o3ow2-2ipam-6fcjo-3j5vt-fzbge-2g7my-5fz2m-p4o2t-dwlc4-gt2q7-5ae",
+      "pjljw-kztyl-46ud4-ofrj6-nzkhm-3n4nt-wi3jt-ypmav-ijqkt-gjf66-uae",
+      "qxesv-zoxpm-vc64m-zxguk-5sj74-35vrb-tbgwg-pcird-5gr26-62oxl-cae",
+      "tdb26-jop6k-aogll-7ltgs-eruif-6kk7m-qpktf-gdiqx-mxtrf-vb5e6-eqe",
+      "yinp6-35cfo-wgcd2-oc4ty-2kqpf-t4dul-rfk33-fsq3r-mfmua-m2ngh-jqe"
+    ],
+    "total_nodes": 13
+  },
+  {
+    "key": "zh3",
+    "latitude": 47.368,
+    "longitude": 8.5193,
+    "name": "Zurich 3",
+    "node_providers": 1,
+    "owner": "Nine.Ch",
+    "region": "Europe,CH,Zurich",
+    "subnets": [
+      "bkfrj-6k62g-dycql-7h53p-atvkj-zg4to-gaogh-netha-ptybj-ntsgw-rqe",
+      "pzp6e-ekpqk-3c5x7-2h6so-njoeq-mt45d-h3h6c-q3mxf-vpeq5-fk5o7-yae",
+      "uzr34-akd3s-xrdag-3ql62-ocgoh-ld2ao-tamcv-54e7j-krwgb-2gm4z-oqe"
+    ],
+    "total_nodes": 14
+  },
+  {
+    "key": "zh4",
+    "latitude": 47.3858,
+    "longitude": 8.5273,
+    "name": "Zurich 4",
+    "node_providers": 1,
+    "owner": "Nine.Ch",
+    "region": "Europe,CH,Zurich",
+    "subnets": [
+      "4zbus-z2bmt-ilreg-xakz4-6tyre-hsqj4-slb4g-zjwqo-snjcc-iqphi-3qe",
+      "5kdm2-62fc6-fwnja-hutkz-ycsnm-4z33i-woh43-4cenu-ev7mi-gii6t-4ae",
+      "fuqsr-in2lc-zbcjj-ydmcw-pzq7h-4xm2z-pto4i-dcyee-5z4rz-x63ji-nae",
+      "io67a-2jmkw-zup3h-snbwi-g6a5n-rm5dn-b6png-lvdpl-nqnto-yih6l-gqe",
+      "lspz2-jx4pu-k3e7p-znm7j-q4yum-ork6e-6w4q6-pijwq-znehu-4jabe-kqe",
+      "mpubz-g52jc-grhjo-5oze5-qcj74-sex34-omprz-ivnsm-qvvhr-rfzpv-vae",
+      "nl6hn-ja4yw-wvmpy-3z2jx-ymc34-pisx3-3cp5z-3oj4a-qzzny-jbsv3-4qe",
+      "pae4o-o6dxf-xki7q-ezclx-znyd6-fnk6w-vkv5z-5lfwh-xym2i-otrrw-fqe",
+      "qdvhd-os4o2-zzrdw-xrcv4-gljou-eztdp-bj326-e6jgr-tkhuc-ql6v2-yqe",
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae",
+      "yinp6-35cfo-wgcd2-oc4ty-2kqpf-t4dul-rfk33-fsq3r-mfmua-m2ngh-jqe"
+    ],
+    "total_nodes": 27
+  },
+  {
+    "key": "zh5",
+    "latitude": 47.3858,
+    "longitude": 8.5273,
+    "name": "Zurich 5",
+    "node_providers": 2,
+    "owner": "Green.ch",
+    "region": "Europe,CH,Zurich",
+    "subnets": [
+      "2fq7c-slacv-26cgz-vzbx2-2jrcs-5edph-i5s2j-tck77-c3rlz-iobzx-mqe",
+      "4zbus-z2bmt-ilreg-xakz4-6tyre-hsqj4-slb4g-zjwqo-snjcc-iqphi-3qe",
+      "bkfrj-6k62g-dycql-7h53p-atvkj-zg4to-gaogh-netha-ptybj-ntsgw-rqe",
+      "brlsh-zidhj-3yy3e-6vqbz-7xnih-xeq2l-as5oc-g32c4-i5pdn-2wwof-oae",
+      "qxesv-zoxpm-vc64m-zxguk-5sj74-35vrb-tbgwg-pcird-5gr26-62oxl-cae",
+      "w4rem-dv5e3-widiz-wbpea-kbttk-mnzfm-tzrc7-svcj3-kbxyb-zamch-hqe"
+    ],
+    "total_nodes": 28
+  },
+  {
+    "key": "zh6",
+    "latitude": 47.3858,
+    "longitude": 8.5273,
+    "name": "Zurich 6",
+    "node_providers": 1,
+    "owner": "Green.ch",
+    "region": "Europe,CH,Zurich",
+    "subnets": [
+      "bkfrj-6k62g-dycql-7h53p-atvkj-zg4to-gaogh-netha-ptybj-ntsgw-rqe",
+      "csyj4-zmann-ys6ge-3kzi6-onexi-obayx-2fvak-zersm-euci4-6pslt-lae",
+      "e66qm-3cydn-nkf4i-ml4rb-4ro6o-srm5s-x5hwq-hnprz-3meqp-s7vks-5qe",
+      "opn46-zyspe-hhmyp-4zu6u-7sbrh-dok77-m7dch-im62f-vyimr-a3n2c-4ae",
+      "shefu-t3kr5-t5q3w-mqmdq-jabyv-vyvtf-cyyey-3kmo4-toyln-emubw-4qe"
+    ],
+    "total_nodes": 28
+  },
+  {
+    "key": "zh7",
+    "latitude": 47.3858,
+    "longitude": 8.5273,
+    "name": "Zurich 7",
+    "node_providers": 1,
+    "owner": "Green.ch",
+    "region": "Europe,CH,Zurich",
+    "subnets": [
+      "x33ed-h457x-bsgyx-oqxqf-6pzwv-wkhzr-rm2j3-npodi-purzm-n66cg-gae"
+    ],
+    "total_nodes": 14
+  },
+  {
+    "key": "zh9",
+    "latitude": 47.48210906982422,
+    "longitude": 8.461535453796387,
+    "name": "Zurich 9",
+    "node_providers": 0,
+    "owner": "Green",
+    "region": "Europe,CH,Zurich",
+    "subnets": [],
+    "total_nodes": 0
+  }
+]

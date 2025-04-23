@@ -20,6 +20,12 @@
    $ python3 probe.py
    ```
 
+## How to start frontend:
+```
+$ npm install
+$ npm run dev
+```
+
 ## Architectural diagram:
 
 ![Architectural Diagram](assets/ic_node_monitoring_architectural_diagram.png)
