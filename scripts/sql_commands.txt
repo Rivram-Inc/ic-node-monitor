@@ -1,0 +1,137 @@
+SELECT create_hypertable('ping_results', by_range('ping_at_datetime'), migrate_data => true);
+CREATE INDEX ip_address_idx ON public.ping_results (ip_address);
+select * from ping_results order by ping_at_datetime desc limit 5;
+
+CREATE MATERIALIZED VIEW one_hour_ping_results
+WITH (timescaledb.continuous) AS
+SELECT time_bucket('1 hour', ping_at_datetime) AS bucket,
+   count(*) AS ping_count,
+   sum(packets_sent) AS total_packets_sent,
+   sum(packets_received) AS total_packets_received,
+   avg(packet_loss) AS avg_packet_loss,
+   avg(avg_rtt) AS avg_avg_rtt,
+   count(
+         CASE
+            WHEN (avg_rtt > 200) THEN ip_address
+            ELSE NULL
+         END) AS high_avg_rtt
+  FROM ping_results
+GROUP BY bucket;
+
+SELECT add_continuous_aggregate_policy('one_hour_ping_results',
+   start_offset => INTERVAL '3 hours',
+   end_offset => INTERVAL '1 hour',
+   schedule_interval => INTERVAL '1 hour');
+
+CREATE MATERIALIZED VIEW one_hour_ip_addresses
+WITH (timescaledb.continuous) AS
+SELECT time_bucket('1 hour', ping_at_datetime) AS bucket,
+   ip_address,
+   probe_name,
+   count(*) AS ping_count,
+   sum(packets_sent) AS ip_address_packets_sent,
+   sum(packets_received) AS ip_address_packets_received,
+   avg(avg_rtt) AS ip_address_avg_avg_rtt,
+   avg(packet_loss) AS ip_address_avg_packet_loss,
+   min(avg_rtt) FILTER (WHERE avg_rtt > 0) AS ip_address_min_avg_rtt,
+   max(avg_rtt) FILTER (WHERE avg_rtt > 0) AS ip_address_max_avg_rtt,
+   min(packet_loss) AS ip_address_min_packet_loss,
+   max(packet_loss) AS ip_address_max_packet_loss
+FROM ping_results
+GROUP BY bucket, ip_address, probe_name;
+
+SELECT add_continuous_aggregate_policy('one_hour_ip_addresses',
+   start_offset => INTERVAL '3 hours',
+   end_offset => INTERVAL '1 hour',
+   schedule_interval => INTERVAL '1 hour');
+   
+CREATE MATERIALIZED VIEW twentyfour_hours_ip_addresses
+WITH (timescaledb.continuous) AS
+SELECT time_bucket('24 hours', ping_at_datetime) AS bucket,
+   ip_address,
+   count(*) AS ping_count,
+   sum(packets_sent) AS ip_address_packets_sent,
+   sum(packets_received) AS ip_address_packets_received,
+   avg(avg_rtt) AS ip_address_avg_avg_rtt,
+   avg(packet_loss) AS ip_address_avg_packet_loss,
+   min(avg_rtt) FILTER (WHERE avg_rtt > 0) AS ip_address_min_avg_rtt,
+   max(avg_rtt) FILTER (WHERE avg_rtt > 0) AS ip_address_max_avg_rtt,
+   min(packet_loss) AS ip_address_min_packet_loss,
+   max(packet_loss) AS ip_address_max_packet_loss
+FROM ping_results
+GROUP BY bucket, ip_address;
+
+SELECT add_continuous_aggregate_policy('twentyfour_hours_ip_addresses',
+   start_offset => INTERVAL '48 hours',
+   end_offset => INTERVAL '0 hours',
+   schedule_interval => INTERVAL '1 hour');
+ 
+CREATE MATERIALIZED VIEW thirty_days_ip_addresses
+WITH (timescaledb.continuous) AS
+SELECT time_bucket('30 days', ping_at_datetime) AS bucket,
+   ip_address,
+   count(*) AS ping_count,
+   sum(packets_sent) AS ip_address_packets_sent,
+   sum(packets_received) AS ip_address_packets_received,
+   avg(avg_rtt) AS ip_address_avg_avg_rtt,
+   avg(packet_loss) AS ip_address_avg_packet_loss,
+   min(avg_rtt) FILTER (WHERE avg_rtt > 0) AS ip_address_min_avg_rtt,
+   max(avg_rtt) FILTER (WHERE avg_rtt > 0) AS ip_address_max_avg_rtt,
+   min(packet_loss) AS ip_address_min_packet_loss,
+   max(packet_loss) AS ip_address_max_packet_loss
+FROM ping_results
+GROUP BY bucket, ip_address;
+
+SELECT add_continuous_aggregate_policy('thirty_days_ip_addresses',
+   start_offset => INTERVAL '60 days',
+   end_offset => INTERVAL '0 days',
+   schedule_interval => INTERVAL '1 hour');
+    
+CREATE MATERIALIZED VIEW seven_days_ip_addresses
+WITH (timescaledb.continuous) AS
+SELECT time_bucket('7 days', ping_at_datetime) AS bucket,
+   ip_address,
+   count(*) AS ping_count,
+   sum(packets_sent) AS ip_address_packets_sent,
+   sum(packets_received) AS ip_address_packets_received,
+   avg(avg_rtt) AS ip_address_avg_avg_rtt,
+   avg(packet_loss) AS ip_address_avg_packet_loss,
+   min(avg_rtt) FILTER (WHERE avg_rtt > 0) AS ip_address_min_avg_rtt,
+   max(avg_rtt) FILTER (WHERE avg_rtt > 0) AS ip_address_max_avg_rtt,
+   min(packet_loss) AS ip_address_min_packet_loss,
+   max(packet_loss) AS ip_address_max_packet_loss
+FROM ping_results
+GROUP BY bucket, ip_address;
+
+SELECT add_continuous_aggregate_policy('seven_days_ip_addresses',
+   start_offset => INTERVAL '14 days',
+   end_offset => INTERVAL '0 days',
+   schedule_interval => INTERVAL '1 hour');
+
+CREATE MATERIALIZED VIEW thirty_days_node_providers
+WITH (timescaledb.continuous) AS
+SELECT 
+    time_bucket('30 days', pr.ping_at_datetime) AS bucket,
+    n.node_provider_id,
+    n.node_provider_name,
+    SUM(pr.packets_sent) AS node_provider_total_packets_sent,
+    SUM(pr.packets_received) AS node_provider_total_packets_received,
+    AVG(pr.avg_rtt) AS node_provider_avg_avg_rtt,
+    AVG(pr.packet_loss) AS node_provider_avg_packet_loss,
+    MIN(pr.avg_rtt) AS node_provider_min_avg_rtt,
+    MAX(pr.avg_rtt) AS node_provider_max_avg_rtt,
+    MIN(pr.packet_loss) AS node_provider_min_packet_loss,
+    MAX(pr.packet_loss) AS node_provider_max_packet_loss
+FROM 
+    ping_results pr
+JOIN 
+    nodes n
+ON 
+    pr.ip_address = n.ip_address
+GROUP BY 
+    bucket, n.node_provider_id, n.node_provider_name;
+
+SELECT add_continuous_aggregate_policy('thirty_days_node_providers',
+   start_offset => INTERVAL '60 days',
+   end_offset => INTERVAL '0 days',
+   schedule_interval => INTERVAL '1 hour');
