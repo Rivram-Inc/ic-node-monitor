@@ -1,6 +1,30 @@
+import { withSentryConfig } from "@sentry/nextjs";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
 };
 
-export default nextConfig;
+// Check if Sentry should be enabled
+const shouldEnableSentry =
+  process.env.ENV === "prod" &&
+  !!process.env.SENTRY_ORG &&
+  !!process.env.SENTRY_PROJECT;
+
+// Only wrap with Sentry config if conditions are met
+const configWithSentry = shouldEnableSentry
+  ? withSentryConfig(nextConfig, {
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+
+      // Auth token is optional - only used if available
+      // authToken: process.env.SENTRY_AUTH_TOKEN,
+
+      silent: !process.env.CI,
+      widenClientFileUpload: true,
+      tunnelRoute: "/monitoring",
+      disableLogger: true,
+      automaticVercelMonitors: true,
+    })
+  : nextConfig;
+
+export default configWithSentry;

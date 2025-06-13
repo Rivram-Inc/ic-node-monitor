@@ -1,18 +1,10 @@
 "use client";
-import React from "react";
-import { useRouter } from "next/navigation";
-import Loader from "@/components/Loader";
+
+import { redirect } from "next/navigation";
 
 const App = () => {
-  const router = useRouter();
-
-  router.push("/app/node_providers");
-
-  return (
-    <div className="flex w-full max-h-80 justify-center items-center">
-      <Loader />
-    </div>
-  );
+  // This will redirect immediately during server-side rendering
+  redirect("/app/node_providers");
 };
 
 export default App;
