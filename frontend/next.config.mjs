@@ -2,6 +2,23 @@ import { withSentryConfig } from "@sentry/nextjs";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
+  webpack: (config, { isServer }) => {
+    // Only exclude from client-side bundle
+    if (!isServer) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        heapdump: false,
+      };
+    }
+
+    // For server-side, mark as external to avoid bundling
+    if (isServer) {
+      config.externals = config.externals || [];
+      config.externals.push("heapdump");
+    }
+
+    return config;
+  },
 };
 
 // Check if Sentry should be enabled
