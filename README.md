@@ -94,6 +94,7 @@ Each component requires specific environment variables for proper configuration:
 
 Key configuration points:
 - Ensure `JWT_SECRET_KEY` and `ALGORITHM` are identical between the ingestion server and metric probe
+- `ALGORITHM` can be set to `HS256` (default JWT signing algorithm)
 - Set `ENVIRONMENT` to `"dev"` for development or `"prod"` for production deployment
 - Configure database connection parameters according to your setup
 - Set `MASTER_INGESTION_URL` in the probe configuration to point to your ingestion server
