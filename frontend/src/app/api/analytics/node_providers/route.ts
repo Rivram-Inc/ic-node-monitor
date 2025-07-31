@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ThirtyDaysNodeProviders } from "@/app/database/models";
+import { Nodes } from "@/app/database/models";
 import db from "@/app/database/config/database";
-import { QueryTypes, fn, col } from "sequelize";
+import { QueryTypes } from "sequelize";
 
 const calculateUptime = (packetsReceived: string, packetsSent: string) => {
   return (parseInt(packetsReceived) * 100) / parseInt(packetsSent);
@@ -16,40 +16,64 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get("limit")) || 10; // Default limit to 10 if not provided
     const offset = (page - 1) * limit;
 
+    // First, get unique node providers from the Nodes table (always up-to-date)
     const [totalCount, nodeProviderResults] = await Promise.all([
-      ThirtyDaysNodeProviders.count({
+      Nodes.count({
         distinct: true,
         col: "node_provider_id",
       }),
-      ThirtyDaysNodeProviders.findAll({
-        attributes: [
-          "node_provider_id",
-          "node_provider_name",
-          [fn("MAX", col("bucket")), "latest_bucket"],
-          [
-            fn("SUM", col("node_provider_total_packets_sent")),
-            "node_provider_total_packets_sent",
-          ],
-          [
-            fn("SUM", col("node_provider_total_packets_received")),
-            "node_provider_total_packets_received",
-          ],
-        ],
-        group: ["node_provider_id", "node_provider_name"],
-        order: [["latest_bucket", "DESC"]],
-        offset: offset,
-        limit: limit,
-        raw: true,
-      }),
+      db.query(
+        `
+        SELECT 
+          n.node_provider_id,
+          n.node_provider_name,
+          COALESCE(tdnp.latest_bucket, NULL) as latest_bucket,
+          COALESCE(tdnp.node_provider_total_packets_sent, 0) as node_provider_total_packets_sent,
+          COALESCE(tdnp.node_provider_total_packets_received, 0) as node_provider_total_packets_received
+        FROM (
+          SELECT DISTINCT 
+            node_provider_id, 
+            node_provider_name
+          FROM nodes
+          ORDER BY node_provider_id
+          LIMIT :limit OFFSET :offset
+        ) n
+        LEFT JOIN (
+          SELECT 
+            node_provider_id,
+            MAX(bucket) as latest_bucket,
+            SUM(node_provider_total_packets_sent) as node_provider_total_packets_sent,
+            SUM(node_provider_total_packets_received) as node_provider_total_packets_received
+          FROM thirty_days_node_providers
+          GROUP BY node_provider_id
+        ) tdnp ON n.node_provider_id = tdnp.node_provider_id
+        ORDER BY tdnp.latest_bucket DESC NULLS LAST, n.node_provider_id
+      `,
+        {
+          replacements: { limit, offset },
+          type: QueryTypes.SELECT,
+        }
+      ),
     ]);
 
     const nodeProviders = nodeProviderResults.map((nodeProvider: any) => {
+      const uptime =
+        nodeProvider.node_provider_total_packets_sent > 0
+          ? calculateUptime(
+              nodeProvider.node_provider_total_packets_received,
+              nodeProvider.node_provider_total_packets_sent
+            )
+          : 0;
+
       return {
-        ...nodeProvider,
-        uptime_30d: calculateUptime(
+        node_provider_id: nodeProvider.node_provider_id,
+        node_provider_name: nodeProvider.node_provider_name,
+        latest_bucket: nodeProvider.latest_bucket,
+        node_provider_total_packets_sent:
+          nodeProvider.node_provider_total_packets_sent,
+        node_provider_total_packets_received:
           nodeProvider.node_provider_total_packets_received,
-          nodeProvider.node_provider_total_packets_sent
-        ),
+        uptime_30d: uptime,
       };
     });
 

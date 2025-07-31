@@ -25,50 +25,40 @@ import {
 } from "@/components/ui/table";
 import { useRouter } from "next/navigation";
 
-export enum UptimeType {
-  PING = "PING",
+// Simplified and aligned interface for node providers
+export interface NodeProvider {
+  node_provider_id: string;
+  node_provider_name: string;
+  uptime_30d: number;
 }
 
-export type UptimeCheckTableDataRow = {
-  id: string;
-  site_name: string;
-  tags: string[];
-  // type: UptimeType;
-  type: string;
-  uptime: number;
-  up_since: number;
-  respnose_time?: number;
-  last_response_time?: number;
-  node_id?: number;
-  node_provider_name?: string;
-  region?: string;
-  node_provider_id: string;
-  avg_rtt_30d: string;
-};
-
-type PaginationType = {
+// Pagination interface
+interface PaginationState {
   totalItems: number;
   currentPage: number;
   totalPages: number;
   pageSize: number;
-};
+}
 
-type NodeProvidersListTableProps = {
-  nodes: UptimeCheckTableDataRow[];
+// Component props interface
+interface NodeProvidersListTableProps {
+  nodes: NodeProvider[];
   fetchingUptimes: boolean;
-  pagination: PaginationType;
-  fetchNextPage: () => void;
+  pagination: PaginationState;
+  fetchNextPage: () => Promise<void>;
   previousPage: () => void;
-};
+}
 
-const NodeProvidersListTable = ({
+const NodeProvidersListTable: React.FC<NodeProvidersListTableProps> = ({
   nodes,
   fetchingUptimes,
   pagination,
   fetchNextPage,
   previousPage,
-}: NodeProvidersListTableProps) => {
+}) => {
   const router = useRouter();
+
+  // Memoized state to prevent unnecessary re-renders
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -77,55 +67,65 @@ const NodeProvidersListTable = ({
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  const columns: ColumnDef<UptimeCheckTableDataRow>[] = [
-    {
-      accessorKey: "node_provider_name",
-      header: "Node Provider",
-      cell: ({ row }) => {
-        const nodeProvoiderID = row.original.node_provider_id;
-        return (
-          <div
-            id="node-provider-id-cell"
-            className={`capitalize`}
-            style={{ fontSize: ".8rem" }}
-          >
-            {row.getValue("node_provider_name")}
+  // Memoized columns definition
+  const columns = React.useMemo<ColumnDef<NodeProvider>[]>(
+    () => [
+      {
+        accessorKey: "node_provider_name",
+        header: "Node Provider Name",
+        cell: ({ row }) => (
+          <div className="capitalize text-sm font-medium">
+            {row.getValue("node_provider_name") || "Unknown"}
           </div>
-        );
+        ),
       },
-    },
-    {
-      accessorKey: "node_provider_id",
-      header: "Node Provider",
-      cell: ({ row }) => {
-        const nodeProvoiderID = row.original.node_provider_id;
-        return (
-          <div
-            id="node-provider-id-cell"
-            className={`capitalize`}
-            style={{ fontSize: ".8rem" }}
-          >
-            {row.getValue("node_provider_id")}
+      {
+        accessorKey: "node_provider_id",
+        header: "Provider ID",
+        cell: ({ row }) => (
+          <div className="text-sm text-gray-600">
+            {row.getValue("node_provider_id") || "N/A"}
           </div>
-        );
+        ),
       },
-    },
-    {
-      accessorKey: "uptime_30d",
-      header: () => <div className="text-left">30d Uptime %</div>,
-      cell: ({ row }) => {
-        const uptime: number | string = row.getValue("uptime_30d") || 0;
-        const uptimeString: string =
-          uptime === "N/A" ? "N/A" : `${Number(uptime).toFixed(2)} %`;
-        return (
-          <div className="capitalize" style={{ fontSize: ".8rem" }}>
-            {uptimeString}
-          </div>
-        );
-      },
-    },
-  ];
+      {
+        accessorKey: "uptime_30d",
+        header: () => <div className="text-left">30d Uptime %</div>,
+        cell: ({ row }) => {
+          const uptime = row.getValue("uptime_30d") as number;
+          const uptimeDisplay =
+            typeof uptime === "number" ? `${uptime.toFixed(2)} %` : "N/A";
 
+          return (
+            <div className="capitalize" style={{ fontSize: ".8rem" }}>
+              {uptimeDisplay}
+            </div>
+          );
+        },
+      },
+    ],
+    []
+  );
+
+  // Memoized click handler to prevent recreation on every render
+  const handleRowClick = React.useCallback(
+    (nodeProviderId: string) => {
+      router.push(`/app/node_providers/${nodeProviderId}`);
+    },
+    [router]
+  );
+
+  // Memoized pagination handlers
+  const handlePreviousPage = React.useCallback(() => {
+    previousPage();
+  }, [previousPage]);
+
+  const handleNextPage = React.useCallback(async () => {
+    await fetchNextPage();
+    table.nextPage();
+  }, [fetchNextPage]);
+
+  // Table configuration
   const table = useReactTable({
     data: nodes,
     columns,
@@ -147,17 +147,21 @@ const NodeProvidersListTable = ({
         pageSize: pagination.pageSize,
       },
     },
+    // Performance optimization: disable automatic pagination
+    manualPagination: true,
+    pageCount: pagination.totalPages,
   });
 
-  return (
-    <div className="w-full">
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
+  // Loading state for the table body
+  if (fetchingUptimes && nodes.length === 0) {
+    return (
+      <div className="w-full">
+        <div className="rounded-md border">
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
                     <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
@@ -166,8 +170,46 @@ const NodeProvidersListTable = ({
                             header.getContext()
                           )}
                     </TableHead>
-                  );
-                })}
+                  ))}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900"></div>
+                    <span className="ml-2">Loading...</span>
+                  </div>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full">
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id} className="font-semibold">
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -177,15 +219,11 @@ const NodeProvidersListTable = ({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="cursor-pointer"
-                  onClick={(e: any) => {
-                    return router.push(
-                      `/app/node_providers/${row.original.node_provider_id}`
-                    );
-                  }}
+                  className="cursor-pointer hover:bg-gray-50 transition-colors"
+                  onClick={() => handleRowClick(row.original.node_provider_id)}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="py-3">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -198,42 +236,62 @@ const NodeProvidersListTable = ({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-24 text-center text-gray-500"
                 >
-                  No results.
+                  {fetchingUptimes ? (
+                    <div className="flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900"></div>
+                      <span className="ml-2">Loading...</span>
+                    </div>
+                  ) : (
+                    "No node providers found."
+                  )}
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="space-x-2">
+
+      {/* Pagination Controls */}
+      <div className="flex items-center justify-between space-x-2 py-4">
+        <div className="text-sm text-gray-700">
+          Showing{" "}
+          {Math.min(
+            (pagination.currentPage - 1) * pagination.pageSize + 1,
+            pagination.totalItems
+          )}{" "}
+          to{" "}
+          {Math.min(
+            pagination.currentPage * pagination.pageSize,
+            pagination.totalItems
+          )}{" "}
+          of {pagination.totalItems} results
+        </div>
+
+        <div className="flex items-center space-x-2">
           <Button
             variant="outline"
             size="sm"
-            onClick={() => {
-              // setCurrentPage((prev) => prev - 1);
-              // table.previousPage();
-              previousPage();
-            }}
-            // disabled={!table.getCanPreviousPage()}
-            disabled={pagination.currentPage - 1 === 0}
+            onClick={handlePreviousPage}
+            disabled={pagination.currentPage <= 1 || fetchingUptimes}
           >
             Previous
           </Button>
+
+          <span className="text-sm text-gray-700">
+            Page {pagination.currentPage} of {pagination.totalPages}
+          </span>
+
           <Button
             variant="outline"
             size="sm"
-            onClick={async () => {
-              // setCurrentPage((prev) => prev + 1);
-              await fetchNextPage();
-              table.nextPage();
-            }}
-            // disabled={!table.getCanNextPage()}
-            disabled={pagination.currentPage + 1 >= pagination.totalPages}
+            onClick={handleNextPage}
+            disabled={
+              pagination.currentPage >= pagination.totalPages || fetchingUptimes
+            }
           >
-            Next
+            {fetchingUptimes ? "Loading..." : "Next"}
           </Button>
         </div>
       </div>
@@ -241,4 +299,4 @@ const NodeProvidersListTable = ({
   );
 };
 
-export default NodeProvidersListTable;
+export default React.memo(NodeProvidersListTable);

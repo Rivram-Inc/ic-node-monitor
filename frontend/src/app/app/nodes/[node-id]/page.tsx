@@ -1,12 +1,11 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback, useMemo, Suspense } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import KeyValueCard from "@/components/Cards/KeyValueCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import moment from "moment";
 import Loader from "@/components/Loader";
-import CheckResponseLineChart from "@/components/Charts/CheckResponseTimeLineChart";
 import {
   Select,
   SelectContent,
@@ -14,108 +13,166 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import CheckPingsWorldMap from "@/components/CheckPingsWorldMap";
-import NodesByNP from "../../../../../nodes_by_np.json";
-import PingsTable from "@/components/PingsTable";
-import UptimeChangesTable from "@/components/UptimeChangesTable";
-import * as Tooltip from "@radix-ui/react-tooltip";
 import { motion } from "framer-motion";
 import NodeDetailCardTextRow from "@/components/Cards/NodeDetailCardTextRow";
+
+// Lazy load heavy components
+const CheckResponseLineChart = React.lazy(
+  () => import("@/components/Charts/CheckResponseTimeLineChart")
+);
+const CheckPingsWorldMap = React.lazy(
+  () => import("@/components/CheckPingsWorldMap")
+);
+const PingsTable = React.lazy(() => import("@/components/PingsTable"));
+const UptimeChangesTable = React.lazy(
+  () => import("@/components/UptimeChangesTable")
+);
+
+// Create axios instance
+const apiClient = axios.create({});
+
+interface NodeDetails {
+  name: string;
+  hostname: string;
+  dcname: string;
+  region: string;
+  geo_ip_location: string;
+  status: string;
+  type: string;
+  uptime: string;
+  downtime: string;
+  lat: number;
+  long: number;
+  ip_address: string;
+  result_logs: any[];
+  owner: string;
+  node_type: string;
+  node_provider_name: string;
+  node_provider_id: string;
+  node_operator_id: string;
+  dc_name: string;
+  one_hour_min_avg_rtt: string;
+  one_hour_max_avg_rtt: string;
+  twentyfour_hours_min_avg_rtt: string;
+  twentyfour_hours_max_avg_rtt: string;
+  thirty_days_min_avg_rtt: string;
+  thirty_days_max_avg_rtt: string;
+  probes: any[];
+}
+
+interface ChartDetails {
+  uptime: string | null;
+  downtime: string | null;
+  chartPoints: Record<string, any[]>;
+}
+
+interface Pagination {
+  totalItems: number;
+  currentPage: number;
+  totalPages: number;
+  pageSize: number;
+}
 
 const NodeDetails = () => {
   const params = useParams();
   const nodeID = params["node-id"];
-  const [nodeDetails, setNodeDetails] = React.useState<any>(null);
-  const [fetching, setFetching] = React.useState(true);
-  const [fetchingResponseTime, setFetchingResponseTime] = React.useState(true);
-  const [pingFetching, setPingFetching] = React.useState(true);
-  const [averageResponseData, setAverageResponseData] = React.useState<any>([]);
+
+  // Consolidated state
+  const [nodeDetails, setNodeDetails] = React.useState<NodeDetails | null>(
+    null
+  );
+  const [loadingStates, setLoadingStates] = React.useState({
+    fetching: true,
+    fetchingChartData: true,
+    pingFetching: true,
+    fetchingUptimeChanges: false,
+  });
+
   const [selectedDuration, setSelectedDuration] = React.useState(7);
-  const [pingResults, setPingReults] = React.useState<any>([]);
-  const [fetchingChartData, setFetchingChartData] = React.useState(true);
-  const [fetchingUptimeChanges, setFetchingUptimeChanges] =
-    React.useState(false);
-  const [uptimeChanges, setUptimeChanges] = React.useState<any>([]);
-  const [pagination, setPagination] = React.useState<any>({
+  const [pingResults, setPingResults] = React.useState<any[]>([]);
+  const [uptimeChanges, setUptimeChanges] = React.useState<any[]>([]);
+  const [pagination, setPagination] = React.useState<Pagination>({
     totalItems: 10,
     currentPage: 1,
     totalPages: 1,
     pageSize: 10,
   });
-
-  const [chartDetails, setChartDetails] = React.useState<any>({
+  const [chartDetails, setChartDetails] = React.useState<ChartDetails>({
     uptime: null,
     downtime: null,
-    chartPoints: [],
+    chartPoints: {},
   });
 
-  useEffect(() => {
-    fetchDetails();
-    fetchChartDetails(7);
+  // Memoized update functions to prevent unnecessary re-renders
+  const updateLoadingState = useCallback(
+    (key: keyof typeof loadingStates, value: boolean) => {
+      setLoadingStates((prev) => ({ ...prev, [key]: value }));
+    },
+    []
+  );
+
+  // Memoized chart data processing
+  const processChartData = useCallback((results: any) => {
+    const uptime = parseFloat(results.uptime || 0).toFixed(2);
+    const downtime = parseFloat(results.downtime || 0).toFixed(2);
+
+    const chartPoints: Record<string, any[]> = {};
+
+    Object.keys(results.avg_rtt_data_points).forEach((probeName: string) => {
+      chartPoints[probeName] = results.avg_rtt_data_points[probeName].map(
+        (data: any) => ({
+          label: moment(data.bucket).format("MMM Do, h A"),
+          responseTime: parseFloat(data.ip_address_avg_avg_rtt || "0").toFixed(
+            2
+          ),
+        })
+      );
+    });
+
+    return { uptime, downtime, chartPoints };
   }, []);
 
-  const fetchChartDetails = async (duration: number) => {
-    try {
-      setFetchingChartData(true);
-      setSelectedDuration(duration);
+  const fetchChartDetails = useCallback(
+    async (duration: number) => {
+      try {
+        updateLoadingState("fetchingChartData", true);
+        setSelectedDuration(duration);
 
-      const response = await axios.get(
-        `/api/analytics/nodes/${nodeID}/chart-data?duration=${duration}`
-      );
-
-      if (response.data?.data?.success === false) {
-        // TODO: handle error
-      }
-
-      const results = response.data.data;
-      const uptime = parseFloat(results.uptime || 0).toFixed(2);
-      const downtime = parseFloat(results.downtime || 0).toFixed(2);
-
-      const chartPoints = {};
-
-      Object.keys(results.avg_rtt_data_points).forEach((probeName: string) => {
-        chartPoints[probeName] = results.avg_rtt_data_points[probeName].map(
-          (data: any) => {
-            return {
-              label: moment(data.bucket).format("MMM Do, h A"),
-              responseTime: parseFloat(
-                data.ip_address_avg_avg_rtt || "0"
-              ).toFixed(2),
-            };
-          }
+        const response = await apiClient.get(
+          `/api/analytics/nodes/${nodeID}/chart-data?duration=${duration}`
         );
-      });
 
-      setChartDetails({
-        uptime,
-        downtime,
-        chartPoints,
-      });
+        if (response.data?.data?.success === false) {
+          throw new Error("Failed to fetch chart data");
+        }
 
-      setFetchingChartData(false);
-    } catch (error) {
-      setFetchingChartData(false);
-      console.error(error);
-    } finally {
-      setFetchingChartData(false);
-    }
-  };
+        const processedData = processChartData(response.data.data);
+        setChartDetails(processedData);
+      } catch (error) {
+        console.error("Error fetching chart details:", error);
+        // Set fallback data
+        setChartDetails({
+          uptime: null,
+          downtime: null,
+          chartPoints: {},
+        });
+      } finally {
+        updateLoadingState("fetchingChartData", false);
+      }
+    },
+    [nodeID, processChartData, updateLoadingState]
+  );
 
-  const fetchDetails = async () => {
-    fetchCheckDetails();
-    // fetchChecksResponseTime();
-    fetchUptimeChanges();
-  };
-
-  const fetchUptimeChanges = async () => {
-    setFetchingUptimeChanges(true);
+  const fetchUptimeChanges = useCallback(async () => {
     try {
-      const fetchedUptimeChanges = await axios.get(
+      updateLoadingState("fetchingUptimeChanges", true);
+
+      const response = await apiClient.get(
         `/api/analytics/nodes/${nodeID}/uptime-changes`
       );
 
-      setUptimeChanges(
-        fetchedUptimeChanges.data.data?.map((change: any) => {
+      const processedChanges =
+        response.data.data?.map((change: any) => {
           const duration = moment
             .duration({
               milliseconds: change.duration.milliseconds || 0,
@@ -125,162 +182,76 @@ const NodeDetails = () => {
             })
             .humanize();
 
-          return {
-            ...change,
-            duration,
-          };
-        })
-      );
+          return { ...change, duration };
+        }) || [];
+
+      setUptimeChanges(processedChanges);
     } catch (error) {
-      // handle error
-    }
-    setFetchingUptimeChanges(false);
-  };
-
-  const fetchChecksResponseTime = async () => {
-    // Fetch check response time
-    try {
-      setFetchingResponseTime(true);
-      const sevenDaysAgo = moment().subtract(7, "days").unix();
-
-      const response = await axios.get(
-        `/api/analytics/summary.performance/${nodeID}?includeuptime=true&from=${sevenDaysAgo}`
-      );
-      const data = response.data.summary.hours;
-
-      const chartData = data.map((hour: any) => {
-        return {
-          label: moment.unix(hour.starttime).format("MMM Do"),
-          responseTime: hour.avgresponse,
-        };
-      });
-      setAverageResponseData(chartData);
-    } catch (e) {
-      console.error(e);
+      console.error("Error fetching uptime changes:", error);
+      setUptimeChanges([]);
     } finally {
-      setFetchingResponseTime(false);
+      updateLoadingState("fetchingUptimeChanges", false);
     }
-  };
+  }, [nodeID, updateLoadingState]);
 
-  const getSummaryAverage = async ({
-    differenceDays,
-    createdAt,
-  }: {
-    differenceDays: number;
-    createdAt?: number;
-  }) => {
-    // Fetch summary average
-    try {
-      let fromTimestamp = moment().subtract(7, "days").unix();
+  const fetchPingResults = useCallback(
+    async (page: number = 1, ipAddress: string) => {
+      try {
+        updateLoadingState("pingFetching", true);
 
-      if (differenceDays < 7) {
-        fromTimestamp = createdAt;
-      }
+        const response = await apiClient.get(
+          `/api/analytics/node-details/${ipAddress}?page=${page}&limit=${pagination.pageSize}`
+        );
 
-      const response = await axios.get(
-        `/api/analytics/summary.average/${nodeID}?includeuptime=true&from=${fromTimestamp}`
-      );
+        if (response.status !== 200) {
+          throw new Error("Failed to fetch ping results");
+        }
 
-      const summary = response.data.summary.status;
+        const pingResultsList = response.data.data || [];
+        const paginationDetails = response.data.pagination || {};
 
-      const totalChecks = summary.totaldown + summary.totalup;
-      const downtimePercent: number = parseFloat(
-        ((summary.totaldown / totalChecks) * 100).toFixed(2)
-      );
-
-      const uptimePercent: number = parseFloat(
-        ((summary.totalup / totalChecks) * 100).toFixed(2)
-      );
-
-      return {
-        uptime_percent: uptimePercent,
-        downtime_percent: downtimePercent,
-      };
-    } catch (e) {
-      console.error(e);
-    }
-
-    return {};
-  };
-
-  const fetchNextPage = async () => {
-    const nextPage = pagination.currentPage + 1;
-
-    // fetch next page only when we don't have the data
-    if (nextPage * pagination.pageSize > pingResults.length) {
-      await fetchPingResults(nextPage, nodeDetails.ip_address);
-    } else {
-      setPagination((curr: any) => ({
-        ...curr,
-        currentPage: nextPage,
-      }));
-    }
-  };
-
-  const previousPage = async () => {
-    const previousPage = pagination.currentPage - 1;
-    setPagination((curr: any) => ({
-      ...curr,
-      currentPage: previousPage,
-    }));
-  };
-
-  const fetchPingResults = async (page: number = 1, ipAddress: string) => {
-    try {
-      setPingFetching(true);
-      // fetch ping list for the ip address
-      const response = await axios.get(
-        `/api/analytics/node-details/${ipAddress}?page=${page}&limit=${pagination.pageSize}`
-      );
-      if (response.status !== 200) {
-        // TODO: handle error
-        return;
-      } else {
-        const pingResultsList = response.data.data;
-        const paginationDetails = response.data.pagination;
-
-        const pingResultsListItems = pingResultsList.map((ping: any) => ({
+        const processedResults = pingResultsList.map((ping: any) => ({
           ...ping,
-          up: parseFloat(ping.packet_loss) == 0.0,
+          up: parseFloat(ping.packet_loss) === 0.0,
         }));
 
-        setPingReults((curr: any) => [...curr, ...pingResultsListItems]);
+        setPingResults((prev) => [...prev, ...processedResults]);
         setPagination({
           totalItems: paginationDetails.totalItems || 10,
           currentPage: paginationDetails.currentPage || 1,
           totalPages: paginationDetails.totalPages || 1,
           pageSize: paginationDetails.pageSize || 10,
         });
+      } catch (error) {
+        console.error("Error fetching ping results:", error);
+      } finally {
+        updateLoadingState("pingFetching", false);
       }
-    } catch (error) {
-      console.error(error);
-      setPingFetching(false);
-    } finally {
-      setPingFetching(false);
-    }
-  };
+    },
+    [pagination.pageSize, updateLoadingState]
+  );
 
-  const fetchCheckDetails = async () => {
-    // Fetch check details by ID
+  // Optimized node details fetching
+  const fetchNodeDetails = useCallback(async () => {
     try {
-      const nodeDetails = await axios.get(`/api/analytics/nodes/${nodeID}`);
+      updateLoadingState("fetching", true);
 
-      if (nodeDetails.data.success === false) {
-        // TODO: handle error
-        return;
+      const response = await apiClient.get(`/api/analytics/nodes/${nodeID}`);
+
+      if (response.data.success === false) {
+        throw new Error("Failed to fetch node details");
       }
-      const details = nodeDetails.data.data;
-      fetchPingResults(1, details.ip_address);
 
-      const geoIPDeatils = details.geo_ip_details;
+      const details = response.data.data;
+      const geoIPDetails = details.geo_ip_details;
 
-      const data = {
+      const processedDetails: NodeDetails = {
         name: details.node_provider_name,
         hostname: details.ip_address,
         dcname: details.dc_name,
         region: details.region || "-",
-        geo_ip_location: geoIPDeatils
-          ? `${geoIPDeatils.city}, ${geoIPDeatils.region}, ${geoIPDeatils.country}`
+        geo_ip_location: geoIPDetails
+          ? `${geoIPDetails.city}, ${geoIPDetails.region}, ${geoIPDetails.country}`
           : "-",
         status: details.status,
         type: details.node_type,
@@ -305,17 +276,109 @@ const NodeDetails = () => {
         probes: details.probes,
       };
 
-      setNodeDetails(data);
-      setFetching(false);
-    } catch (e) {
-      console.error(e);
-      //   TODO: handle error
-    } finally {
-      setFetching(false);
-    }
-  };
+      setNodeDetails(processedDetails);
 
-  if (fetching) {
+      // Fetch ping results after getting IP address
+      await fetchPingResults(1, processedDetails.ip_address);
+    } catch (error) {
+      console.error("Error fetching node details:", error);
+    } finally {
+      updateLoadingState("fetching", false);
+    }
+  }, [nodeID, fetchPingResults, updateLoadingState]);
+
+  // Optimized pagination handlers
+  const fetchNextPage = useCallback(async () => {
+    if (!nodeDetails) return;
+
+    const nextPage = pagination.currentPage + 1;
+
+    if (nextPage * pagination.pageSize > pingResults.length) {
+      await fetchPingResults(nextPage, nodeDetails.ip_address);
+    } else {
+      setPagination((prev) => ({ ...prev, currentPage: nextPage }));
+    }
+  }, [nodeDetails, pagination, pingResults.length, fetchPingResults]);
+
+  const previousPage = useCallback(() => {
+    setPagination((prev) => ({ ...prev, currentPage: prev.currentPage - 1 }));
+  }, []);
+
+  // Initial data fetching - using Promise.all for parallel requests
+  useEffect(() => {
+    const initializeData = async () => {
+      try {
+        // Fetch node details first as other requests depend on it
+        await fetchNodeDetails();
+
+        // Then fetch chart data and uptime changes in parallel
+        await Promise.all([fetchChartDetails(7), fetchUptimeChanges()]);
+      } catch (error) {
+        console.error("Error initializing data:", error);
+      }
+    };
+
+    initializeData();
+  }, [fetchNodeDetails, fetchChartDetails, fetchUptimeChanges]);
+
+  // Memoized RTT cards to prevent unnecessary re-renders
+  const RTTCards = useMemo(
+    () => (
+      <div className="flex md:flex-row flex-col w-full justify-start items-center overflow-hidden gap-8">
+        <div className="flex flex-col w-full md:w-1/3 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 md:mr-4">
+          <h1 className="mb-2 text-xl font-bold tracking-tight text-gray-900">
+            1 hour
+          </h1>
+          <hr className="text-slate-400 w-full my-1" />
+          <NodeDetailCardTextRow
+            title="Min. average RTT"
+            value={nodeDetails?.one_hour_min_avg_rtt}
+            unit="ms"
+          />
+          <NodeDetailCardTextRow
+            title="Max. average RTT"
+            value={nodeDetails?.one_hour_max_avg_rtt}
+            unit="ms"
+          />
+        </div>
+        <div className="flex flex-col p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 w-full md:w-1/3 md:mr-3">
+          <h1 className="mb-2 text-xl font-bold tracking-tight text-gray-900">
+            24 hours
+          </h1>
+          <hr className="text-slate-400 w-full my-1" />
+          <NodeDetailCardTextRow
+            title="Min. average RTT"
+            value={nodeDetails?.twentyfour_hours_min_avg_rtt}
+            unit="ms"
+          />
+          <NodeDetailCardTextRow
+            title="Max. average RTT"
+            value={nodeDetails?.twentyfour_hours_max_avg_rtt}
+            unit="ms"
+          />
+        </div>
+        <div className="flex flex-col p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 w-full md:w-1/3">
+          <h1 className="mb-2 text-xl font-bold tracking-tight text-gray-900">
+            30 days
+          </h1>
+          <hr className="text-slate-400 w-full my-1" />
+          <NodeDetailCardTextRow
+            title="Min. average RTT"
+            value={nodeDetails?.thirty_days_min_avg_rtt}
+            unit="ms"
+          />
+          <NodeDetailCardTextRow
+            title="Max. average RTT"
+            value={nodeDetails?.thirty_days_max_avg_rtt}
+            unit="ms"
+          />
+        </div>
+      </div>
+    ),
+    [nodeDetails]
+  );
+
+  if (loadingStates.fetching) {
     return (
       <div className="flex w-full items-center justify-center">
         <Loader />
@@ -330,6 +393,7 @@ const NodeDetails = () => {
       transition={{ duration: 0.5 }}
       className="flex flex-col w-full p-4"
     >
+      {/* Node Details Card */}
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -377,14 +441,28 @@ const NodeDetails = () => {
         </div>
       </motion.div>
 
+      {/* World Map */}
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.4 }}
         className="flex w-full justify-start items-center gap-8 pb-8 mt-6 rounded-sm"
       >
-        <CheckPingsWorldMap nodeDetails={nodeDetails} fetching={fetching} />
+        <Suspense
+          fallback={
+            <div className="w-full h-64 flex items-center justify-center">
+              <Loader />
+            </div>
+          }
+        >
+          <CheckPingsWorldMap
+            nodeDetails={nodeDetails}
+            fetching={loadingStates.fetching}
+          />
+        </Suspense>
       </motion.div>
+
+      {/* Duration Selector */}
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -393,20 +471,20 @@ const NodeDetails = () => {
       >
         <Select
           value={`${selectedDuration}`}
-          onValueChange={async (value) => {
-            await fetchChartDetails(Number(value));
-          }}
+          onValueChange={(value) => fetchChartDetails(Number(value))}
         >
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Duration" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value={"24"}>Last 24 hours</SelectItem>
-            <SelectItem value={"7"}>Last 7 days</SelectItem>
-            <SelectItem value={"30"}>Last 30 days</SelectItem>
+            <SelectItem value="24">Last 24 hours</SelectItem>
+            <SelectItem value="7">Last 7 days</SelectItem>
+            <SelectItem value="30">Last 30 days</SelectItem>
           </SelectContent>
         </Select>
       </motion.div>
+
+      {/* Chart and Stats */}
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -414,83 +492,49 @@ const NodeDetails = () => {
         className="flex flex-col md:flex-row w-full justify-start items-center gap-8"
       >
         <div className="w-full md:w-3/4 h-80 flex bg-slate-100 rounded-sm">
-          <CheckResponseLineChart
-            dataValues={chartDetails.chartPoints}
-            loading={fetchingChartData}
-          />
+          <Suspense
+            fallback={
+              <div className="w-full h-full flex items-center justify-center">
+                <Loader />
+              </div>
+            }
+          >
+            <CheckResponseLineChart
+              dataValues={chartDetails.chartPoints}
+              loading={loadingStates.fetchingChartData}
+            />
+          </Suspense>
         </div>
         <div className="w-full md:w-1/4 h-80 flex flex-col rounded-sm gap-4">
           <KeyValueCard
             title="DOWNTIME"
             value={chartDetails?.downtime ? `${chartDetails.downtime} %` : ""}
             subtext=""
-            loading={fetchingChartData}
+            loading={loadingStates.fetchingChartData}
           />
           <KeyValueCard
             title="UPTIME"
             value={chartDetails?.uptime ? `${chartDetails.uptime} %` : ""}
             subtext=""
-            loading={fetchingChartData}
+            loading={loadingStates.fetchingChartData}
           />
         </div>
       </motion.div>
+
       <hr className="text-slate-400 w-full my-8" />
+
+      {/* RTT Cards */}
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 1 }}
-        className="flex md:flex-row flex-col w-full justify-start items-center overflow-hidden gap-8"
       >
-        <div className="flex flex-col w-full md:w-1/3 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 md:mr-4">
-          <h1 className="mb-2 text-xl font-bold tracking-tight text-gray-900">
-            1 hour
-          </h1>
-          <hr className="text-slate-400 w-full my-1" />
-          <NodeDetailCardTextRow
-            title="Min. average RTT"
-            value={nodeDetails?.one_hour_min_avg_rtt}
-            unit={"ms"}
-          />
-          <NodeDetailCardTextRow
-            title="Max. average RTT"
-            value={nodeDetails?.one_hour_max_avg_rtt}
-            unit={"ms"}
-          />
-        </div>
-        <div className="flex flex-col p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 w-full md:w-1/3 md:mr-3">
-          <h1 className="mb-2 text-xl font-bold tracking-tight text-gray-900">
-            24 hours
-          </h1>
-          <hr className="text-slate-400 w-full my-1" />
-          <NodeDetailCardTextRow
-            title="Min. average RTT"
-            value={nodeDetails?.twentyfour_hours_min_avg_rtt}
-            unit={"ms"}
-          />
-          <NodeDetailCardTextRow
-            title="Max. average RTT"
-            value={nodeDetails?.twentyfour_hours_max_avg_rtt}
-            unit={"ms"}
-          />
-        </div>
-        <div className="flex flex-col p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 w-full md:w-1/3">
-          <h1 className="mb-2 text-xl font-bold tracking-tight text-gray-900">
-            30 days
-          </h1>
-          <hr className="text-slate-400 w-full my-1" />
-          <NodeDetailCardTextRow
-            title="Min. average RTT"
-            value={nodeDetails?.thirty_days_min_avg_rtt}
-            unit={"ms"}
-          />
-          <NodeDetailCardTextRow
-            title="Max. average RTT"
-            value={nodeDetails?.thirty_days_max_avg_rtt}
-            unit={"ms"}
-          />
-        </div>
+        {RTTCards}
       </motion.div>
+
       <hr className="text-slate-400 w-full my-8" />
+
+      {/* Tabs */}
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -505,36 +549,48 @@ const NodeDetails = () => {
             <TabsTrigger
               value="test_result_log"
               className="bg-slate-100 p-2 pl-4 rounded-sm text-left cursor-pointer transition-all duration-300 hover:bg-slate-200 data-[state=active]:bg-slate-500 data-[state=active]:text-white whitespace-nowrap"
-              style={{
-                minWidth: "11rem",
-              }}
+              style={{ minWidth: "11rem" }}
             >
               Ping results
             </TabsTrigger>
             <TabsTrigger
               value="uptime_changes"
               className="bg-slate-100 p-2 rounded-sm text-left cursor-pointer transition-all duration-300 hover:bg-slate-200 data-[state=active]:bg-slate-500 data-[state=active]:text-white whitespace-nowrap"
-              style={{
-                minWidth: "11rem",
-              }}
+              style={{ minWidth: "11rem" }}
             >
               Uptime changes (24h)
             </TabsTrigger>
           </TabsList>
           <TabsContent value="test_result_log">
-            <PingsTable
-              logs={pingResults || []}
-              pagination={pagination}
-              fetchNextPage={fetchNextPage}
-              previousPage={previousPage}
-              pingFetching={pingFetching}
-            />
+            <Suspense
+              fallback={
+                <div className="w-full h-32 flex items-center justify-center">
+                  <Loader />
+                </div>
+              }
+            >
+              <PingsTable
+                logs={pingResults}
+                pagination={pagination}
+                fetchNextPage={fetchNextPage}
+                previousPage={previousPage}
+                pingFetching={loadingStates.pingFetching}
+              />
+            </Suspense>
           </TabsContent>
           <TabsContent value="uptime_changes">
-            <UptimeChangesTable
-              loading={fetchingUptimeChanges}
-              uptimeChanges={uptimeChanges}
-            />
+            <Suspense
+              fallback={
+                <div className="w-full h-32 flex items-center justify-center">
+                  <Loader />
+                </div>
+              }
+            >
+              <UptimeChangesTable
+                loading={loadingStates.fetchingUptimeChanges}
+                uptimeChanges={uptimeChanges}
+              />
+            </Suspense>
           </TabsContent>
         </Tabs>
       </motion.div>

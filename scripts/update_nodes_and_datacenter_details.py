@@ -70,7 +70,9 @@ def create_tables(conn):
                     node_providers INTEGER,
                     owner TEXT,
                     region TEXT,
-                    total_nodes INTEGER
+                    total_nodes INTEGER,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             ''')
             
@@ -89,7 +91,9 @@ def create_tables(conn):
                     owner TEXT,
                     region TEXT,
                     status TEXT,
-                    subnet_id TEXT
+                    subnet_id TEXT,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             ''')
             conn.commit()
@@ -107,8 +111,8 @@ def upsert_data_centers(conn, data_centers):
                 cursor.execute('''
                     INSERT INTO data_centers (
                         dc_key, dc_name, latitude, longitude, 
-                        node_providers, owner, region, total_nodes
-                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                        node_providers, owner, region, total_nodes, updated_at
+                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
                     ON CONFLICT (dc_key) DO UPDATE SET
                         dc_name = EXCLUDED.dc_name,
                         latitude = EXCLUDED.latitude,
@@ -116,7 +120,8 @@ def upsert_data_centers(conn, data_centers):
                         node_providers = EXCLUDED.node_providers,
                         owner = EXCLUDED.owner,
                         region = EXCLUDED.region,
-                        total_nodes = EXCLUDED.total_nodes
+                        total_nodes = EXCLUDED.total_nodes,
+                        updated_at = CURRENT_TIMESTAMP
                 ''', (
                     dc['key'], dc['name'], dc['latitude'], dc['longitude'],
                     dc['node_providers'], dc['owner'], dc['region'], dc['total_nodes']
@@ -137,12 +142,12 @@ def upsert_nodes(conn, nodes):
                     INSERT INTO nodes (
                         dc_id, dc_name, ip_address, node_id, node_operator_id, 
                         node_provider_id, node_provider_name, node_type, 
-                        owner, region, status, subnet_id
-                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    ON CONFLICT (ip_address) DO UPDATE SET
+                        owner, region, status, subnet_id, updated_at
+                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
+                    ON CONFLICT (node_id) DO UPDATE SET
                         dc_id = EXCLUDED.dc_id,
                         dc_name = EXCLUDED.dc_name,
-                        node_id = EXCLUDED.node_id,
+                        ip_address = EXCLUDED.ip_address,
                         node_operator_id = EXCLUDED.node_operator_id,
                         node_provider_id = EXCLUDED.node_provider_id,
                         node_provider_name = EXCLUDED.node_provider_name,
@@ -150,7 +155,8 @@ def upsert_nodes(conn, nodes):
                         owner = EXCLUDED.owner,
                         region = EXCLUDED.region,
                         status = EXCLUDED.status,
-                        subnet_id = EXCLUDED.subnet_id
+                        subnet_id = EXCLUDED.subnet_id,
+                        updated_at = CURRENT_TIMESTAMP
                 ''', (
                     node['dc_id'], node['dc_name'], node['ip_address'], node['node_id'],
                     node['node_operator_id'], node['node_provider_id'], node['node_provider_name'],
@@ -160,6 +166,44 @@ def upsert_nodes(conn, nodes):
             logging.info(f"Upserted {len(nodes)} nodes")
     except psycopg2.Error as e:
         logging.error(f"Nodes upsert failed: {e}")
+        conn.rollback()
+        raise
+
+def cleanup_stale_nodes(conn, current_node_ids):
+    """Remove nodes that are not in the current API response"""
+    try:
+        with conn.cursor() as cursor:
+            # Delete nodes that are not in the current API response
+            cursor.execute('''
+                DELETE FROM nodes 
+                WHERE node_id NOT IN %s
+            ''', (tuple(current_node_ids),))
+            
+            deleted_count = cursor.rowcount
+            conn.commit()
+            logging.info(f"Cleaned up {deleted_count} stale nodes")
+            return deleted_count
+    except psycopg2.Error as e:
+        logging.error(f"Node cleanup failed: {e}")
+        conn.rollback()
+        raise
+
+def cleanup_stale_data_centers(conn, current_dc_keys):
+    """Remove data centers that are not in the current API response"""
+    try:
+        with conn.cursor() as cursor:
+            # Delete data centers that are not in the current API response
+            cursor.execute('''
+                DELETE FROM data_centers 
+                WHERE dc_key NOT IN %s
+            ''', (tuple(current_dc_keys),))
+            
+            deleted_count = cursor.rowcount
+            conn.commit()
+            logging.info(f"Cleaned up {deleted_count} stale data centers")
+            return deleted_count
+    except psycopg2.Error as e:
+        logging.error(f"Data center cleanup failed: {e}")
         conn.rollback()
         raise
 
@@ -200,10 +244,18 @@ def main():
         # Process data centers
         data_centers = fetch_data_centers()
         upsert_data_centers(conn, data_centers)
+        
+        # Extract current data center keys for cleanup
+        current_dc_keys = [dc['key'] for dc in data_centers]
+        cleanup_stale_data_centers(conn, current_dc_keys)
 
         # Process nodes
         nodes = fetch_nodes()
         upsert_nodes(conn, nodes)
+        
+        # Extract current node IDs for cleanup
+        current_node_ids = [node['node_id'] for node in nodes]
+        cleanup_stale_nodes(conn, current_node_ids)
 
         logging.info("Node importer completed successfully")
     except Exception as e:
