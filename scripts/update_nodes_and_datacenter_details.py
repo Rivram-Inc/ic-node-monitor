@@ -63,16 +63,14 @@ def create_tables(conn):
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS data_centers (
                     id SERIAL PRIMARY KEY,
-                    dc_key TEXT UNIQUE,
+                    dc_key TEXT UNIQUE NOT NULL,
                     dc_name TEXT,
                     latitude NUMERIC,
                     longitude NUMERIC,
                     node_providers INTEGER,
                     owner TEXT,
                     region TEXT,
-                    total_nodes INTEGER,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    total_nodes INTEGER
                 )
             ''')
             
@@ -82,8 +80,8 @@ def create_tables(conn):
                     id SERIAL PRIMARY KEY,
                     dc_id TEXT,
                     dc_name TEXT,
-                    ip_address INET,
-                    node_id TEXT UNIQUE,
+                    ip_address INET UNIQUE NOT NULL,
+                    node_id TEXT,
                     node_operator_id TEXT,
                     node_provider_id TEXT,
                     node_provider_name TEXT,
@@ -91,9 +89,7 @@ def create_tables(conn):
                     owner TEXT,
                     region TEXT,
                     status TEXT,
-                    subnet_id TEXT,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    subnet_id TEXT
                 )
             ''')
             conn.commit()
@@ -111,8 +107,8 @@ def upsert_data_centers(conn, data_centers):
                 cursor.execute('''
                     INSERT INTO data_centers (
                         dc_key, dc_name, latitude, longitude, 
-                        node_providers, owner, region, total_nodes, updated_at
-                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
+                        node_providers, owner, region, total_nodes
+                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                     ON CONFLICT (dc_key) DO UPDATE SET
                         dc_name = EXCLUDED.dc_name,
                         latitude = EXCLUDED.latitude,
@@ -120,8 +116,7 @@ def upsert_data_centers(conn, data_centers):
                         node_providers = EXCLUDED.node_providers,
                         owner = EXCLUDED.owner,
                         region = EXCLUDED.region,
-                        total_nodes = EXCLUDED.total_nodes,
-                        updated_at = CURRENT_TIMESTAMP
+                        total_nodes = EXCLUDED.total_nodes
                 ''', (
                     dc['key'], dc['name'], dc['latitude'], dc['longitude'],
                     dc['node_providers'], dc['owner'], dc['region'], dc['total_nodes']
@@ -142,12 +137,12 @@ def upsert_nodes(conn, nodes):
                     INSERT INTO nodes (
                         dc_id, dc_name, ip_address, node_id, node_operator_id, 
                         node_provider_id, node_provider_name, node_type, 
-                        owner, region, status, subnet_id, updated_at
-                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
-                    ON CONFLICT (node_id) DO UPDATE SET
+                        owner, region, status, subnet_id
+                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    ON CONFLICT (ip_address) DO UPDATE SET
                         dc_id = EXCLUDED.dc_id,
                         dc_name = EXCLUDED.dc_name,
-                        ip_address = EXCLUDED.ip_address,
+                        node_id = EXCLUDED.node_id,
                         node_operator_id = EXCLUDED.node_operator_id,
                         node_provider_id = EXCLUDED.node_provider_id,
                         node_provider_name = EXCLUDED.node_provider_name,
@@ -155,8 +150,7 @@ def upsert_nodes(conn, nodes):
                         owner = EXCLUDED.owner,
                         region = EXCLUDED.region,
                         status = EXCLUDED.status,
-                        subnet_id = EXCLUDED.subnet_id,
-                        updated_at = CURRENT_TIMESTAMP
+                        subnet_id = EXCLUDED.subnet_id
                 ''', (
                     node['dc_id'], node['dc_name'], node['ip_address'], node['node_id'],
                     node['node_operator_id'], node['node_provider_id'], node['node_provider_name'],
@@ -169,15 +163,19 @@ def upsert_nodes(conn, nodes):
         conn.rollback()
         raise
 
-def cleanup_stale_nodes(conn, current_node_ids):
+def cleanup_stale_nodes(conn, current_ip_addresses):
     """Remove nodes that are not in the current API response"""
+    if not current_ip_addresses:
+        logging.warning("No current IP addresses provided for cleanup")
+        return 0
+        
     try:
         with conn.cursor() as cursor:
             # Delete nodes that are not in the current API response
             cursor.execute('''
                 DELETE FROM nodes 
-                WHERE node_id NOT IN %s
-            ''', (tuple(current_node_ids),))
+                WHERE ip_address NOT IN %s
+            ''', (tuple(current_ip_addresses),))
             
             deleted_count = cursor.rowcount
             conn.commit()
@@ -190,6 +188,10 @@ def cleanup_stale_nodes(conn, current_node_ids):
 
 def cleanup_stale_data_centers(conn, current_dc_keys):
     """Remove data centers that are not in the current API response"""
+    if not current_dc_keys:
+        logging.warning("No current data center keys provided for cleanup")
+        return 0
+        
     try:
         with conn.cursor() as cursor:
             # Delete data centers that are not in the current API response
@@ -243,19 +245,25 @@ def main():
 
         # Process data centers
         data_centers = fetch_data_centers()
-        upsert_data_centers(conn, data_centers)
-        
-        # Extract current data center keys for cleanup
-        current_dc_keys = [dc['key'] for dc in data_centers]
-        cleanup_stale_data_centers(conn, current_dc_keys)
+        if data_centers:
+            upsert_data_centers(conn, data_centers)
+            
+            # Extract current data center keys for cleanup
+            current_dc_keys = [dc['key'] for dc in data_centers]
+            cleanup_stale_data_centers(conn, current_dc_keys)
+        else:
+            logging.warning("No data centers fetched from API")
 
         # Process nodes
         nodes = fetch_nodes()
-        upsert_nodes(conn, nodes)
-        
-        # Extract current node IDs for cleanup
-        current_node_ids = [node['node_id'] for node in nodes]
-        cleanup_stale_nodes(conn, current_node_ids)
+        if nodes:
+            upsert_nodes(conn, nodes)
+            
+            # Extract current IP addresses for cleanup
+            current_ip_addresses = [node['ip_address'] for node in nodes]
+            cleanup_stale_nodes(conn, current_ip_addresses)
+        else:
+            logging.warning("No nodes fetched from API")
 
         logging.info("Node importer completed successfully")
     except Exception as e:
