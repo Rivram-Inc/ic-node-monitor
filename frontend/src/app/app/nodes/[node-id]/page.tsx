@@ -212,6 +212,10 @@ const NodeDetails = () => {
 
         const processedResults = pingResultsList.map((ping: any) => ({
           ...ping,
+          avg_rtt:
+            ping.packets_received > 0
+              ? parseFloat(ping.avg_rtt).toFixed(2)
+              : "N/A",
           up: parseFloat(ping.packet_loss) === 0.0,
         }));
 

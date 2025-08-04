@@ -31,7 +31,7 @@ import {
 } from "@/components/ui/table";
 
 type PingDataType = {
-  avg_rtt: number;
+  avg_rtt: number | string;
   packets_sent: number;
   packets_received: number;
   packet_loss: number;
