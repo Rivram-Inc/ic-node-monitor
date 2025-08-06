@@ -139,17 +139,25 @@ export async function GET(
       getLatestPingResultsForNode(IPAddress),
     ]);
 
-    // get probe coordinates
-    const probes = latestPingsPerProbe.map((ping) => {
-      const probeName = ping.dataValues.probe_name;
-      const probeCoordinates = PROBES_COORDINATES[probeName];
-      return {
-        probe_name: probeName,
-        lat: probeCoordinates.lat,
-        long: probeCoordinates.long,
-        avg_rtt: ping.dataValues.avg_rtt,
-      };
-    });
+    const probes = Object.entries(PROBES_COORDINATES).map(
+      ([probeName, coordinates]) => {
+        let latestPing = latestPingsPerProbe.find(
+          (ping) => ping.dataValues.probe_name === probeName
+        )?.dataValues;
+
+        // change latest ping from string to number
+        if (latestPing?.avg_rtt) {
+          latestPing.avg_rtt = parseFloat(latestPing.avg_rtt);
+        }
+
+        return {
+          probe_name: probeName,
+          lat: coordinates.lat,
+          long: coordinates.long,
+          avg_rtt: latestPing?.avg_rtt || "N/A",
+        };
+      }
+    );
 
     // from node details -> datacenter id -> datacenter lat/long from datacenter table
     const datacenterDetails = await DataCenters.findOne({

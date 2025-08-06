@@ -1,5 +1,7 @@
 "use client";
-import React, { useEffect } from "react";
+import { loadLeafLetScripts } from "@/utils/load-leaflet-scripts";
+import React, { useEffect, useState } from "react";
+import Loader from "../Loader";
 
 function haversine(lat1: number, lon1: number, lat2: number, lon2: number) {
   const R = 6371; // Radius of the Earth in kilometers
@@ -89,15 +91,15 @@ const main = async (nodeDetails: any) => {
   // @ts-ignore
   const locationIcon = L.icon({
     iconUrl: "/location1.svg",
-    iconSize: [25, 41], // Size of the icon (standard Leaflet icon size)
-    iconAnchor: [12, 41], // Anchor the icon at the bottom center
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
   });
 
   // @ts-ignore
   const locationIcon1 = L.icon({
     iconUrl: "/location.svg",
-    iconSize: [25, 41], // Size of the icon (standard Leaflet icon size)
-    iconAnchor: [12, 41], // Anchor the icon at the bottom center
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
   });
 
   const nodeDCName = nodeDetails?.dcname;
@@ -110,9 +112,7 @@ const main = async (nodeDetails: any) => {
         name: probe.probe_name,
         latlng: [probe.lat, probe.long],
         responsetime: probe.avg_rtt,
-        // status: probe.status,
-        // city: probe.probe.city,
-        // country: probe.probe.countryiso,
+        isReachable: probe.avg_rtt !== "N/A", // Add reachability flag
       };
     }
   }
@@ -125,9 +125,7 @@ const main = async (nodeDetails: any) => {
       latlng: [probe.latlng, [nodeLatLon.lat, nodeLatLon.lng]],
       responsetime: probe.responsetime,
       name: camelCaseName(probe.name),
-      // status: probe.status,
-      // city: probe.city,
-      // country: probe.country,
+      isReachable: probe.isReachable,
     };
   });
 
@@ -153,6 +151,12 @@ const main = async (nodeDetails: any) => {
 
   for (let pingServer of pingServers) {
     let extraCurvePoints = [];
+
+    // Determine line style based on reachability
+    const lineColor = pingServer.isReachable ? "#5197e8" : "#ff6b6b";
+    const lineStyle = pingServer.isReachable ? {} : { dashArray: "5, 10" };
+    const lineOpacity = pingServer.isReachable ? 1 : 0.7;
+
     // Calculate the distance
     const distanceKm = haversine(
       parseFloat(pingServer.latlng[0][0]),
@@ -162,16 +166,14 @@ const main = async (nodeDetails: any) => {
     );
 
     if (distanceKm < 20) {
-      // console.log("The datacenter and probe are in the same city");
-
-      let startLat = parseFloat(pingServer.latlng[0][0]); // Starting Latitude
-      let startLng = parseFloat(pingServer.latlng[0][1]); // Starting Longitude
-      let minRadiusLat = 2; // Small vertical radius near the start and end points
-      let maxRadiusLat = 20; // Maximum vertical radius at the top of the arc
-      let minRadiusLng = 1; // Small horizontal radius near the start and end points
-      let maxRadiusLng = 8; // Maximum horizontal radius at the top of the arc
-      let totalPoints = 300; // Total number of points for smoothness
-      let tiltFactor = -1; // Tilt factor for the arc
+      let startLat = parseFloat(pingServer.latlng[0][0]);
+      let startLng = parseFloat(pingServer.latlng[0][1]);
+      let minRadiusLat = 2;
+      let maxRadiusLat = 20;
+      let minRadiusLng = 1;
+      let maxRadiusLng = 8;
+      let totalPoints = 300;
+      let tiltFactor = -1;
 
       extraCurvePoints = generateConeShapedArcPoints(
         startLat,
@@ -187,14 +189,20 @@ const main = async (nodeDetails: any) => {
 
     if (extraCurvePoints.length > 0) {
       // @ts-ignore
-      const polyline = L.polyline(extraCurvePoints, { color: "#5197e8" }).addTo(
-        map
-      );
+      const polyline = L.polyline(extraCurvePoints, {
+        color: lineColor,
+        opacity: lineOpacity,
+        weight: pingServer.isReachable ? 3 : 2,
+        ...lineStyle,
+      }).addTo(map);
       polylines.push(polyline);
     } else {
       // @ts-ignore
       const polyline = L.polyline(pingServer.latlng, {
-        color: "#5197e8",
+        color: lineColor,
+        opacity: lineOpacity,
+        weight: pingServer.isReachable ? 3 : 2,
+        ...lineStyle,
       }).addTo(map);
       polylines.push(polyline);
     }
@@ -204,7 +212,6 @@ const main = async (nodeDetails: any) => {
     });
 
     if (extraCurvePoints.length > 0) {
-      // take only half of the extraCurvePoints
       extraCurvePoints = extraCurvePoints.slice(
         0,
         Math.floor(extraCurvePoints.length / 2)
@@ -214,34 +221,50 @@ const main = async (nodeDetails: any) => {
       });
     }
 
-    const createAndStartAnimMarker = () => {
-      // @ts-ignore
-      const animMarker = L.markerPlayer(points, 4000, {
-        icon: dotIcon,
-      }).addTo(map);
+    // Only animate if probe is reachable
+    if (pingServer.isReachable) {
+      const createAndStartAnimMarker = () => {
+        // @ts-ignore
+        const animMarker = L.markerPlayer(points, 4000, {
+          icon: dotIcon,
+        }).addTo(map);
 
-      animMarker.start();
+        animMarker.start();
 
-      animMarker.on("end", () => {
-        map.removeLayer(animMarker);
-        createAndStartAnimMarker();
-      });
-    };
+        animMarker.on("end", () => {
+          map.removeLayer(animMarker);
+          createAndStartAnimMarker();
+        });
+      };
 
-    createAndStartAnimMarker();
+      createAndStartAnimMarker();
+    }
+
+    // Apply opacity to marker based on reachability
+    const markerOptions = pingServer.isReachable
+      ? { icon: locationIcon }
+      : { icon: locationIcon, opacity: 0.5 };
+
+    // Create popup content with status indication
+    const popupContent = `
+      <div>
+        <h2><span style="font-weight: bold; padding-right: .3rem">Probe:</span> ${
+          pingServer.name
+        }</h2>
+        ${
+          pingServer.isReachable
+            ? `<h2><span style="font-weight: bold; padding-right: .3rem">Response time:</span> ${pingServer.responsetime} ms</h2>`
+            : `<h2 style="color: #ff6b6b;"><span style="font-weight: bold; padding-right: .3rem">Status:</span> Unreachable</h2>
+             <p style="color: #666; font-size: 12px;">Probe not able to reach node server</p>`
+        }
+      </div>
+    `;
 
     // @ts-ignore
-    L.marker(pingServer.latlng[0], {
-      icon: locationIcon,
-    }).addTo(map).bindPopup(`
-      <div>
-        <h2><span style="font-weight: bold; padding-right: .3rem">Probe:</span> ${pingServer.name}</h2>
-        <h2><span style="font-weight: bold; padding-right: .3rem">Response time:</span> ${pingServer.responsetime} ms</h2>
-      </div>
-    `);
+    L.marker(pingServer.latlng[0], markerOptions)
+      .addTo(map)
+      .bindPopup(popupContent);
   }
-  // <p>Location: ${pingServer.city}, ${pingServer.country}</p>
-  // <p>Status: ${pingServer.status}</p>
 
   const bounds = polylines.reduce((bounds, polyline) => {
     return bounds.extend(polyline.getBounds());
@@ -258,14 +281,57 @@ const CheckPingsWorldMap = ({
   nodeDetails: any;
   fetching: boolean;
 }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
-    main(nodeDetails);
-  }, []);
+    const loadScripts = async () => {
+      try {
+        const result = await loadLeafLetScripts();
+        if (result === true) {
+          setIsLoaded(true);
+
+          if (nodeDetails) {
+            // Small delay to ensure everything is ready
+            setTimeout(() => {
+              main(nodeDetails);
+            }, 100);
+          }
+        } else {
+          setError(result);
+        }
+      } catch (error) {
+        console.error("Error loading scripts:", error);
+        setError(error.message);
+      }
+    };
+    if (nodeDetails) {
+      loadScripts();
+    }
+  }, [nodeDetails]);
 
   if (!fetching && !nodeDetails) return null;
 
+  if (error) {
+    return (
+      <div
+        className="flex w-full items-center justify-center"
+        style={{ height: "40vh" }}
+      >
+        <div className="text-red-500">
+          Something went wrong while loading probe map view.
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex w-full">
+      {!isLoaded && (
+        <div className="w-full h-64 flex items-center justify-center">
+          <Loader />
+        </div>
+      )}
       <div
         id="map"
         className="flex w-screen h-full"
@@ -273,8 +339,9 @@ const CheckPingsWorldMap = ({
           width: "100%",
           minWidth: "100%",
           height: "40vh",
+          display: isLoaded ? "block" : "none",
         }}
-      ></div>
+      />
     </div>
   );
 };
