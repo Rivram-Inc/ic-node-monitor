@@ -1,4 +1,3 @@
-import Script from "next/script";
 import * as Sentry from "@sentry/nextjs";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -34,14 +33,6 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <Script
-          src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-          strategy="beforeInteractive"
-        />
-        <Script
-          src="https://unpkg.com/leaflet.markerplayer@latest"
-          strategy="beforeInteractive"
-        />
         {children}
       </body>
     </html>
