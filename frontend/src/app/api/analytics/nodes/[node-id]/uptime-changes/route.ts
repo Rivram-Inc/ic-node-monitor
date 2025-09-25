@@ -35,49 +35,81 @@ export async function GET(
           LAG(CASE
                 WHEN packet_loss = 0 THEN 'up'
                 ELSE 'down'
-              END) OVER (PARTITION BY ip_address ORDER BY ping_at_datetime) AS prev_status
+              END) OVER (PARTITION BY ip_address ORDER BY ping_at_datetime) AS prev_status,
+          ROW_NUMBER() OVER (PARTITION BY ip_address ORDER BY ping_at_datetime) AS row_num
         FROM
           ping_results
         WHERE
           ip_address = $1 -- Use IP address from node details
           AND ping_at_datetime >= NOW() - INTERVAL '24 h' -- Process last 24h
       ),
-      status_durations AS (
+      status_transitions AS (
         SELECT
           ip_address,
           ping_at_datetime,
           status,
           prev_status,
+          row_num,
           CASE
             WHEN status != prev_status OR prev_status IS NULL THEN ping_at_datetime
-          END AS status_start_time
+          END AS transition_time
         FROM
           status_changes
       ),
-      final_durations AS (
+      status_periods AS (
         SELECT
           ip_address,
           status,
-          status_start_time AS "from",
-          LEAD(status_start_time) OVER (PARTITION BY ip_address ORDER BY ping_at_datetime) AS "to"
+          transition_time AS "from",
+          LEAD(transition_time) OVER (PARTITION BY ip_address ORDER BY transition_time) AS "to"
         FROM
-          status_durations
+          status_transitions
         WHERE
-          status_start_time IS NOT NULL
+          transition_time IS NOT NULL
+      ),
+      completed_periods AS (
+        SELECT
+          ip_address,
+          status,
+          "from",
+          "to",
+          "to" - "from" AS duration
+        FROM
+          status_periods
+        WHERE
+          "to" IS NOT NULL
+      ),
+      current_period AS (
+        SELECT
+          ip_address,
+          status,
+          "from",
+          NOW() AS "to",
+          NOW() - "from" AS duration
+        FROM
+          status_periods
+        WHERE
+          "to" IS NULL
       )
       SELECT
         ip_address,
         status,
         "from",
         "to",
-        "to" - "from" AS duration
+        duration
       FROM
-        final_durations
-      WHERE
-        "to" IS NOT NULL
-      ORDER BY
+        completed_periods
+      UNION ALL
+      SELECT
         ip_address,
-        "from";
+        status,
+        "from",
+        "to",
+        duration
+      FROM
+        current_period
+      ORDER BY
+        "from" DESC;
     `;
 
     // Execute the query

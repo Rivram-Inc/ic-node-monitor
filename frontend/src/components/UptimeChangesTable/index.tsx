@@ -68,8 +68,27 @@ export const columns: ColumnDef<any>[] = [
     accessorKey: "duration",
     header: "Duration",
     cell: ({ row }) => {
-      const responseTime: string = row.getValue("duration");
-      return <div>{responseTime}</div>;
+      const duration: any = row.getValue("duration");
+      const toTime = new Date(row.original.to);
+      const now = new Date();
+      const timeDiff = now.getTime() - toTime.getTime();
+      
+      // If the "to" time is within the last 2 minutes, it's the current status
+      const isCurrentStatus = timeDiff < 2 * 60 * 1000; // 2 minutes in milliseconds
+      
+      if (isCurrentStatus) {
+        return (
+          <div className="font-medium">
+            {row.original.status === "up" ? (
+              <span className="text-green-600">Up now</span>
+            ) : (
+              <span className="text-red-600">Down now</span>
+            )}
+          </div>
+        );
+      }
+      
+      return <div>{duration}</div>;
     },
   },
 ];
