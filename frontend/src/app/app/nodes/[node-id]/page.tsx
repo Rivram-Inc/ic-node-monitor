@@ -390,6 +390,29 @@ const NodeDetails = () => {
     );
   }
 
+  // Handle case when node is not found
+  if (!nodeDetails) {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col w-full p-4"
+      >
+        <div className="flex w-full items-center justify-center h-64">
+          <div className="text-center">
+            <h2 className="text-2xl font-semibold text-gray-700 mb-2">
+              Node Not Found
+            </h2>
+            <p className="text-gray-500">
+              No data available for this node. The node may not exist or may have been removed.
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -459,10 +482,23 @@ const NodeDetails = () => {
             </div>
           }
         >
-          <CheckPingsWorldMap
-            nodeDetails={nodeDetails}
-            fetching={loadingStates.fetching}
-          />
+          {!loadingStates.fetching && (!nodeDetails?.probes || nodeDetails.probes.length === 0) ? (
+            <div className="w-full h-64 flex items-center justify-center bg-gray-50 rounded-sm">
+              <div className="text-center">
+                <h3 className="text-lg font-medium text-gray-700 mb-2">
+                  No Probe Data Available
+                </h3>
+                <p className="text-gray-500">
+                  No probe locations found for this node.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <CheckPingsWorldMap
+              nodeDetails={nodeDetails}
+              fetching={loadingStates.fetching}
+            />
+          )}
         </Suspense>
       </motion.div>
 
@@ -503,10 +539,23 @@ const NodeDetails = () => {
               </div>
             }
           >
-            <CheckResponseLineChart
-              dataValues={chartDetails.chartPoints}
-              loading={loadingStates.fetchingChartData}
-            />
+            {!loadingStates.fetchingChartData && Object.keys(chartDetails.chartPoints).length === 0 ? (
+              <div className="w-full h-full flex items-center justify-center">
+                <div className="text-center">
+                  <h3 className="text-lg font-medium text-gray-700 mb-2">
+                    No Chart Data Available
+                  </h3>
+                  <p className="text-gray-500">
+                    No response time data found for the selected duration.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <CheckResponseLineChart
+                dataValues={chartDetails.chartPoints}
+                loading={loadingStates.fetchingChartData}
+              />
+            )}
           </Suspense>
         </div>
         <div className="w-full md:w-1/4 h-80 flex flex-col rounded-sm gap-4">
