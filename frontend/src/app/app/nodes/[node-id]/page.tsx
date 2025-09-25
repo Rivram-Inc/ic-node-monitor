@@ -594,18 +594,11 @@ const NodeDetails = () => {
         transition={{ duration: 0.5, delay: 1.2 }}
         className="flex w-full flex-col h-full"
       >
-        <Tabs defaultValue="test_result_log" className="w-full">
+        <Tabs defaultValue="uptime_changes" className="w-full">
           <TabsList
             className="flex w-full gap-4 pb-2"
             style={{ borderBottom: "1px solid #eaeaea" }}
           >
-            <TabsTrigger
-              value="test_result_log"
-              className="bg-slate-100 p-2 pl-4 rounded-sm text-left cursor-pointer transition-all duration-300 hover:bg-slate-200 data-[state=active]:bg-slate-500 data-[state=active]:text-white whitespace-nowrap"
-              style={{ minWidth: "11rem" }}
-            >
-              Ping results
-            </TabsTrigger>
             <TabsTrigger
               value="uptime_changes"
               className="bg-slate-100 p-2 rounded-sm text-left cursor-pointer transition-all duration-300 hover:bg-slate-200 data-[state=active]:bg-slate-500 data-[state=active]:text-white whitespace-nowrap"
@@ -613,8 +606,15 @@ const NodeDetails = () => {
             >
               Uptime changes (24h)
             </TabsTrigger>
+            <TabsTrigger
+              value="ping_results"
+              className="bg-slate-100 p-2 pl-4 rounded-sm text-left cursor-pointer transition-all duration-300 hover:bg-slate-200 data-[state=active]:bg-slate-500 data-[state=active]:text-white whitespace-nowrap"
+              style={{ minWidth: "11rem" }}
+            >
+              Ping results
+            </TabsTrigger>
           </TabsList>
-          <TabsContent value="test_result_log">
+          <TabsContent value="ping_results">
             <Suspense
               fallback={
                 <div className="w-full h-32 flex items-center justify-center">

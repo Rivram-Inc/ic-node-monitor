@@ -106,15 +106,20 @@ export const columns: ColumnDef<any>[] = [
   },
   {
     accessorKey: "avg_rtt",
-    header: "Average response time",
+    header: "Average response time (ms)",
     cell: ({ row }) => {
       const responseTime: number | string = row.getValue("avg_rtt");
+      const isUnreachable = responseTime === "N/A";
 
-      if (typeof responseTime === "string") {
-        return <div className="capitalize">{responseTime}</div>;
-      } else {
-        return <div>{responseTime} ms</div>;
-      }
+      return (
+        <div
+          className={`capitalize ${
+            isUnreachable ? "text-red-600 font-semibold" : ""
+          }`}
+        >
+          {responseTime}
+        </div>
+      );
     },
   },
   {
@@ -230,7 +235,13 @@ const PingsTable = ({
                 <React.Fragment key={row.id}>
                   <TableRow
                     onClick={() => toggleRowExpansion(row.id)}
-                    className="cursor-pointer"
+                    className={`cursor-pointer ${
+                      row.original.avg_rtt === "N/A"
+                        ? "bg-red-100 hover:bg-red-100"
+                        : row.original.packet_loss > 0
+                        ? "bg-red-50 hover:bg-red-50"
+                        : ""
+                    }`}
                     data-state={row.getIsSelected() && "selected"}
                   >
                     {row.getVisibleCells().map((cell) => (

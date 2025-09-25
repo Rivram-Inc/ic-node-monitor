@@ -13,12 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import {
-  ChevronDown,
-  ChevronRight,
-  CircleArrowDown,
-  CircleArrowUp,
-} from "lucide-react";
+import { CircleArrowDown, CircleArrowUp } from "lucide-react";
 
 import {
   Table,
@@ -149,7 +144,11 @@ const UptimeChangesTable = ({
                 <React.Fragment key={row.id}>
                   <TableRow
                     onClick={() => toggleRowExpansion(row.id)}
-                    className="cursor-pointer"
+                    className={`cursor-pointer ${
+                      row.original.status === "down"
+                        ? "bg-red-50 hover:bg-red-50"
+                        : ""
+                    }`}
                     data-state={row.getIsSelected() && "selected"}
                   >
                     {row.getVisibleCells().map((cell) => (
