@@ -298,7 +298,14 @@ const PingsTable = ({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  <div className="text-center">
+                    <h3 className="text-lg font-medium text-gray-700 mb-2">
+                      No Ping Results Found
+                    </h3>
+                    <p className="text-gray-500">
+                      No ping data available for this node.
+                    </p>
+                  </div>
                 </TableCell>
               </TableRow>
             )}

@@ -262,7 +262,20 @@ const CheckPingsWorldMap = ({
     main(nodeDetails);
   }, []);
 
-  if (!fetching && !nodeDetails) return null;
+  if (!fetching && !nodeDetails) {
+    return (
+      <div className="w-full h-64 flex items-center justify-center bg-gray-50 rounded-sm">
+        <div className="text-center">
+          <h3 className="text-lg font-medium text-gray-700 mb-2">
+            No Node Data Available
+          </h3>
+          <p className="text-gray-500">
+            No node information found to display on the map.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex w-full">

@@ -150,6 +150,22 @@ const LineChart = ({
     );
   }
 
+  // Handle empty data
+  if (!dataValues || Object.keys(dataValues).length === 0) {
+    return (
+      <div className="flex justify-center items-center h-full w-full">
+        <div className="text-center">
+          <h3 className="text-lg font-medium text-gray-700 mb-2">
+            No Chart Data Available
+          </h3>
+          <p className="text-gray-500">
+            No response time data found for the selected duration.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Line
       data={data}
