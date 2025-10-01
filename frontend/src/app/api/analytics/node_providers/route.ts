@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Nodes } from "@/app/database/models";
+import { NodeProviders } from "@/app/database/models";
 import db from "@/app/database/config/database";
 import { QueryTypes } from "sequelize";
 
@@ -7,7 +7,7 @@ const calculateUptime = (packetsReceived: string, packetsSent: string) => {
   return (parseInt(packetsReceived) * 100) / parseInt(packetsSent);
 };
 
-// Handle GET request to retrieve paginated nodes
+// Handle GET request to retrieve paginated node providers
 export async function GET(request: NextRequest) {
   try {
     // Extract query parameters for pagination
@@ -16,28 +16,18 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get("limit")) || 10; // Default limit to 10 if not provided
     const offset = (page - 1) * limit;
 
-    // First, get unique node providers from the Nodes table (always up-to-date)
+    // Get node providers from the dedicated table with analytics data
     const [totalCount, nodeProviderResults] = await Promise.all([
-      Nodes.count({
-        distinct: true,
-        col: "node_provider_id",
-      }),
+      NodeProviders.count(),
       db.query(
         `
         SELECT 
-          n.node_provider_id,
-          n.node_provider_name,
+          np.principal_id as node_provider_id,
+          np.display_name as node_provider_name,
           COALESCE(tdnp.latest_bucket, NULL) as latest_bucket,
           COALESCE(tdnp.node_provider_total_packets_sent, 0) as node_provider_total_packets_sent,
           COALESCE(tdnp.node_provider_total_packets_received, 0) as node_provider_total_packets_received
-        FROM (
-          SELECT DISTINCT 
-            node_provider_id, 
-            node_provider_name
-          FROM nodes
-          ORDER BY node_provider_id
-          LIMIT :limit OFFSET :offset
-        ) n
+        FROM node_providers np
         LEFT JOIN (
           SELECT 
             node_provider_id,
@@ -46,8 +36,9 @@ export async function GET(request: NextRequest) {
             SUM(node_provider_total_packets_received) as node_provider_total_packets_received
           FROM thirty_days_node_providers
           GROUP BY node_provider_id
-        ) tdnp ON n.node_provider_id = tdnp.node_provider_id
-        ORDER BY tdnp.latest_bucket DESC NULLS LAST, n.node_provider_id
+        ) tdnp ON np.principal_id = tdnp.node_provider_id
+        ORDER BY tdnp.latest_bucket DESC NULLS LAST, np.principal_id
+        LIMIT :limit OFFSET :offset
       `,
         {
           replacements: { limit, offset },
@@ -91,7 +82,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("Error fetching nodes:", error);
+    console.error("Error fetching node providers:", error);
     return NextResponse.json(
       { success: false, message: "Internal Server Error" },
       { status: 500 }
