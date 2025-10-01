@@ -1,6 +1,7 @@
 import requests
 import psycopg2
 import os
+import json
 import logging
 from pathlib import Path
 from dotenv import load_dotenv
@@ -56,7 +57,7 @@ def get_db_connection():
         raise
 
 def create_tables(conn):
-    """Create both nodes and data_centers tables with proper constraints"""
+    """Create nodes, data_centers, and node_providers tables with proper constraints"""
     try:
         with conn.cursor() as cursor:
             # Create data_centers table
@@ -90,6 +91,24 @@ def create_tables(conn):
                     region TEXT,
                     status TEXT,
                     subnet_id TEXT
+                )
+            ''')
+            
+            # Create node_providers table
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS node_providers (
+                    id SERIAL PRIMARY KEY,
+                    principal_id TEXT UNIQUE NOT NULL,
+                    display_name TEXT,
+                    location_count INTEGER,
+                    logo_url TEXT,
+                    total_node_allowance INTEGER,
+                    total_nodes INTEGER,
+                    total_rewardable_nodes INTEGER,
+                    total_subnets INTEGER,
+                    total_unassigned_nodes INTEGER,
+                    website TEXT,
+                    locations JSONB
                 )
             ''')
             conn.commit()
@@ -209,6 +228,66 @@ def cleanup_stale_data_centers(conn, current_dc_keys):
         conn.rollback()
         raise
 
+def upsert_node_providers(conn, node_providers):
+    """UPSERT operation for node providers"""
+    try:
+        with conn.cursor() as cursor:
+            for provider in node_providers:
+                # Insert or update node provider with locations as JSONB
+                cursor.execute('''
+                    INSERT INTO node_providers (
+                        principal_id, display_name, location_count, logo_url,
+                        total_node_allowance, total_nodes, total_rewardable_nodes,
+                        total_subnets, total_unassigned_nodes, website, locations
+                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    ON CONFLICT (principal_id) DO UPDATE SET
+                        display_name = EXCLUDED.display_name,
+                        location_count = EXCLUDED.location_count,
+                        logo_url = EXCLUDED.logo_url,
+                        total_node_allowance = EXCLUDED.total_node_allowance,
+                        total_nodes = EXCLUDED.total_nodes,
+                        total_rewardable_nodes = EXCLUDED.total_rewardable_nodes,
+                        total_subnets = EXCLUDED.total_subnets,
+                        total_unassigned_nodes = EXCLUDED.total_unassigned_nodes,
+                        website = EXCLUDED.website,
+                        locations = EXCLUDED.locations
+                ''', (
+                    provider['principal_id'], provider['display_name'], provider['location_count'],
+                    provider.get('logo_url'), provider['total_node_allowance'], provider['total_nodes'],
+                    provider['total_rewardable_nodes'], provider['total_subnets'],
+                    provider['total_unassigned_nodes'], provider.get('website'),
+                    json.dumps(provider.get('locations', []))
+                ))
+            conn.commit()
+            logging.info(f"Upserted {len(node_providers)} node providers")
+    except psycopg2.Error as e:
+        logging.error(f"Node providers upsert failed: {e}")
+        conn.rollback()
+        raise
+
+def cleanup_stale_node_providers(conn, current_principal_ids):
+    """Remove node providers that are not in the current API response"""
+    if not current_principal_ids:
+        logging.warning("No current node provider principal IDs provided for cleanup")
+        return 0
+        
+    try:
+        with conn.cursor() as cursor:
+            # Delete node providers that are not in the current API response
+            cursor.execute('''
+                DELETE FROM node_providers 
+                WHERE principal_id NOT IN %s
+            ''', (tuple(current_principal_ids),))
+            
+            deleted_count = cursor.rowcount
+            conn.commit()
+            logging.info(f"Cleaned up {deleted_count} stale node providers")
+            return deleted_count
+    except psycopg2.Error as e:
+        logging.error(f"Node providers cleanup failed: {e}")
+        conn.rollback()
+        raise
+
 def fetch_data_centers():
     """Fetch data centers from API"""
     url = 'https://ic-api.internetcomputer.org/api/v3/data-centers'
@@ -233,6 +312,19 @@ def fetch_nodes():
         return data
     except requests.exceptions.RequestException as e:
         logging.error(f"Failed to fetch nodes: {e}")
+        raise
+
+def fetch_node_providers():
+    """Fetch node providers from API"""
+    url = 'https://ic-api.internetcomputer.org/api/v3/node-providers'
+    try:
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        data = response.json().get('node_providers', [])
+        logging.info(f"Fetched {len(data)} node providers from API")
+        return data
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Failed to fetch node providers: {e}")
         raise
 
 def main():
@@ -264,6 +356,17 @@ def main():
             cleanup_stale_nodes(conn, current_ip_addresses)
         else:
             logging.warning("No nodes fetched from API")
+
+        # Process node providers
+        node_providers = fetch_node_providers()
+        if node_providers:
+            upsert_node_providers(conn, node_providers)
+            
+            # Extract current principal IDs for cleanup
+            current_principal_ids = [provider['principal_id'] for provider in node_providers]
+            cleanup_stale_node_providers(conn, current_principal_ids)
+        else:
+            logging.warning("No node providers fetched from API")
 
         logging.info("Node importer completed successfully")
     except Exception as e:
