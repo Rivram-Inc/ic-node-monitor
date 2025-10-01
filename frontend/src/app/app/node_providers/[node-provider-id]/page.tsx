@@ -75,7 +75,7 @@ const NodeProviderNodesListPage = () => {
             uptime_30d: node.uptime_30d,
             avg_rtt_30d: parseFloat(node.avg_rtt_30d || "0").toFixed(2),
           })) || [];
-        // await fetchUptimes(nodes);
+        
 
         setPagination({
           totalItems: paginationDetails.totalItems || 10,
@@ -117,30 +117,51 @@ const NodeProviderNodesListPage = () => {
 
   return (
     <div className="flex flex-col w-full">
-      {nodes?.length ? (
-        <div
-          className="flex w-full justify-start items-center p-2 rounded-sm overflow-hidden mb-4"
-          style={{
-            boxShadow: "4px 4px 2px 1px rgba(0, 0, 0, 0.05)",
-          }}
-        >
-          <DetailCardTextRow
-            title="Node Provider"
-            value={nodes[0]?.node_provider_name}
-          />
-          <DetailCardTextRow
-            title="Total Nodes"
-            value={pagination.totalItems?.toLocaleString() || "-"}
-          />
+      {/* Node Provider Info Card */}
+      <div
+        className="flex w-full justify-start items-center p-2 rounded-sm overflow-hidden mb-4"
+        style={{
+          boxShadow: "4px 4px 2px 1px rgba(0, 0, 0, 0.05)",
+        }}
+      >
+        <DetailCardTextRow
+          title="Node Provider"
+          value="This Node Provider"
+        />
+        <DetailCardTextRow
+          title="Total Nodes"
+          value={pagination.totalItems?.toLocaleString() || "0"}
+        />
+      </div>
+
+      {/* Content based on whether nodes exist */}
+      {nodes?.length > 0 ? (
+        <NodeProviderNodesListTable
+          nodes={nodes}
+          fetchingUptimes={fetchingUptimes}
+          pagination={pagination}
+          fetchNextPage={fetchNextPage}
+          previousPage={previousPage}
+        />
+      ) : (
+        <div className="flex flex-col items-center justify-center py-12 px-4">
+          <div className="text-center">
+            <div className="text-6xl mb-4">🔍</div>
+            <h3 className="text-xl font-semibold text-gray-700 mb-2">
+              No Nodes Found
+            </h3>
+            <p className="text-gray-500 mb-4">
+              This node provider currently has no active nodes in the network.
+            </p>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-md">
+              <p className="text-sm text-blue-800">
+                <strong>Note:</strong> This node provider may be in the process of setting up nodes, 
+                or their nodes may be temporarily offline. Check back later for updates.
+              </p>
+            </div>
+          </div>
         </div>
-      ) : null}
-      <NodeProviderNodesListTable
-        nodes={nodes}
-        fetchingUptimes={fetchingUptimes}
-        pagination={pagination}
-        fetchNextPage={fetchNextPage}
-        previousPage={previousPage}
-      />
+      )}
     </div>
   );
 };
