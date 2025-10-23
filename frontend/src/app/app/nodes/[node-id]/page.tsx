@@ -27,6 +27,12 @@ const PingsTable = React.lazy(() => import("@/components/PingsTable"));
 const UptimeChangesTable = React.lazy(
   () => import("@/components/UptimeChangesTable")
 );
+const NodeRewardsDetailTable = React.lazy(
+  () => import("@/components/NodeRewardsDetailTable")
+);
+
+// Import non-lazy components
+import NodeRewardsSummaryCard from "@/components/NodeRewardsSummaryCard";
 
 // Create axios instance
 const apiClient = axios.create({});
@@ -86,7 +92,11 @@ const NodeDetails = () => {
     fetchingChartData: true,
     pingFetching: true,
     fetchingUptimeChanges: false,
+    fetchingRewards: false,
   });
+
+  const [rewardsData, setRewardsData] = React.useState<any>(null);
+  const [rewardsDays, setRewardsDays] = React.useState(30);
 
   const [selectedDuration, setSelectedDuration] = React.useState(7);
   const [pingResults, setPingResults] = React.useState<any[]>([]);
@@ -113,21 +123,21 @@ const NodeDetails = () => {
 
   // Memoized chart data processing
   const processChartData = useCallback((results: any) => {
-    const uptime = parseFloat(results.uptime || 0).toFixed(2);
-    const downtime = parseFloat(results.downtime || 0).toFixed(2);
+    const uptime = Number.parseFloat(results.uptime || 0).toFixed(2);
+    const downtime = Number.parseFloat(results.downtime || 0).toFixed(2);
 
     const chartPoints: Record<string, any[]> = {};
 
-    Object.keys(results.avg_rtt_data_points).forEach((probeName: string) => {
+    for (const probeName of Object.keys(results.avg_rtt_data_points)) {
       chartPoints[probeName] = results.avg_rtt_data_points[probeName].map(
         (data: any) => ({
           label: moment(data.bucket).format("MMM Do, h A"),
-          responseTime: parseFloat(data.ip_address_avg_avg_rtt || "0").toFixed(
+          responseTime: Number.parseFloat(data.ip_address_avg_avg_rtt || "0").toFixed(
             2
           ),
         })
       );
-    });
+    }
 
     return { uptime, downtime, chartPoints };
   }, []);
@@ -194,8 +204,27 @@ const NodeDetails = () => {
     }
   }, [nodeID, updateLoadingState]);
 
+  const fetchRewards = useCallback(async (days: number = 30) => {
+    try {
+      updateLoadingState("fetchingRewards", true);
+
+      const response = await apiClient.get(
+        `/api/analytics/nodes/${nodeID}/rewards?days=${days}`
+      );
+
+      if (response.status === 200) {
+        setRewardsData(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching node rewards:", error);
+      setRewardsData(null);
+    } finally {
+      updateLoadingState("fetchingRewards", false);
+    }
+  }, [nodeID, updateLoadingState]);
+
   const fetchPingResults = useCallback(
-    async (page: number = 1, ipAddress: string) => {
+    async (ipAddress: string, page: number = 1) => {
       try {
         updateLoadingState("pingFetching", true);
 
@@ -214,9 +243,9 @@ const NodeDetails = () => {
           ...ping,
           avg_rtt:
             ping.packets_received > 0
-              ? parseFloat(ping.avg_rtt).toFixed(2)
+              ? Number.parseFloat(ping.avg_rtt).toFixed(2)
               : "N/A",
-          up: parseFloat(ping.packet_loss) === 0.0,
+          up: Number.parseFloat(ping.packet_loss) === 0,
         }));
 
         setPingResults((prev) => [...prev, ...processedResults]);
@@ -283,7 +312,7 @@ const NodeDetails = () => {
       setNodeDetails(processedDetails);
 
       // Fetch ping results after getting IP address
-      await fetchPingResults(1, processedDetails.ip_address);
+      await fetchPingResults(processedDetails.ip_address, 1);
     } catch (error) {
       console.error("Error fetching node details:", error);
     } finally {
@@ -298,7 +327,7 @@ const NodeDetails = () => {
     const nextPage = pagination.currentPage + 1;
 
     if (nextPage * pagination.pageSize > pingResults.length) {
-      await fetchPingResults(nextPage, nodeDetails.ip_address);
+      await fetchPingResults(nodeDetails.ip_address, nextPage);
     } else {
       setPagination((prev) => ({ ...prev, currentPage: nextPage }));
     }
@@ -315,15 +344,15 @@ const NodeDetails = () => {
         // Fetch node details first as other requests depend on it
         await fetchNodeDetails();
 
-        // Then fetch chart data and uptime changes in parallel
-        await Promise.all([fetchChartDetails(7), fetchUptimeChanges()]);
+        // Then fetch chart data, uptime changes, and rewards in parallel
+        await Promise.all([fetchChartDetails(7), fetchUptimeChanges(), fetchRewards(30)]);
       } catch (error) {
         console.error("Error initializing data:", error);
       }
     };
 
     initializeData();
-  }, [fetchNodeDetails, fetchChartDetails, fetchUptimeChanges]);
+  }, [fetchNodeDetails, fetchChartDetails, fetchUptimeChanges, fetchRewards]);
 
   // Memoized RTT cards to prevent unnecessary re-renders
   const RTTCards = useMemo(
@@ -425,7 +454,7 @@ const NodeDetails = () => {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="flex md:flex-row flex-col w-full p-6 justify-start items-center overflow-hidden bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mr-4"
+        className="flex md:flex-row flex-col w-full p-6 justify-start items-center overflow-hidden bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mb-6"
       >
         <div className="flex flex-col w-full md:w-1/3 pr-2">
           <NodeDetailCardTextRow
@@ -466,6 +495,25 @@ const NodeDetails = () => {
             value={nodeDetails?.node_operator_id}
           />
         </div>
+      </motion.div>
+
+      {/* Rewards Summary Card */}
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        className="mb-6"
+      >
+        <NodeRewardsSummaryCard
+          nodeId={nodeID as string}
+          rewardsData={rewardsData}
+          loading={loadingStates.fetchingRewards}
+          days={rewardsDays}
+          onDaysChange={(days) => {
+            setRewardsDays(days);
+            fetchRewards(days);
+          }}
+        />
       </motion.div>
 
       {/* World Map */}
@@ -613,6 +661,13 @@ const NodeDetails = () => {
             >
               Ping results
             </TabsTrigger>
+            <TabsTrigger
+              value="rewards"
+              className="bg-slate-100 p-2 pl-4 rounded-sm text-left cursor-pointer transition-all duration-300 hover:bg-slate-200 data-[state=active]:bg-slate-500 data-[state=active]:text-white whitespace-nowrap"
+              style={{ minWidth: "11rem" }}
+            >
+              Daily Rewards History
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="ping_results">
             <Suspense
@@ -642,6 +697,20 @@ const NodeDetails = () => {
               <UptimeChangesTable
                 loading={loadingStates.fetchingUptimeChanges}
                 uptimeChanges={uptimeChanges}
+              />
+            </Suspense>
+          </TabsContent>
+          <TabsContent value="rewards">
+            <Suspense
+              fallback={
+                <div className="w-full h-32 flex items-center justify-center">
+                  <Loader />
+                </div>
+              }
+            >
+              <NodeRewardsDetailTable
+                metrics={rewardsData?.metrics || []}
+                loading={loadingStates.fetchingRewards}
               />
             </Suspense>
           </TabsContent>

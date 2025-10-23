@@ -8,6 +8,11 @@ import SevenDaysIpAddresses from "./MaterializedViews/SevenDaysIPAddresses";
 import ThirtyDaysIpAddresses from "./MaterializedViews/ThirtyDaysIPAddresses";
 import ThirtyDaysNodeProviders from "./MaterializedViews/ThirtyDaysNodeProviders";
 import DataCenters from "./DataCenters";
+import NodeRewardMetrics from "./NodeRewardMetrics";
+import NodeRewardsSummary from "./NodeRewardsSummary";
+import BaseRewards from "./BaseRewards";
+import NodeProviderDailySummary from "./NodeProviderDailySummary";
+import XdrIcpConversionRate from "./XdrIcpConversionRate";
 
 const authenticateDB = async () => {
   // define associations here
@@ -25,6 +30,11 @@ export {
   SevenDaysIpAddresses,
   ThirtyDaysIpAddresses,
   ThirtyDaysNodeProviders,
+  NodeRewardMetrics,
+  NodeRewardsSummary,
+  BaseRewards,
+  NodeProviderDailySummary,
+  XdrIcpConversionRate,
 };
 
 export default authenticateDB;
