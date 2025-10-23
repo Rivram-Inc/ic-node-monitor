@@ -12,8 +12,6 @@ The script expects the directory structure:
     dre-tool-generate-node-rewards/
         <node-provider-id-1>/
             node_metrics_by_node.csv
-            rewards_summary.csv
-            base_rewards.csv
         <node-provider-id-2>/
             ...
 """
@@ -127,45 +125,6 @@ class NodeRewardsIngester:
                     ON node_reward_metrics(node_status);
                 CREATE INDEX IF NOT EXISTS idx_node_reward_metrics_provider_day 
                     ON node_reward_metrics(node_provider_id, day_utc);
-            """)
-            
-            # Create node_rewards_summary table
-            self.cursor.execute("""
-                CREATE TABLE IF NOT EXISTS node_rewards_summary (
-                    id SERIAL PRIMARY KEY,
-                    node_provider_id TEXT NOT NULL,
-                    day_utc DATE NOT NULL,
-                    rewards_total_xdr_permyriad BIGINT,
-                    nodes_in_registry INTEGER,
-                    assigned_nodes INTEGER,
-                    underperforming_nodes_count INTEGER,
-                    underperforming_nodes TEXT,
-                    UNIQUE(node_provider_id, day_utc)
-                );
-                
-                CREATE INDEX IF NOT EXISTS idx_node_rewards_summary_node_provider_id 
-                    ON node_rewards_summary(node_provider_id);
-                CREATE INDEX IF NOT EXISTS idx_node_rewards_summary_day_utc 
-                    ON node_rewards_summary(day_utc);
-            """)
-            
-            # Create base_rewards table
-            self.cursor.execute("""
-                CREATE TABLE IF NOT EXISTS base_rewards (
-                    id SERIAL PRIMARY KEY,
-                    node_provider_id TEXT NOT NULL,
-                    day_utc DATE NOT NULL,
-                    monthly_xdr_permyriad BIGINT,
-                    daily_xdr_permyriad BIGINT,
-                    node_reward_type TEXT,
-                    region TEXT,
-                    UNIQUE(node_provider_id, day_utc)
-                );
-                
-                CREATE INDEX IF NOT EXISTS idx_base_rewards_node_provider_id 
-                    ON base_rewards(node_provider_id);
-                CREATE INDEX IF NOT EXISTS idx_base_rewards_day_utc 
-                    ON base_rewards(day_utc);
             """)
             
             # Create node_provider_daily_summary table (for aggregated metrics)
@@ -336,125 +295,6 @@ class NodeRewardsIngester:
         
         return 0
     
-    def ingest_rewards_summary(self, node_provider_id: str, csv_path: str) -> int:
-        """Ingest rewards summary from rewards_summary.csv."""
-        if not os.path.exists(csv_path):
-            logger.warning(f"File not found: {csv_path}")
-            return 0
-        
-        records_dict = {}
-        total_rows = 0
-        try:
-            with open(csv_path, 'r', encoding='utf-8') as f:
-                reader = csv.DictReader(f)
-                for row in reader:
-                    total_rows += 1
-                    # Create unique key (node_provider_id, day_utc) to deduplicate
-                    key = (node_provider_id, self.parse_date(row['day_utc']))
-                    record = (
-                        node_provider_id,
-                        self.parse_date(row['day_utc']),
-                        self.parse_int(row['rewards_total_xdr_permyriad']),
-                        self.parse_int(row['nodes_in_registry']),
-                        self.parse_int(row['assigned_nodes']),
-                        self.parse_int(row['underperforming_nodes_count']),
-                        row['underperforming_nodes'] or None,
-                    )
-                    # Keep last occurrence of duplicate keys
-                    records_dict[key] = record
-            
-            records = list(records_dict.values())
-            unique_rows = len(records_dict)
-            
-            if total_rows > unique_rows:
-                logger.warning(f"Found {total_rows - unique_rows} duplicate rows in rewards summary CSV, keeping last occurrence")
-            
-            if records:
-                execute_values(
-                    self.cursor,
-                    """
-                    INSERT INTO node_rewards_summary (
-                        node_provider_id, day_utc, rewards_total_xdr_permyriad,
-                        nodes_in_registry, assigned_nodes, underperforming_nodes_count,
-                        underperforming_nodes
-                    ) VALUES %s
-                    ON CONFLICT (node_provider_id, day_utc) DO UPDATE SET
-                        rewards_total_xdr_permyriad = EXCLUDED.rewards_total_xdr_permyriad,
-                        nodes_in_registry = EXCLUDED.nodes_in_registry,
-                        assigned_nodes = EXCLUDED.assigned_nodes,
-                        underperforming_nodes_count = EXCLUDED.underperforming_nodes_count,
-                        underperforming_nodes = EXCLUDED.underperforming_nodes
-                    """,
-                    records
-                )
-                self.conn.commit()
-                logger.info(f"Inserted/Updated {len(records)} rewards summary records for {node_provider_id}")
-                return len(records)
-        except Exception as e:
-            logger.error(f"Failed to ingest rewards summary for {node_provider_id}: {e}")
-            self.conn.rollback()
-            return 0
-        
-        return 0
-    
-    def ingest_base_rewards(self, node_provider_id: str, csv_path: str) -> int:
-        """Ingest base rewards from base_rewards.csv."""
-        if not os.path.exists(csv_path):
-            logger.warning(f"File not found: {csv_path}")
-            return 0
-        
-        records_dict = {}
-        total_rows = 0
-        try:
-            with open(csv_path, 'r', encoding='utf-8') as f:
-                reader = csv.DictReader(f)
-                for row in reader:
-                    total_rows += 1
-                    # Create unique key (node_provider_id, day_utc) to deduplicate
-                    key = (node_provider_id, self.parse_date(row['day_utc']))
-                    record = (
-                        node_provider_id,
-                        self.parse_date(row['day_utc']),
-                        self.parse_int(row['monthly_xdr_permyriad']),
-                        self.parse_int(row['daily_xdr_permyriad']),
-                        row['node_reward_type'] or None,
-                        row['region'] or None,
-                    )
-                    # Keep last occurrence of duplicate keys
-                    records_dict[key] = record
-            
-            records = list(records_dict.values())
-            unique_rows = len(records_dict)
-            
-            if total_rows > unique_rows:
-                logger.warning(f"Found {total_rows - unique_rows} duplicate rows in base rewards CSV, keeping last occurrence")
-            
-            if records:
-                execute_values(
-                    self.cursor,
-                    """
-                    INSERT INTO base_rewards (
-                        node_provider_id, day_utc, monthly_xdr_permyriad,
-                        daily_xdr_permyriad, node_reward_type, region
-                    ) VALUES %s
-                    ON CONFLICT (node_provider_id, day_utc) DO UPDATE SET
-                        monthly_xdr_permyriad = EXCLUDED.monthly_xdr_permyriad,
-                        daily_xdr_permyriad = EXCLUDED.daily_xdr_permyriad,
-                        node_reward_type = EXCLUDED.node_reward_type,
-                        region = EXCLUDED.region
-                    """,
-                    records
-                )
-                self.conn.commit()
-                logger.info(f"Inserted/Updated {len(records)} base rewards records for {node_provider_id}")
-                return len(records)
-        except Exception as e:
-            logger.error(f"Failed to ingest base rewards for {node_provider_id}: {e}")
-            self.conn.rollback()
-            return 0
-        
-        return 0
-    
     def generate_provider_daily_summary(self, node_provider_id: str, day_utc: str) -> bool:
         """Generate aggregated daily summary for a provider from node metrics."""
         try:
@@ -509,8 +349,6 @@ class NodeRewardsIngester:
         stats = {
             'node_providers_processed': 0,
             'node_metrics_records': 0,
-            'rewards_summary_records': 0,
-            'base_rewards_records': 0,
         }
         
         if not os.path.exists(dre_output_dir):
@@ -536,18 +374,6 @@ class NodeRewardsIngester:
             node_metrics_path = os.path.join(provider_dir, 'node_metrics_by_node.csv')
             stats['node_metrics_records'] += self.ingest_node_metrics(
                 node_provider_id, node_metrics_path
-            )
-            
-            # Ingest rewards summary
-            rewards_summary_path = os.path.join(provider_dir, 'rewards_summary.csv')
-            stats['rewards_summary_records'] += self.ingest_rewards_summary(
-                node_provider_id, rewards_summary_path
-            )
-            
-            # Ingest base rewards
-            base_rewards_path = os.path.join(provider_dir, 'base_rewards.csv')
-            stats['base_rewards_records'] += self.ingest_base_rewards(
-                node_provider_id, base_rewards_path
             )
             
             # Generate provider daily summaries for each unique day in node metrics
@@ -607,8 +433,6 @@ def main():
         logger.info("=" * 60)
         logger.info(f"Node providers processed: {stats['node_providers_processed']}")
         logger.info(f"Node metrics records: {stats['node_metrics_records']}")
-        logger.info(f"Rewards summary records: {stats['rewards_summary_records']}")
-        logger.info(f"Base rewards records: {stats['base_rewards_records']}")
         logger.info("=" * 60)
         
     except Exception as e:
@@ -620,5 +444,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
